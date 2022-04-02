@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="icon" href="assets/images/logo/website-logo/favicon.ico">
+    <title>Zoltan's Notes</title>
+</head>
+
+<body>
+    <header class="header">
+        <div class="header__page-logo">
+            <div class="header__page-logo__image"></div>
+        </div>
+        <div class="header__description header__description--notes">
+            <h1>Zoltan's Notes <i class="fa-solid fa-pen-to-square"></i></h1>
+            <p>Welcome to my "Notes" site. On some topics which I learn, I make some notes to remind me later. Feel free
+                to have a look.</p>
+        </div>
+        <nav>
+            <ul class="nav-bar__flex-container">
+                <li class="home hvr-grow-shadow"><i class="fa-solid fa-house-chimney"></i><br>home
+                    <a href="index.html" aria-label="changes site to home page"></a>
+                </li>
+                <li class="about-me hvr-grow-shadow"><i class="fa fa-user-tie"></i><br>about zoltan
+                    <a href="about_zoltan.html" aria-label="changes site to about zoltan page"></a>
+                </li>
+                <li class="certificates hvr-grow-shadow"><i class="fa fa-award"></i><br>certificates
+                    <a href="certificates.html" aria-label="changes site to certificates page"></a>
+                </li>
+                <li class="projects hvr-grow-shadow"><i class="fa fa-code"></i><br>projects
+                    <a href="projects.html" aria-label="changes site to projects page"></a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+    <main class="main">
+        <section class="main__content">
+            <h2><i class="fa-solid fa-link"></i> links to "My Notes"</h2>
+            <ul class="main__content__ul-links">
+                <li><a href="" onmouseover="toggleDetails('show_programming')"> <img
+                            src="assets/images/logo/64x64_icons/programming64x64.png" alt="">Programming</a></li>
+                <li><a href="" onmouseover="toggleDetails('show_git')"> <img
+                            src="assets/images/logo/64x64_icons/git64x64.png" alt="">Git</a></li>
+                <li><a href="" onmouseover="toggleDetails('show_html')"> <img
+                            src="assets/images/logo/64x64_icons/html64x64.png" alt="">HTML</a></li>
+                <li><a href="" onmouseover="toggleDetails('show_css')"> <img
+                            src="assets/images/logo/64x64_icons/css64x64.png" alt="">CSS</a></li>
+                <li><a href="" onmouseover="toggleDetails('show_js')"> <img
+                            src="assets/images/logo/64x64_icons/js64x64.png" alt="">JavaScript</a></li>
+                <li><a href="" onmouseover="toggleDetails('show_python')"> <img
+                            src="assets/images/logo/64x64_icons/python64x64.png" alt="">Python</a></li>
+            </ul>
+        </section>
+        <section class="main__side">
+            <h2><i class="fa-solid fa-book-open-reader"></i> description to my "note links"</h2>
+            <article>
+                <p>Hover over the links, to see more details below.</p><i class="fa-solid fa-angles-down"></i>
+            </article>
+            <section class="showToggle">
+                <article class="show_programming" style="display: none;">
+                    <h3>Programming</h3>
+                    <p>Computer programming is the process of performing a particular computation, usually by
+                        designing/building an executable computer program. Programming involves tasks such as analysis,
+                        generating algorithms, profiling algorithms' accuracy and resource consumption, and the
+                        implementation of algorithms. <a href="https://en.wikipedia.org/wiki/Computer_programming"
+                            target="_blank" rel="noopener noreferrer" aria-label="link to Programming Wikipedia"
+                            title="link to Programming Wikipedia">Wikipedia</a></p>
+                    <p>This section contains general knowledge to programming.</p>
+                </article>
+                <article class="show_git" style="display: none;">
+                    <h3>Git</h3>
+                    <p>Git is software for tracking changes in any set of files, usually used for coordinating work
+                        among programmers collaboratively developing source code during software development. Its goals
+                        include speed, data integrity, and support for distributed, non-linear workflows. <a
+                            href="https://en.wikipedia.org/wiki/Git" target="_blank" rel="noopener noreferrer"
+                            aria-label="link to Git Wikipedia" title="link to Git Wikipedia">Wikipedia</a></p>
+                    <p><span class="bold">Repository:</span> git.kernel.org/pub/scm/git/git.git</p>
+                    <p><span class="bold">License:</span> GPL-2.0-only</p>
+                    <p><span class="bold">Developer(s):</span> Junio Hamano and others</p>
+                    <p><span class="bold">Original author(s):</span> Linus Torvalds</p>
+                    <p><span class="bold">Initial release:</span> 7 April 2005; 16 years ago</p>
+                    <p><span class="bold">Stable release:</span> 2.35.1 / 29 January 2022</p>
+                    <p><span class="bold">Written in:</span> C, Shell, Perl, Tcl</p>
+                </article>
+                <article class="show_html" style="display: none;">
+                    <h3>Html</h3>
+                    <p>The <span class="bold">H</span>yper<span class="bold">T</span>ext <span
+                            class="bold">M</span>arkup <span class="bold">L</span>anguage or HTML is the standard markup
+                        language for documents designed to be displayed in a web browser. It can be assisted by
+                        technologies such as Cascading Style Sheets and scripting languages such as JavaScript. <a
+                            href="https://en.wikipedia.org/wiki/HTML" target="_blank" rel="noopener noreferrer"
+                            aria-label="link to Html Wikipedia" title="link to Html Wikipedia">Wikipedia</a></p>
+                    <p>Developed by: WHATWG</p>
+                    <p><span class="bold">Initial release:</span> 1993</p>
+                    <p><span class="bold">Latest release:</span> Living Standard; 2022</p>
+                    <p><span class="bold">Container for:</span> HTML elements</p>
+                    <p><span class="bold">Contained by:</span> Web browser</p>
+                    <p><span class="bold">Extended from:</span> SGML</p>
+                    <p><span class="bold">Extended to:</span> XHTML</p>
+                </article>
+                <article class="show_css" style="display: none;">
+                    <h3>CSS</h3>
+                    <p><span class="bold">C</span>ascading <span class="bold">S</span>tyle <span
+                            class="bold">S</span>heets is a style sheet language used for describing the presentation of
+                        a document written in a markup language such as HTML. CSS is a cornerstone technology of the
+                        World Wide Web, alongside HTML and JavaScript. <a href="https://en.wikipedia.org/wiki/CSS"
+                            target="_blank" rel="noopener noreferrer" aria-label="link to CSS Wikipedia"
+                            title="link to CSS Wikipedia">Wikipedia</a> </p>
+                    <p><span class="bold">Developed by:</span> World Wide Web Consortium (W3C)</p>
+                    <p><span class="bold">Latest release:</span> CSS 2.1: Level 2 Revision 1; 12 April 2016</p>
+                    <p><span class="bold">Initial release:</span> 17 December 1996</p>
+                </article>
+                <article class="show_js" style="display: none;">
+                    <h3>JavaScript</h3>
+                    <p>Is a programming language that is one of the core technologies of the World Wide Web, alongside
+                        HTML and CSS. Over 97% of websites use JavaScript on the client side for web page behavior,
+                        often incorporating third-party libraries. <a href="https://en.wikipedia.org/wiki/JavaScript"
+                            aria-label="link to JavaScript Wikipedia" title="link to JavaScript Wikipedia"
+                            target="_blank" rel="noopener noreferrer">Wikipedia</a></p>
+                    <p><span class="bold">Designed by:</span> Brendan Eich of Netscape initially; others have also
+                        contributed to the ECMAScript standard</p>
+                    <p><span class="bold">First appeared:</span> December 4, 1995</p>
+                    <p><span class="bold">Typing discipline:</span> Dynamic, weak, duck</p>
+                    <p><span class="bold">Paradigm:</span> Multi-paradigm: event-driven, functional, imperative,
+                        procedural, object-oriented programming</p>
+                </article>
+                <article class="show_python" style="display: none;">
+                    <h3>Python</h3>
+                    <p>Python is a high-level, general-purpose programming language. Its design philosophy emphasizes
+                        code readability with the use of significant indentation. Its language constructs and
+                        object-oriented approach aim to help programmers write clear, logical code for small- and
+                        large-scale projects. <a href="https://en.wikipedia.org/wiki/Python_(programming_language)"
+                            aria-label="link to Python Wikipedia" target="_blank" rel="noopener noreferrer"
+                            title="link to Python Wikipedia">Wikipedia</a></p>
+                    <p><span class="bold">Developer:</span> Python Software Foundation</p>
+                    <p><span class="bold">First appeared:</span> 20 February 1991</p>
+                    <p><span class="bold">Designed by:</span> Guido van Rossum</p>
+                    <p><span class="bold">Paradigm:</span> Multi-paradigm: object-oriented, procedural (imperative),
+                        functional, structured, reflective</p>
+                </article>
+            </section>
+        </section>
+    </main>
+    <footer id="footer--notes">
+    </footer>
+    <script src="assets/js/toggle_link_details.js"></script>
+    <script src="assets/js/add_footer.js"></script>
+    <script src="https://kit.fontawesome.com/c1f0cff9f2.js" crossorigin="anonymous"></script>
+</body>
+
+</html>

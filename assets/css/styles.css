@@ -1,8 +1,9 @@
 /* ----------------------------------------------------------------------- Global Styles */
 :root {
-    --about-me: aqua;
+    /* --about-me: aqua; */
+    --about-me: #c95225;
     --certificates: rgb(76, 192, 76);
-    --projects: rgb(207, 44, 44);
+    --projects: #2c9ccf;
     --notes: rgb(216, 173, 93);
     --logo_text: #5B4F3F;
     --logo-background: #A2D4DE;
@@ -17,31 +18,61 @@ html {
 /* remove browser default margin */
 body {
     margin: 0;
+    height: 100%
 }
 
-/* ----------------------------------------------------------------------- Fonts */
+/* ----------------------------------------------------------------------- Fonts and headings*/
 
 @import url('https://fonts.googleapis.com/css2?family=Cabin+Sketch:wght@400;700&display=swap');
 
 .header__description h1 {
     font-family: "Cabin Sketch", serif;
-    font-size: 10rem;
+    font-size: 8rem;
     font-weight: 400;
     color: var(--logo_text);
     text-align: center;
     margin-top: 2rem;
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
+}
+
+h2 {
+    color: var(--logo_text);
+    font-family: "Cabin Sketch", serif;
+    font-weight: 400;
+    font-size: 2.5rem;
+    text-transform: capitalize;
+    padding-left: 0.5rem;
+    text-decoration: underline;
+}
+
+h3 {
+    color: var(--logo_text);
+    font-family: "Cabin Sketch", serif;
+    font-weight: 400;
+    font-size: 1.8rem;
+    text-transform: lowercase;
+    padding-left: 0.5rem;
+    text-decoration: underline;
+}
+
+p {
+    color: var(--logo_text);
+    font-size: 1.6rem;
 }
 
 .header__description p {
     color: var(--logo_text);
     text-align: center;
-    font-size: 2rem;
+    font-size: 1.8rem;
+}
+
+.bold {
+    font-weight: bold;
 }
 
 /* ----------------------------------------------------------------------- Header */
 
-header {
+.header {
     display: grid;
     grid-template-columns: 1fr 2fr;
     grid-template-rows: 2fr 1fr;
@@ -63,7 +94,7 @@ header {
     background-repeat: no-repeat;
     background-size: 22rem;
     margin: auto;
-    margin-top: 2rem;
+    margin-top: 1rem;
     border-radius: 100%;
 }
 
@@ -73,6 +104,7 @@ header {
     grid-row-start: 1;
     grid-row-end: 2;
     background-color: var(--logo-background);
+    padding: 1rem;
 }
 
 .nav-bar__flex-container {
@@ -105,6 +137,7 @@ header {
     width: 100%;
 }
 
+.home,
 .about-me,
 .certificates,
 .projects,
@@ -119,6 +152,10 @@ header {
     font-size: 2rem;
     color: var(--logo_text);
     font-family: "Cabin Sketch", serif;
+}
+
+.home {
+    background-color: var(--logo-background);
 }
 
 .about-me {
@@ -138,6 +175,7 @@ header {
 }
 
 /* Grow Shadow */
+.main__content__ul-links li a,
 .hvr-grow-shadow {
     display: inline-block;
     vertical-align: middle;
@@ -150,6 +188,9 @@ header {
     transition-property: box-shadow, transform;
 }
 
+.main__content__ul-links li a:hover,
+.main__content__ul-links li a:focus,
+.main__content__ul-links li a:active,
 .hvr-grow-shadow:hover,
 .hvr-grow-shadow:focus,
 .hvr-grow-shadow:active {
@@ -159,10 +200,51 @@ header {
     z-index: 2;
 }
 
+/* ----------------------------------------------------------------------- Main */
+
+.main {
+    display: grid;
+    grid-template-columns: 1fr 2fr;
+    grid-template-rows: 1fr;
+
+}
+
+/* ----------------------------------------------------------------------- Main Content*/
+
+.main__content {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
+.main__content__ul-links {
+    list-style: none;
+    font-size: 2rem;
+}
+
+.main__content__ul-links li {
+    margin-bottom: 1.5rem;
+}
+
+.main__content__ul-links img {
+    margin-right: 2rem;
+}
+
+/* ----------------------------------------------------------------------- Main Side*/
+
+.main__side {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 2;
+}
+
 /* ----------------------------------------------------------------------- Footer */
 
 .footer {
-    position: absolute;
+    position: sticky;
+    top: 100vh;
     bottom: 0;
     width: 100%;
     height: 10rem;
@@ -173,12 +255,9 @@ header {
 .footer h3 {
     color: var(--logo_text);
     font-size: 1.5rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
     letter-spacing: 0.8rem;
+    padding-top: 1rem;
 }
-
-
 
 .footer__contact {
     display: flex;
@@ -208,4 +287,106 @@ header {
     box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
     -webkit-transform: scale(1.2);
     transform: scale(1.2);
+}
+
+/* ----------------------------------------------------------------------- landing page variations */
+
+/* notes landing page variations */
+.header__description--notes {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: var(--notes);
+}
+
+#footer--notes {
+    background-color: var(--notes);
+}
+
+/* about me landing page variations */
+.header__description--about-me {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: var(--about-me);
+}
+
+#footer--about-me {
+    background-color: var(--about-me);
+}
+
+/* projects landing page variations */
+.header__description--projects {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: var(--projects);
+}
+
+#footer--projects {
+    background-color: var(--projects);
+}
+
+/* certificates landing page variations */
+.header__description--certificates {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 2;
+    background-color: var(--certificates);
+}
+
+#footer--certificates {
+    background-color: var(--certificates);
+}
+
+/* ----------------------------------------------------------------------- Note Page */
+
+.main__side {
+    text-align: center;
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+
+.main__side article {
+    font-style: italic;
+}
+
+/* ----------------------------------------------------------------------- media Query */
+
+@media only screen and (max-width: 74em) {
+    .header__description h1 {
+        font-size: 4rem;
+    }
+
+    .header__description p {
+        font-size: 1.6rem;
+    }
+}
+
+@media only screen and (max-width: 47em) {
+
+    .main__side,
+    .header__page-logo {
+        display: none;
+    }
+
+    .main,
+    .header {
+        grid-template-columns: 1fr;
+    }
+
+    .main__content,
+    .header__description,
+    .nav-bar__flex-container {
+        grid-column-start: 1;
+        grid-column-end: 2;
+    }
+
+    .main__content {
+        text-align: center;
+    }
 }
