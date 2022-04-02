@@ -1,0 +1,304 @@
+:root {
+    --codeBackColor: lightgrey;
+    --tableHeadColor: rgba(243, 187, 45, 0.3);
+    --tableDataColor: rgba(52, 213, 235, 0.2);
+    --exampleBackColor: coral;
+    --backColorPage: white;
+    --fontColor: black;
+    --attributeBackground: greenyellow;
+    --valueBackground: rgb(156, 228, 84);
+    --childNode: Lime;
+    --elementNode: aqua;
+    --important: rgb(247, 109, 109);
+    --overView: rgb(250, 172, 112);
+    --plainUnfoldBox: rgba(243, 187, 45, 0.3);
+}
+
+main {
+    margin: auto;
+    width: 102ch;
+}
+
+h1 {
+    text-transform: uppercase;
+    text-align: center;
+    font-size: 2.5rem;
+}
+
+h2 {
+    text-transform: capitalize;
+    font-size: 2rem;
+    border-top: solid dimgray 1px;
+    margin-bottom: 00.5em;
+}
+
+h3 {
+    text-transform: lowercase;
+    border-top: dashed dimgray 1px;
+    padding-top: 0.5rem;
+    padding-left: 4ch;
+    margin-bottom: -0rem;
+    font-size: 1.2rem;
+}
+
+h4 {
+    text-decoration: underline;
+    letter-spacing: 0.1rem;
+    font-size: 1rem;
+    text-transform: lowercase;
+    margin-bottom: 00.5rem;
+}
+
+p {
+    max-width: 100ch;
+}
+
+.expText {
+    border-left: solid dimgray 4px;
+    padding-left: 2ch;
+    font-style: italic;
+    font-size: 1.1rem;
+    max-width: 80ch;
+    margin-top: 0.5em;
+}
+
+li {
+    max-width: 80ch;
+}
+
+li>ul {
+    margin-top: 00.02rem;
+}
+
+.listH {
+    list-style-type: none;
+    margin-left: -20px;
+    text-decoration: underline;
+    letter-spacing: 0.1ch;
+    font-size: 1.1em;
+    /* counter-increment: item;*/
+}
+
+.thumbUp {
+    list-style-image: url(/images/LOGO/thumb_up_icon.png);
+    text-align: left;
+}
+
+.thumbDown {
+    list-style-image: url(/images/LOGO/down_hand_thumb_icon.png);
+    text-align: left;
+}
+
+.upDown {
+    list-style-image: url(/images/LOGO/upAndDown.png);
+    text-align: left;
+}
+
+/* start table /////////////////////////////////////////////////////////////////////////////// */
+table {
+    border-collapse: collapse;
+    max-width: 100ch;
+}
+
+td,
+th {
+    border: var(--backColorPage) dashed 2px;
+    padding: 2px 4px 2px 4px;
+    text-align: center;
+}
+
+th {
+    background-color: var(--tableHeadColor);
+}
+
+td {
+    background-color: var(--tableDataColor);
+}
+
+td li {
+    text-align: left;
+}
+
+td ul {
+    margin: 0.1ch;
+}
+
+.tabCode {
+    background-color: var(--codeBackColor);
+    font-family: monospace;
+}
+
+/*start table border /////////////////////////////////////////////////////////////////////////////// */
+.borderTop {
+    border: 0px;
+    border-top: dashed 1px var(--fontColor);
+    background-color: var(--backColorPage);
+    font-style: italic;
+}
+
+.borderBottom {
+    border: 0px;
+    border-bottom: dashed 1px var(--fontColor);
+    background-color: var(--backColorPage);
+    font-style: italic;
+}
+
+.borderToBo {
+    border: 0px;
+    border-top: dashed 1px var(--fontColor);
+    border-bottom: dashed 1px var(--fontColor);
+    background-color: var(--backColorPage);
+    font-style: italic;
+}
+
+.borderLeRi {
+    border: 0px;
+    border-left: dashed 1px var(--fontColor);
+    border-right: dashed 1px var(--fontColor);
+    background-color: var(--backColorPage);
+    font-style: italic;
+}
+
+.empCell {
+    border: 0px;
+    background-color: var(--backColorPage);
+    font-style: italic;
+}
+
+/* end table border /////////////////////////////////////////////////////////////////////////// */
+/* end table /////////////////////////////////////////////////////////////////////////////// */
+
+/* start highlights /////////////////////////////////////////////////////////////////////////// */
+.attri {
+    background-color: var(--attributeBackground);
+}
+
+.val {
+    background-color: var(--valueBackground);
+}
+
+.import::after {
+    content: "remember :";
+    background-color: var(--important);
+}
+
+
+code {
+    background-color: var(--codeBackColor);
+    font-family: monospace;
+}
+
+.exam {
+    background-color: var(--exampleBackColor);
+    font-style: italic;
+}
+
+/* end highlights /////////////////////////////////////////////////////////////////////////// */
+.overView {
+    background-color: var(--overView);
+}
+
+.overView::before {
+    content: 'overview';
+    font-style: italic;
+    letter-spacing: 0.2rem;
+}
+
+.plain {
+    font-style: italic;
+    letter-spacing: 0.2rem;
+    background-color: var(--plainUnfoldBox);
+}
+
+.plain::before {
+    content: '';
+}
+
+summary {
+    background-color: var(--exampleBackColor);
+    text-align: center;
+    letter-spacing: 0.2rem;
+    font-style: italic;
+    margin-bottom: 0.5ch;
+    max-width: 100ch;
+}
+
+/* summary::before {
+    content: "for example: ";
+    letter-spacing: 0.2rem;
+    font-style: italic;
+} */
+
+.flex {
+    display: flex;
+}
+
+.grid-container {
+    display: grid;
+    grid-column-gap: 50px;
+}
+
+/* start navBar /////////////////////////////////////////////////////////////////////////////////// */
+nav {
+    position: -webkit-sticky;
+    /* Safari */
+    position: sticky;
+    top: 0px;
+}
+
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+nav li {
+    float: left;
+}
+
+nav li a,
+.dropbtn {
+    display: inline-block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav li a:hover,
+.dropdown:hover .dropbtn {
+    background-color: red;
+}
+
+li.dropdown {
+    display: inline-block;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: #f9f9f9;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+}
+
+.dropdown-content a {
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left;
+}
+
+.dropdown-content a:hover {
+    background-color: #f1f1f1;
+}
+
+.dropdown:hover .dropdown-content {
+    display: block;
+}
+
+/* end navBar ///////////////////////////////////////////////////////////////////// */
