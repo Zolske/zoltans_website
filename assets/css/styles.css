@@ -204,7 +204,6 @@ header {
 }
 
 .footer__contact li a:hover,
-/* .footer__contact li a:focus, */
 .footer__contact li a:active {
     box-shadow: 0 10px 10px -10px rgba(0, 0, 0, 0.5);
     -webkit-transform: scale(1.2);
