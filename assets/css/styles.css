@@ -42,7 +42,6 @@ h2 {
     font-size: 2.5rem;
     text-transform: capitalize;
     padding-left: 0.5rem;
-    text-decoration: underline;
     margin-top: 4rem;
 }
 
@@ -53,9 +52,18 @@ h3 {
     font-size: 1.8rem;
     text-transform: lowercase;
     padding-left: 0.5rem;
-    text-decoration: underline;
 }
 
+h4 {
+    color: var(--logo_text);
+    font-family: "Cabin Sketch", serif;
+    font-weight: 400;
+    font-size: 1.4rem;
+    text-transform: lowercase;
+    padding-left: 0.5rem;
+}
+
+.list-text,
 p {
     color: var(--logo_text);
     font-size: 1.6rem;
@@ -73,6 +81,19 @@ p {
 
 .underline {
     text-decoration: underline;
+}
+
+.cursive {
+    font-style: italic;
+}
+
+.ch-limit {
+    max-width: 30ch;
+    padding: 1rem;
+}
+
+ul {
+    list-style: none;
 }
 
 /* ----------------------------------------------------------------------- Header */
@@ -194,7 +215,6 @@ p {
 }
 
 .main__content__ul-links li a:hover,
-.main__content__ul-links li a:focus,
 .hvr-grow-shadow:hover,
 .hvr-grow-shadow:focus,
 .hvr-grow-shadow:active {
@@ -231,9 +251,9 @@ p {
     margin-bottom: 1.5rem;
 }
 
-.main__content__ul-links img {
+/* .main__content__ul-links img {
     margin-right: 2rem;
-}
+} */
 
 /* ----------------------------------------------------------------------- Main Side*/
 
@@ -364,7 +384,7 @@ p {
 
 .grid-container_3 {
     display: grid;
-    grid-template-columns: 1fr 3fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr;
 }
 
@@ -390,14 +410,37 @@ h2 {
     text-decoration: none;
 }
 
-.aligne-left {
+.align-left {
     text-align: left;
     color: var(--logo_text);
     font-size: 1.6rem;
 }
 
+.image--flex {
+    width: 100%;
+}
+
+.image__cert-max {
+    max-width: 25rem;
+}
+
+.no-top-margin {
+    margin-top: -1rem;
+}
+
+.logo32x32 {
+    width: 3.2rem;
+    height: 3.2rem;
+}
+
+.flex-middle {
+    display: flex;
+    gap: 1rem;
+}
+
 /* ----------------------------------------------------------------------- media Query */
 
+/* 74 em on standard is 1184 px */
 @media only screen and (max-width: 74em) {
     .header__description h1 {
         font-size: 4rem;
@@ -406,8 +449,13 @@ h2 {
     .header__description p {
         font-size: 1.6rem;
     }
+
+    ul {
+        padding-left: 2rem;
+    }
 }
 
+/* 47 em on standard is 752 px */
 @media only screen and (max-width: 47em) {
 
     .main__side,
@@ -427,7 +475,11 @@ h2 {
         grid-column-end: 2;
     }
 
-    .main__content {
+    .mobile-notes {
         text-align: center;
+    }
+
+    .mobile-notes ul {
+        padding: 0;
     }
 }

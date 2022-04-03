@@ -36,11 +36,290 @@
             </ul>
         </nav>
     </header>
-    <main>
+    <main class="main">
+        <section class="main__content">
+            <h2><i class="fa fa-code"></i> <span class="underline">My Projects</span></h2>
+            <ul class="main__content__ul-links">
+                <!-- Code Breaker project/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                <li>
+                    <h3 class="flex-middle"><span class="underline">the "Code Breaker"</span>
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/git64x64.png" alt="Git logo"
+                            title="build with Git">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/github64x64.png" alt="GitHub logo"
+                            title="build with GitHub">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/python64x64.png" alt="python logo"
+                            title="build with Python">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/heroku64x64.png" alt="heroku logo"
+                            title="build with Heroku">
+                    </h3>
+                    <div class="grid-container_3">
+                        <div class="grid-item_1">
+                            <img class="image--flex" src="assets/images/projects/code-breaker/mockup_code-breaker.png"
+                                alt="code breaker project" onmouseover="toggleDetails('codeBreaker')">
+                        </div>
+                        <div class="grid-item_2">
+                            <ul>
+                                <li><a href="https://github.com/Zolske/curses-code-breaker" target="_blank"
+                                        rel="noopener noreferrer" aria-label="link to GitHub page"
+                                        title="link to GitHub page"><i class="fa-brands fa-github"></i> <span
+                                            class="underline">link to GitHub page</span></a></li>
+                                <li><a href="https://curses-code-breaker.herokuapp.com/" target="_blank"
+                                        rel="noopener noreferrer" aria-label="link to 'code breaker' app"
+                                        title="link to 'code breaker' app"><i class="fa-solid fa-laptop-code"></i>
+                                        <span class="underline">link to "code breaker" app</span></a></li>
+                                <li class="list-text"><span class="underline">short project description:</span><br>
+                                    <div class="cursive ch-limit">
+                                        "Code Breaker" is a <span class="bold">Python terminal game, which runs on
+                                            Heroku</span>.<br>The player has 10 turns to find out what the secret code
+                                        is. Every turn the player gets some clues which can help to find out the code
+                                        before his last turn is played.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+                <!-- weekend breaker project/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                <li>
+                    <h3 class="flex-middle"><span class="underline">the "Weekend Breaker"</span>
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/git64x64.png" alt="Git logo"
+                            title="build with Git">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/github64x64.png" alt="GitHub logo"
+                            title="build with GitHub">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/html64x64.png" alt="html logo"
+                            title="build with Html">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/css64x64.png" alt="css logo"
+                            title="build with CSS">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/js64x64.png" alt="JavaScript logo"
+                            title="build with JavaScript">
+                        <img class="logo32x32" src="assets/images/logo/64x64_icons/bootstrap64x64.png"
+                            alt="Bootstrap logo" title="build with Bootstrap">
+                    </h3>
+                    <div class="grid-container_3">
+                        <div class="grid-item_1">
+                            <img class="image--flex"
+                                src="assets/images/projects/weekend-breaker/mockup_weekend-breaker.webp"
+                                alt="weekend breaker project" onmouseover="toggleDetails('weekendBreaker')">
+                        </div>
+                        <div class="grid-item_2">
+                            <ul>
+                                <li><a href="https://github.com/Zolske/project-1_weekend-break" target="_blank"
+                                        rel="noopener noreferrer" aria-label="link to GitHub page"
+                                        title="link to GitHub page"><i class="fa-brands fa-github"></i> <span
+                                            class="underline">link to GitHub page</span></a></li>
+                                <li><a href="https://zolske.github.io/project-1_weekend-break/index.html"
+                                        target="_blank" rel="noopener noreferrer"
+                                        aria-label="link to 'weekend breaker' website"
+                                        title="link to 'weekend breaker' website"><i
+                                            class="fa-solid fa-laptop-code"></i>
+                                        <span class="underline">link to "Weekend Breaker" website</span></a></li>
+                                <li class="list-text"><span class="underline">short project description:</span><br>
+                                    <div class="cursive ch-limit">
+                                        The "Weekend Breaker" is a static website, which simulates an "imaginary" travel
+                                        company. There is no "backend" connection, but the site has <span
+                                            class="bold">good performance, responsiveness (mobile first design) and
+                                            intuitive menu navigation</span>.
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </li>
+            </ul>
+        </section>
+        <section class="main__side">
+            <h2><i class="fa-solid fa-book-open-reader"></i> <span class="underline">description</span></h2>
+            <article>
+                <p>Hover over my projects image, to see more details below.</p><i class="fa-solid fa-angles-down"></i>
+            </article>
+            <section class="showToggle">
+                <!-- Code Breaker description /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                <article class="codeBreaker" style="display: none;">
+                    <h3><span class="underline">the "code breaker" Project</span></h3>
+                    <p>
+                        <span class="bold">How to play:</span><br>
+                        "Code Breaker" is based on the board game "<a
+                            href="https://en.wikipedia.org/wiki/Mastermind_(board_game)" target="_blank"
+                            rel="noopener noreferrer" aria-label="link to 'master mind' wikipedia"
+                            title="link to 'master mind' wikipedia">Master Mind</a>". The secret code is made up of 4
+                        colors,
+                        which can be red, green, blue, yellow. The player wins if he sets the right color in the right
+                        order. After every turn, the player gets feedback ...
+                    </p>
+                    <ul class="list-text no-top-margin">
+                        <li><i class="fa-regular fa-hand-point-right"></i> how many of the set colors and positions
+                            where correct</li>
+                        <li><i class="fa-regular fa-hand-point-right"></i> how many colors where correct but the
+                            position was wrong</li>
+                    </ul>
+                    <p>
+                        The score is calculated based on how many of the 10 lines are still free and how long the player
+                        needed to find out the secret code. If the play has not found out the secret code after the 10th
+                        turn, then he lost the game and does not get any points.
+                    </p>
+                    <p><span class="bold">Features:</span></p>
+                    <ul class="list-text no-top-margin align-left">
+                        <li><i class="fa-regular fa-hand-point-right"></i> random secret code generation</li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> 3 different high scores (<span
+                                class="cursive">daily, monthly, all time</span>)<br>(<span class="cursive">every high
+                                score list has a maximum of 20 entries, the lowest falls out</span>)</li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> the high score data is saved in a Google
+                            spreadsheet, every player writes to the same data base</li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> the high scores get updated and can be viewed
+                            within the game</li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> a live timer counting the time the player has
+                            played and points in real time<br><img class="image--flex"
+                                src="assets/images/projects/code-breaker/timer_point.gif"
+                                alt="project timer and counter"></li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> intuitive game and menu navigation (only
+                            arrow keys, some numbers and the '#' key are
+                            needed)<br><img class="image--flex"
+                                src="assets/images/projects/code-breaker/seting_code.gif" alt="player is setting code">
+                        </li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> detailed feedback<br><img class="image--flex"
+                                src="assets/images/projects/code-breaker/code_feedback_1.gif"
+                                alt="in game feedback for the player turn"> </li> <br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> sophisticated in game menu<br><img
+                                class="image--flex" src="assets/images/projects/code-breaker/menu_navigation.gif"
+                                alt="in game menu navigation"></li>
+                    </ul>
+                </article>
+                <!-- Weekend Breaker description /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+                <article class="weekendBreaker" style="display: none;">
+                    <h3><span class="underline">the "weekend breaker" Project</span></h3>
+                    <p>
+                        <span class="bold">What the project is about:</span><br>
+                        The website simulates an 'imaginary' travel agency. There is no "backend" and the website is
+                        static. The main goals are:
+                    </p>
+                    <ul class="list-text">
+                        <li><i class="fa-solid fa-mobile-screen"></i> responsive layout across different screen
+                            sizes (mobile first design)</li><br>
+                        <li><i class="fa-solid fa-compass"></i> intuitive menu navigation & interactive
+                            elements</li><br>
+                        <li><i class="fa-solid fa-bolt"></i> fast performance & error free site validation
+                        </li>
+                    </ul>
+                    <p>
+                        <span class="bold">Features:</span>
+                    </p>
+                    <ul class="list-text align-left no-top-margin">
+                        <li><i class="fa-regular fa-hand-point-right"></i> <span class="bold">navigation bar</span><br>
+                            <img class="image--flex" src="assets/images/projects/weekend-breaker/navBarMenu.gif"
+                                alt="weekend breaker navBar">
+                            <ul>
+                                <li><i class="fa-regular fa-thumbs-up"></i> intuitive icons</li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> hover effect changes font color and shows
+                                    hint</li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> "hamburger" menu expanse when there is
+                                    enough width</li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> nav bar moves with the page down</li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> unique design (buttons float over the page)
+                                </li>
+                            </ul>
+                        </li><br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> <span class="bold">mobile first</span>
+                            design<br>
+                            <img class="image--flex" src="assets/images/projects/weekend-breaker/layout-change.gif"
+                                alt="layout change when screen size is changed">
+                            <ul>
+                                <li><i class="fa-regular fa-thumbs-up"></i> images are loaded by the browser according
+                                    to the screen width<br>(saves download time for mobile phones)
+                                </li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> responsive layout<br>("product card" column
+                                    changes from 1 to 3)
+                                </li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> changing the browser font-size dose not
+                                    break the design<br>(media queries are in em and length units are in rem or %)
+                                </li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> the images in the "product card" change
+                                    every 10 seconds<br>(to keep the user engaged)
+                                </li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> user reviews change in intervals through
+                                    slides<br>(with the help of Bootstrap)
+                                </li>
+                                <li><i class="fa-regular fa-thumbs-up"></i> the price on the "booking" page uses CSS
+                                    animation to create an flash effect
+                                </li>
+                            </ul>
+                        </li>
+                        <li><i class="fa-regular fa-hand-point-right"></i> <span class="bold">image sprite</span>
+                            <img class="image--flex" src="assets/images/projects/weekend-breaker/sprite-screenshot.webp"
+                                alt="multiple images combined in an sprite">
+                            <ul>
+                                <li><i class="fa-regular fa-thumbs-up"></i> three image sprites have been used to
+                                    display together 24 images<br>
+                                    (increase performance by reducing the requests the browser needs to make to the
+                                    server)
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                    <p><span class="bold">Testing:</span></p>
+                    <ul class="list-text align-left no-top-margin">
+                        <li><i class="fa-regular fa-hand-point-right"></i> <span class="bold">Html validation - <a
+                                    href="https://validator.w3.org/" target="_blank" aria-label="link to html validator"
+                                    title="link to html validator">Nu Html Checker</a></span>
+                            <img class="image--flex" src="assets/images/projects/weekend-breaker/html-validator.webp"
+                                alt="html validator test">
+                            <ul>
+                                <li>clean test results on all 3 pages with no errors or warnings, link to the tests
+                                    <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Findex.html"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to html validator">index.html</a>
+                                    <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Fbooking.html"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to html validator">booking.html</a>
+                                    <a href="https://validator.w3.org/nu/?doc=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Fmore_info.html"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to html validator">more_info.html</a>
+                                </li>
+                            </ul>
+                        </li><br>
+                        <li><i class="fa-regular fa-hand-point-right"></i> <span class="bold">CSS validation - <a
+                                    href="https://jigsaw.w3.org/css-validator/" target="_blank"
+                                    aria-label="link to CSS validator" title="link to CSS validator">W3C CSS
+                                    Validator</a></span>
+                            <ul>
+                                <img src="assets/images/projects/weekend-breaker/vcss.webp" alt="CSS validator test">
+                                <img src="assets/images/projects/weekend-breaker/vcss-blue.webp"
+                                    alt="CSS validator test blue">
+                                <li>clean test results on all 3 pages with no errors, link to the tests
+                                    <a href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Findex.html&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to CSS validator">index.html</a>
+                                    <a href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Fbooking.html&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to CSS validator">booking.html</a>
+                                    <a href="https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fzolske.github.io%2Fproject-1_weekend-break%2Fbooking.html&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en"
+                                        target="_blank" aria-label="link to html validator"
+                                        title="link to CSS validator">more_info.html</a>
+                                </li>
+                            </ul>
+                        </li><br>
+                        <li>
+                            <i class="fa-regular fa-hand-point-right"></i> <span class="bold">lighthouse mobile
+                                performance test</span>
+                            <img class="image--flex"
+                                src="assets/images/projects/weekend-breaker/lighthouse-index-mobile.webp"
+                                alt="lighthouse mobile test" title="lighthouse mobile test">
+                        </li><br>
+                        <li>
+                            <i class="fa-regular fa-hand-point-right"></i> <span class="bold">lighthouse desktop
+                                performance test</span>
+                            <img class="image--flex"
+                                src="assets/images/projects/weekend-breaker/lighthouse-index-desktop.webp"
+                                alt="lighthouse mobile test" title="lighthouse desktop test">
+                        </li>
+                    </ul>
 
+                </article>
+            </section>
+        </section>
     </main>
     <footer id="footer--projects">
     </footer>
+    <script src="assets/js/toggle_link_details.js"></script>
     <script src="assets/js/add_footer.js"></script>
     <script src="https://kit.fontawesome.com/c1f0cff9f2.js" crossorigin="anonymous"></script>
 </body>
