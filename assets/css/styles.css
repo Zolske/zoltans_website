@@ -43,6 +43,7 @@ h2 {
     text-transform: capitalize;
     padding-left: 0.5rem;
     text-decoration: underline;
+    margin-top: 4rem;
 }
 
 h3 {
@@ -68,6 +69,10 @@ p {
 
 .bold {
     font-weight: bold;
+}
+
+.underline {
+    text-decoration: underline;
 }
 
 /* ----------------------------------------------------------------------- Header */
@@ -190,7 +195,6 @@ p {
 
 .main__content__ul-links li a:hover,
 .main__content__ul-links li a:focus,
-.main__content__ul-links li a:active,
 .hvr-grow-shadow:hover,
 .hvr-grow-shadow:focus,
 .hvr-grow-shadow:active {
@@ -254,9 +258,10 @@ p {
 
 .footer h3 {
     color: var(--logo_text);
-    font-size: 1.5rem;
+    font-size: 1.8rem;
     letter-spacing: 0.8rem;
     padding-top: 1rem;
+    text-decoration: none;
 }
 
 .footer__contact {
@@ -353,6 +358,42 @@ p {
 
 .main__side article {
     font-style: italic;
+}
+
+/* ----------------------------------------------------------------------- Certificate Page */
+
+.grid-container_3 {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    grid-template-rows: 1fr;
+}
+
+.grid-item_1 {
+    grid-column-start: 1;
+    grid-column-end: 2;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+.grid-item_2 {
+    grid-column-start: 2;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    grid-row-end: 1;
+}
+
+.grid-item_2 ul li a {
+    text-decoration: none;
+}
+
+h2 {
+    text-decoration: none;
+}
+
+.aligne-left {
+    text-align: left;
+    color: var(--logo_text);
+    font-size: 1.6rem;
 }
 
 /* ----------------------------------------------------------------------- media Query */
