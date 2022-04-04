@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../../css/navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/js.ico">
+    <title>Functions</title>
+</head>
+
+<body>
+    <main>
+        <h1>Functions</h1>
+        <h2>Arrow Functions</h2>
+        <p class="expText">
+            An arrow function is a compact alternative to a traditional function, but is limited
+            and can't be used in all situations.
+        </p>
+        <h3>differences between arrow functions and traditional functions</h3>
+        <ul>
+            <li>Arrow functions don't have their own bindings to <code>this</code> or <code>super</code>, and should not
+                be used as
+                <code>methods</code>.</li>
+            <li>Arrow functions don't have access to the <code>new.target</code> keyword.</li>
+            <li>Arrow functions aren't suitable for <code>call</code>, <code>apply</code> and <code>bind</code> methods,
+                which generally
+                rely on establishing a <b>scope</b>.</li>
+            <li>Arrow functions cannot be used as <b>constructors</b>.</li>
+            <li>Arrow functions cannot use <code>yield</code>, within its body.</li>
+        </ul>
+        <h3>Syntax of an arrow function</h3>
+        <table>
+            <tr>
+                <th>pseudo code</th>
+                <th>explanation</th>
+            </tr>
+            <tr>
+                <td>PARAMETER => EXPRESSION;
+                    <details>
+                        <summary>example</summary>
+                        <p>num => num * 2;</p>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li><b>one</b> parameter does <b>not need</b> parentheses</li>
+                        <li><b>one</b> expression does <b>not need</b> ...
+                            <ul>
+                                <li>curly brackets {}</li>
+                                <li>a return statement (it is automatically applied)</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <pre class="originalText">(PARA_1, PARA_2) => {
+    EXPRESSION_1;
+    return EXPRESSION_2;
+}</pre>
+                    <hr>
+                    <pre class="originalText">
+() => {
+    EXPRESSION_1;
+    return EXPRESSION_2;
+}</pre>
+                    <details>
+                        <summary>example</summary>
+                        <pre class="originalText">(num_1, num_2) => {
+    let num_3 = num_2 - 4;
+    return num_1 + num_3;
+}</pre>
+                        <hr>
+                        <pre class="originalText">
+() => {
+    let num_1 = 1 + 2;
+    return num_1;
+}    
+</pre>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li><b>more or less than one</b> parameter requirer parentheses</li>
+                        <li><b>more than one</b> expression do <b>need</b> ...
+                            <ul>
+                                <li>curly brackets {}</li>
+                                <li>a return statement</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>PARAMETER => (OBJECT_LITERAL)
+                    <details>
+                        <summary>example</summary>
+                        <p>let message = textVar => ({foo: textVar});</p>
+                        <p>message('hello');</p>
+                        <p>// returning the object {foo: 'hello'}</p>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li>To return an object literal expression<br>requires parentheses around expression.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>(a, b, ...r) => expression</td>
+                <td>
+                    <ul>
+                        <li>Rest parameters are supported.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>(a=400, b=20, c) => expression</td>
+                <td>
+                    <ul>
+                        <li>Default parameters are supported.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>([a, b] = [10, 20]) => a + b; // result is 30<br>
+                    ({ a, b } = { a: 10, b: 20 }) => a + b; // result is 30</td>
+                <td>
+                    <ul>
+                        <li>Destructuring within parameters are supported.</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+    </main>
+    <script src="../../js/add_navBarJS.js"></script>
+</body>
+
+</html>

@@ -14,22 +14,27 @@
     --plainUnfoldBox: rgba(243, 187, 45, 0.3);
 }
 
+/* 62.5% of 16px is 10px. Which makes 1rem = 10px */
+html {
+    font-size: 62.5%;
+}
+
 main {
     margin: auto;
-    width: 102ch;
+    max-width: 100rem;
 }
 
 h1 {
     text-transform: uppercase;
     text-align: center;
-    font-size: 2.5rem;
+    font-size: 4.5rem;
 }
 
 h2 {
     text-transform: capitalize;
-    font-size: 2rem;
+    font-size: 3.7rem;
     border-top: solid dimgray 1px;
-    margin-bottom: 00.5em;
+    margin-bottom: 00.5rem;
 }
 
 h3 {
@@ -38,36 +43,38 @@ h3 {
     padding-top: 0.5rem;
     padding-left: 4ch;
     margin-bottom: -0rem;
-    font-size: 1.2rem;
+    font-size: 2.5rem;
 }
 
 h4 {
     text-decoration: underline;
     letter-spacing: 0.1rem;
-    font-size: 1rem;
+    font-size: 2.1rem;
     text-transform: lowercase;
     margin-bottom: 00.5rem;
 }
 
 p {
     max-width: 100ch;
+    font-size: 2rem;
 }
 
 .expText {
     border-left: solid dimgray 4px;
     padding-left: 2ch;
     font-style: italic;
-    font-size: 1.1rem;
     max-width: 80ch;
-    margin-top: 0.5em;
+    font-size: 2rem;
+    margin-top: 0.5rem;
 }
 
 li {
-    max-width: 80ch;
+    font-size: 2rem;
 }
 
 li>ul {
     margin-top: 00.02rem;
+    font-size: 2rem;
 }
 
 .listH {
@@ -75,7 +82,7 @@ li>ul {
     margin-left: -20px;
     text-decoration: underline;
     letter-spacing: 0.1ch;
-    font-size: 1.1em;
+    font-size: 2rem;
     /* counter-increment: item;*/
 }
 
@@ -97,14 +104,15 @@ li>ul {
 /* start table /////////////////////////////////////////////////////////////////////////////// */
 table {
     border-collapse: collapse;
-    max-width: 100ch;
+    max-width: fit-content;
 }
 
 td,
 th {
-    border: var(--backColorPage) dashed 2px;
-    padding: 2px 4px 2px 4px;
-    text-align: center;
+    border: var(--backColorPage) dashed 4px;
+    padding: 2px 4px;
+    padding-bottom: 1rem;
+    font-size: 1.8rem;
 }
 
 th {
@@ -113,19 +121,31 @@ th {
 
 td {
     background-color: var(--tableDataColor);
+    vertical-align: top;
 }
 
-td li {
-    text-align: left;
-}
-
-td ul {
-    margin: 0.1ch;
+td ul,
+td ol {
+    margin: 0;
+    padding-left: 2rem;
 }
 
 .tabCode {
     background-color: var(--codeBackColor);
     font-family: monospace;
+}
+
+.originalText {
+    display: block;
+    white-space: pre;
+    margin: 0;
+    font-size: 1.8rem;
+}
+
+td details p {
+    padding: 2px 4px;
+    margin: 0;
+    font-size: 1.8rem;
 }
 
 /*start table border /////////////////////////////////////////////////////////////////////////////// */
@@ -186,6 +206,7 @@ td ul {
 code {
     background-color: var(--codeBackColor);
     font-family: monospace;
+    font-size: 1.6rem;
 }
 
 .exam {
