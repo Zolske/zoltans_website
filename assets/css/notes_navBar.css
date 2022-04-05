@@ -101,10 +101,15 @@ li>ul {
     text-align: left;
 }
 
+.align-left {
+    text-align: left;
+}
+
 /* start table /////////////////////////////////////////////////////////////////////////////// */
 table {
     border-collapse: collapse;
     max-width: fit-content;
+    margin-top: 1rem;
 }
 
 td,
@@ -135,7 +140,7 @@ td ol {
     font-family: monospace;
 }
 
-.originalText {
+.oriText {
     display: block;
     white-space: pre;
     margin: 0;
@@ -146,6 +151,11 @@ td details p {
     padding: 2px 4px;
     margin: 0;
     font-size: 1.8rem;
+}
+
+table caption {
+    font-size: 1.6rem;
+    font-style: italic;
 }
 
 /*start table border /////////////////////////////////////////////////////////////////////////////// */
@@ -240,8 +250,12 @@ summary {
     text-align: center;
     letter-spacing: 0.2rem;
     font-style: italic;
-    margin-bottom: 0.5ch;
+    /* margin-bottom: 0.5ch; */
     max-width: 100ch;
+}
+
+details {
+    border: solid 3px var(--exampleBackColor);
 }
 
 /* summary::before {

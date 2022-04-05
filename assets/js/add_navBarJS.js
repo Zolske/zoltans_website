@@ -27,7 +27,14 @@ const navBar = [
     ["JavaScript HOME"],
     ["../JavaScript/js_index.html"],
   ],
-  [["BASIC"], ["#"], ["Functions"], ["../JavaScript/js_functions.html"]],
+  [
+    ["BASIC"],
+    ["#"],
+    ["Functions"],
+    ["../JavaScript/js_functions.html"],
+    ["Operators >> Spread Operator"],
+    ["../JavaScript/js_operator-spread.html"],
+  ],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
 

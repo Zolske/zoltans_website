@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="JavaScript, JavaScript Notes, Spread Operator" />
+    <meta name="description" content="Zoltan's notes to JavaScript." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/js.ico">
+    <meta>
+    <title>Spread Operator</title>
+</head>
+
+<body>
+    <main>
+        <h1>Operators</h1>
+        <h2>Spread Operator</h2>
+        <p class="expText">
+            The "spread operator" allows you to spread out elements of an <b>iterable object</b> such as an
+            <b>array</b>, <b>map</b>, or <b>set</b>.
+        </p>
+        <h3>syntax rules</h3>
+        <ul>
+            <li>The "spread operator" consists of <code>...</code> which are placed
+                in front of the <b>iterable object</b>.</li>
+            <li><b>NOTE:</b> there is also the "rest operator" which also consists
+                of <code>...</code> but it is used as "function parameters".</li>
+        </ul>
+        <h3>JavaScript spread operator and array manipulation</h3>
+        <table>
+            <tr>
+                <th>syntax</th>
+                <th>description</th>
+            </tr>
+            <tr>
+                <th colspan="2">1) Constructing array literal</th>
+            </tr>
+            <tr>
+                <td class="tabCode">
+                    <pre class="oriText">let ARRAY_2 = ['A', ...ARRAY_1, 'B'];
+
+</pre>
+                    <details>
+                        <summary>example</summary>
+                        <pre class="oriText">let initialChars = ['C', 'D'];
+let chars = [ 'C', ...initialChars, 'D'];
+console.log(chars); // ["C", "A", "B", "D"]</pre>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li>The spread operator allows you to insert another array into the initialized array when you
+                            construct an array using the literal form.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">2) Concatenating arrays</th>
+            </tr>
+            <tr>
+                <td class="tabCode">
+                    <pre class="oriText">let ARRAY_3 = [...ARRAY_2, ...ARRAY_1];
+
+                </pre>
+                    <details>
+                        <summary>example</summary>
+                        <pre class="oriText">let numbers = [1, 2];
+let moreNumbers = [3, 4];
+let allNumbers = [...numbers, ...moreNumbers];
+console.log(allNumbers); // [1, 2, 3, 4]</pre>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li>Use the spread operator to concatenate two or more arrays.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="2">3) Copying an array</th>
+            </tr>
+            <tr>
+                <td class="tabCode">
+                    <pre class="oriText">
+let ARRAY_COPY = [...ARRAY_ORIGINAL]
+                </pre>
+                    <details>
+                        <summary>example</summary>
+                        <pre class="oriText">let scores = [80, 70, 90];
+let copiedScores = [...scores];
+console.log(copiedScores); // [80, 70, 90]</pre>
+                    </details>
+                </td>
+                <td>
+                    <ul>
+                        <li>The spread operator can copy an array instance but <b>only one level deep</b>! Anything
+                            deeper (<i>multidimensional array</i>) is a not a copy but a reference which are "linked"
+                            and not independent copies.</li>
+                        <details>
+                            <summary>example</summary>
+                            <pre class="oriText tabCode">let original = [80, 70, [12,33]];
+let copiedOriginal = [...original];
+original[1] = 'Z';           // one level deep is true copy not reference
+original[2][0] = 'K';        // more than one level is not a copy but a reference
+console.log(original);       // [ 80, 'Z',['K', 33 ]]
+console.log(copiedOriginal); // [ 80,  <mark>70</mark>,[<mark>'K'</mark>, 33 ]]
+// 70 is not changed but 12 is changed to 'K'</pre>
+                        </details>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <!-- rest parameter -->
+        <h2>rest parameter</h2>
+        <p class="expText">
+            A rest parameter allows you to represent an indefinite number of arguments as an array.
+        </p>
+        <h3>syntax rules</h3>
+        <ul>
+            <li>is represented with <code>...</code> followed by an arbitrary name</li>
+            <li>must be the last parameter in an function definition</li>
+            <li>if there is no argument passed for the rest parameter, than it is used as an empty array</li>
+            <li></li>
+        </ul>
+    </main>
+    <script src="../../js/add_navBarJS.js"></script>
+</body>
+
+</html>

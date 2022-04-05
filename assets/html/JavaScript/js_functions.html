@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="../../css/navBar.css">
+    <meta name="keywords" content="JavaScript, JavaScript Notes, Functions" />
+    <meta name="description" content="Zoltan's notes to JavaScript" />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
     <link rel="icon" href="../../images/logo/favicon/js.ico">
     <title>Functions</title>
 </head>
@@ -32,12 +34,18 @@
         </ul>
         <h3>Syntax of an arrow function</h3>
         <table>
+            <caption>The table shows six possible cases of arrow functions.</caption>
             <tr>
+                <th>#</th>
                 <th>pseudo code</th>
                 <th>explanation</th>
             </tr>
             <tr>
-                <td>PARAMETER => EXPRESSION;
+                <td>1.</td>
+                <td class="tabCode">
+                    <pre class="oriText">PARAMETER => EXPRESSION;
+
+</pre>
                     <details>
                         <summary>example</summary>
                         <p>num => num * 2;</p>
@@ -56,25 +64,26 @@
                 </td>
             </tr>
             <tr>
-                <td>
-                    <pre class="originalText">(PARA_1, PARA_2) => {
+                <td>2.</td>
+                <td class="tabCode">
+                    <pre class="oriText">(PARA_1, PARA_2) => {
     EXPRESSION_1;
     return EXPRESSION_2;
 }</pre>
                     <hr>
-                    <pre class="originalText">
+                    <pre class="oriText">
 () => {
     EXPRESSION_1;
     return EXPRESSION_2;
 }</pre>
                     <details>
                         <summary>example</summary>
-                        <pre class="originalText">(num_1, num_2) => {
+                        <pre class="oriText">(num_1, num_2) => {
     let num_3 = num_2 - 4;
     return num_1 + num_3;
 }</pre>
                         <hr>
-                        <pre class="originalText">
+                        <pre class="oriText">
 () => {
     let num_1 = 1 + 2;
     return num_1;
@@ -95,7 +104,8 @@
                 </td>
             </tr>
             <tr>
-                <td>PARAMETER => (OBJECT_LITERAL)
+                <td>3.</td>
+                <td class="tabCode">PARAMETER => (OBJECT_LITERAL)
                     <details>
                         <summary>example</summary>
                         <p>let message = textVar => ({foo: textVar});</p>
@@ -110,7 +120,8 @@
                 </td>
             </tr>
             <tr>
-                <td>(a, b, ...r) => expression</td>
+                <td>4.</td>
+                <td class="tabCode">(a, b, ...r) => expression</td>
                 <td>
                     <ul>
                         <li>Rest parameters are supported.</li>
@@ -118,7 +129,8 @@
                 </td>
             </tr>
             <tr>
-                <td>(a=400, b=20, c) => expression</td>
+                <td>5.</td>
+                <td class="tabCode">(a=400, b=20, c) => expression</td>
                 <td>
                     <ul>
                         <li>Default parameters are supported.</li>
@@ -126,7 +138,8 @@
                 </td>
             </tr>
             <tr>
-                <td>([a, b] = [10, 20]) => a + b; // result is 30<br>
+                <td>6.</td>
+                <td class="tabCode">([a, b] = [10, 20]) => a + b; // result is 30<br>
                     ({ a, b } = { a: 10, b: 20 }) => a + b; // result is 30</td>
                 <td>
                     <ul>
