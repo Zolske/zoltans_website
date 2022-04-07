@@ -54,6 +54,7 @@ h4 {
     margin-bottom: 00.5rem;
 }
 
+summary,
 p {
     max-width: 100ch;
     font-size: 2rem;

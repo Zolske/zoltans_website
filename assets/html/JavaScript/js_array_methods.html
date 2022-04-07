@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="JavaScript, JavaScript Notes" />
+    <meta name="description" content="Zoltan's notes to JavaScript." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/js.ico">
+    <meta>
+    <title>Array Methods</title>
+</head>
+
+<body>
+    <main>
+        <h1>Array Methods</h1>
+        <h2>the "reduce" method</h2>
+        <p class="expText">The <code>.reduce()</code> method executes a user-supplied "reducer" callback function on
+            each
+            element of the array, in order, passing in the return value from the calculation on the preceding element.
+            The final result of running the reducer across all elements of the array is a single value which can to be
+            assigned to a variable.</p>
+        <h3>syntax rules</h3>
+        <img src="../../images/notes/JavaScript/reduce()/js_reduce().svg" alt="">
+        <ul>
+            <li>the <code>.reduce()</code> method takes 2 arguments and is used on arrays<ul>
+                    <li>the return statement has to return <code>acc</code></li>
+                    <li>1st argument: <ul>
+                            <li>is a callback function with 2 parameters which can have any arbitrary name</li>
+                            <li><b>1st parameter</b> (<i>usually called <code>acc</code></i>) is the <b>accumulated</b>
+                                value
+                                <ul>
+                                    <li>its value is the first element in the array if not set with another value
+                                        through the 2nd argument (<i>initial value</i>)</li>
+                                    <li>how the <code>acc</code> value is updated though the <code>curr</code> value is
+                                        specified in the callback function</li>
+                                    <li>it is possible to return an object of <code>acc</code> by defining multiple
+                                        <code>acc</code> and setting the "initial value" to <code>{}</code><br>
+                                    </li>
+                                </ul>
+                            </li>
+                            <li><b>2nd parameter</b> (<i>usually called <code>curr</code></i>) is the <b>current</b>
+                                value
+                                <ul>
+                                    <li>it starts with the value of the second element in the array if there is no 2nd
+                                        argument
+                                        (<i>initial value</i>), otherwise it is the 1st value of the element in the
+                                        array</li>
+                                    <li>every following element of the array will hold the place of <code>curr</code> in
+                                        the callback function till the end is reached</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </li>
+            <li>2nd argument (<i>optional "initial value"</i>): <ul>
+                    <li>the value is used as initial value for the <code>acc</code> parameter and shifts the value of
+                        the
+                        <code>curr</code> from the 2nd element to the 1st</li>
+                    <li>it is good practice to always set an "initial value" even if it is just <code>0</code></li>
+                    <li>if the result should be an object of <code>acc</code> values than the "initial value" should be
+                        <code>{}</code></li>
+                </ul>
+            </li>
+        </ul>
+        <h3>examples</h3>
+        <details>
+            <summary>example: return object</summary>
+            <pre class="oriText tabCode">// find the student with the highest 'english' score
+                    
+    let students = [
+    {
+    name: 'John',
+    subjects: ['maths', 'english', 'cad'],
+    teacher: {maths: 'Harry', english: 'Joan', cad: 'Paul'},
+    results: {maths: 90, english: 75, cad: 87},
+    },
+    {
+    name: 'Emily',
+    subjects: ['science', 'english', 'art'],
+    teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+    results: {science: 93, english: 73, art: 95},
+    },
+    {
+    name: 'Adam',
+    subjects: ['science', 'maths', 'art'],
+    teacher: {science: 'Iris', maths: 'Harry', art: 'Simon'},
+    results: {science: 93, english: 88, maths: 97, art: 95},
+    },
+    {
+    name: 'Fran',
+    subjects: ['science', 'english', 'art'],
+    teacher: {science: 'Iris', english: 'Joan', art: 'Simon'},
+    results: {science: 93, english: 87, art: 95},
+    }
+    ];
+    
+    // reduced method version 1 on "student" array
+    const biggest = students.reduce((acc, curr) => {
+    let name = 'name';
+    let subject = 'max'
+    // if acc[name] dose not exist than create
+    if(!acc[name]){       
+    // acc[name] and assign the "name" of the first element
+    acc[name] = curr.name;                     
+    // acc[subject] and assign the "results.english" of the first element
+    acc[subject] = curr.results.english;       
+    // otherwise ....
+    } else {                                     
+    // if acc[subject] is smaller then the next element(s)
+    if(acc[subject] < curr.results.english){   
+    // assign (overwrite) acc[name] with the curr.name
+    acc[name] = curr.name;                   
+    // assign (overwrite) acc[subject] with the curr.results.english
+    acc[subject] = curr.results.english;     
+    }
+    }
+    // return acc
+    return acc                                   
+    },{});
+    
+    console.log(biggest);  // { name: 'Adam', max: 88 }
+    
+    // reduced method version 2 on "student" array
+    const biggest_2 = students.reduce((acc, curr) => {
+    let name = 'name';
+    let subject = 'max'
+    if(acc[subject] < curr.results.english){
+    acc[name] = curr.name;
+    acc[subject] = curr.results.english;
+    }
+    return acc
+    },{name:'',max:0});
+    
+    console.log(biggest_2); //{ name: 'Adam', max: 88 }</pre>
+        </details>
+        <br>
+        <details>
+            <summary>example: simple</summary>
+            <pre class="oriText tabCode">const array1 = [1, 2, 3, 4];
+// 0 + 1 + 2 + 3 + 4
+const initialValue = 0;
+const sumWithInitial = array1.reduce(
+  (previousValue, currentValue) => previousValue + currentValue,
+  initialValue
+);
+
+console.log(sumWithInitial);
+// expected output: 10</pre>
+        </details>
+    </main>
+    <script src="../../js/add_navBarJS.js"></script>
+</body>
+
+</html>

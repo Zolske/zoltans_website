@@ -32,8 +32,10 @@ const navBar = [
     ["#"],
     ["Functions"],
     ["../JavaScript/js_functions.html"],
-    ["Operators >> Spread Operator"],
+    ["Operators"],
     ["../JavaScript/js_operator-spread.html"],
+    ["Array Methods"],
+    ["../JavaScript/js_array_methods.html"],
   ],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
