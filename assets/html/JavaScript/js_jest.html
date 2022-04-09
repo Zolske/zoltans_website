@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Jest, Jest Notes" />
+    <meta name="description" content="Zoltan's notes to Jest." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/js.ico">
+    <meta>
+    <title>Jest</title>
+</head>
+
+<body>
+    <main>
+        <h1><img src="../../images/logo/64x64_icons/jest64x64.png" alt=""> Jest</h1>
+        <p class="expText">
+            Jest is a Javascript Testing framework built by Facebook. It is primarily designed for React based apps but
+            could be used to write automation scenarios for any Javascript-based codebase.
+        </p>
+        <h2>Setting up the project</h2>
+        <ol>
+            <li>As with every JavaScript project you'll need an NPM environment (make sure to have Node installed on
+                your system). Create a new folder and initialize the project with:<br><code>npm init -y</code></li>
+            <li>install Jest with:<br><code>npm i jest --save-dev</code></li>
+            <li>Configure the NPM script for running our tests from the command line. Open up the
+                <b>package.json</b><mark
+                    title="this file has been created through the previous steps and should be in the root directory">*</mark>
+                and configure under "scripts" the key "test" with the value <b>"jest"</b> :<br>
+                <pre class="oriText tabCode">...
+"scripts": {
+  "test": "jest"
+},
+...</pre>
+            </li>
+            <li>
+                <div class="floRight">
+                    <p><img src="../../images/notes/JavaScript/jest/file_structure.jpg" alt="">
+                        create a folder (<i>e.g. "test" or "__test__"</i>) in the JavaScript directory of your
+                        project,<br>create a file with the same name as the JavaScript file you want to test in that
+                        folder except that you also include <b>.test</b> before the <b>.js</b> extension (<i>convention
+                            to mark them as test files</i>)
+                    </p>
+                </div>
+            </li>
+            <li>
+                add following comment to the top of every <b>.test.js</b> file (<i>to identify them as test
+                    files</i>):<br>
+                <pre class="oriText tabCode">/**
+* @jest-environment jsdom
+*/</pre>
+            </li>
+            <li>
+                export every single function, object, array, global variable which should be tested from the original
+                JavaScript file by adding following code to the bottom:<br>
+                <pre class="oriText tabCode">module.exports = { FUNCTION_1, OBJECT_6, ARRAY_2, VARIABLE };</pre>
+            </li>
+            <li>
+                import every single function, object, array, global variable which should be tested to the
+                <b>.test.js</b> file by adding following code at the top after the comment:<br>
+                <pre class="oriText tabCode">/**
+* @jest-environment jsdom
+*/
+const { FUNCTION_1, OBJECT_6, ARRAY_2, VARIABLE } = require("../example");</pre><br>(<i>in the code above , the data is
+                    imported from one level up <code>../</code> and the <code>example</code> file (without <b>.js</b>),
+                    the
+                    path is relative from where the test file is to the file where are the functions, ... imported
+                    from)</i>
+            </li>
+            <li>to run a test from the command line use following command:<br><code>npm test</code></li>
+            <li>
+                <div class="floRight">
+                    <p><img src="../../images/notes/JavaScript/jest/fail_to_connect_test.jpg" alt="">if you
+                        run the "test" but get an error message <code>Test suit failed to
+                            run</code>, that means
+                        that the data which should be tested is not correctly connected to the test script, check if the
+                        path is correct <code>require("../example")</code></p>
+                </div>
+            </li>
+        </ol>
+        <h2>writing a test</h2>
+    </main>
+    <script src="../../js/add_navBarJS.js"></script>
+</body>
+
+</html>

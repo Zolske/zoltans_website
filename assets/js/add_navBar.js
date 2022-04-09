@@ -24,10 +24,10 @@ const navBar = [
     ["../../../projects.html"],
     ["Zoltan's Notes"],
     ["../../../notes.html"],
+    ["JavaScript HOME"],
+    ["../JavaScript/js_index.html"],
   ],
-  [["BASIC"], ["#"]],
-  [["DOM"], ["DOM.html"]],
-  //[['DOM'],['#']]
+  [],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
 

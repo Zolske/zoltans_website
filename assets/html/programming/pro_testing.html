@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="programming concept, programming concept notes" />
+    <meta name="description" content="Zoltan's notes to Programming." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/programming.ico">
+    <meta>
+    <title>Software Testing</title>
+</head>
+
+<body>
+    <main>
+        <h1>Software Testing</h1>
+        <h2>Comparing manual to automated testing</h2>
+        <h3>manual testing / user testing</h3>
+        <p class="expText">
+            Checks if your project works according to your user stories, in different browsers and at different
+            resolutions. The tester impersonates a user of your application and manually tests everything by sitting
+            there, clicking on the buttons, and filling out the forms, testing all of the logic.
+        </p>
+        <ul>
+            <li class="thumbUp"><b>USER EXPERIENCE:</b> how intuitive, visual impression, ...</li>
+            <li class="thumbDown"><b>SLOW:</b> it's time-consuming</li>
+            <li class="thumbDown"><b>RESOURCE INTENSIVE:</b> depending on the size of the project, it may require a
+                large team of people</li>
+            <li class="thumbDown"><b>HIGH ERROR RATE:</b> edge cases can be missed, the testers may have biases or blind
+                spots or they may be fatigued by the amount of manual tasks
+                that need to be performed
+            </li>
+        </ul>
+        <h3>automated testing</h3>
+        <p class="expText">
+            Code is used to test code.
+        </p>
+        <ul>
+            <li class="thumbUp"><b>QUICKER:</b> many hundreds of tests can be run against our project in a short
+                space of time</li>
+            <li class="thumbUp"><b>EFFICIENT:</b> tests are usually written by the programmer as the project is being
+                developed, errors are picked up early
+            </li>
+            <li class="thumbUp"><b>SPECIFIC:</b> tests can be written for very specific cases</li>
+            <li class="thumbDown"><b>LIMITED:</b> tests are only as good as the questions we ask, if we're not asking
+                the right
+                questions, then our tests can end up as purely decorative and give us a false impression</li>
+            <li class="thumbDown"><b>FUNCTION ONLY:</b> don't test the User Experience either</li>
+        </ul>
+        <h2>The "Test Driven Development" Paradigm</h2>
+        <h3>comparison between "Behavior Driven Development" & "Test Driven Development"</h3>
+        <table>
+            <tr>
+                <th><u>B</u>ehavior <u>D</u>riven <u>D</u>evelopment BDD</th>
+                <th><u>T</u>est <u>D</u>riven <u>D</u>evelopment TDD</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>is based on the expected outcome of an action</li>
+                        <li>is manual testing (<i>no specific software tools</i>)</li>
+                        <li>builds on the "user stories"</li>
+                    </ul>
+                    <div class="flex">
+                        <div class="layer">
+                            <u>AS A ...</u><br>user
+                        </div>
+                        <div class="layer">
+                            <u>I WANT ...</u><br>to be able to click the toggle button
+                        </div>
+                        <div class="layer">
+                            <u>SO THAT ...</u><br>I can log out of my account
+                        </div>
+                    </div>
+                    <ul>
+                        <li>to make it testable, the user story can be adjusted
+                    </ul>
+                    <div class="flex">
+                        <div class="layer">
+                            <u>GIVEN ...</u><br>that the user is already logged in
+                        </div>
+                        <div class="layer">
+                            <u>WHEN ...</u><br>the logout button is clicked
+                        </div>
+                        <div class="layer">
+                            <u>THEN ...</u><br>the user is logged out and returned to the login screen
+                        </div>
+                    </div>
+                    This behavior is now testable, and repeatable.
+                    </li>
+                    <li>it's important to create atomic tests (<i>testing one thing, and one thing only</i>)</li>
+                </td>
+                <td>
+                    <ul>
+                        <li>require the use of automated testing tools</li>
+                        <li>
+                            instead of building the code and then testing it, we <b>write a test first and then use the
+                                test to build the functionality</b>
+                        </li>
+                        <li>it is a good way to make sure that the code works every step of the way</li>
+                        <li>the code is developed incrementally<br>(<i>see "RED-GREEN-REFACTOR" cycle</i>)</li>
+                        <li>whenever the code needs to be refactored, the tests will show immediately where a bug has
+                            been introduced</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <h3>The RED-GREEN-REFACTOR Cycle</h3>
+        <img src="../../images/notes/Programming/red-green-refactor_cycle.svg" alt="">
+        <ol>
+            <li><b>RED:</b><br>first, we write tests that we know will fail and then, we write just enough code to pass
+                the test<br>(<i>if the test would not fail then the question would be wrong, it also helps to just
+                    answer the test with the function</i>)</li>
+            <li><b>GREEN:</b><br>get that test to pass, without breaking any of our previous tests</li>
+            <li><b>REFACTOR:</b><br>finally, we think about ways that we can improve or refactor our code</li>
+        </ol>
+        <img src="../../images/notes/Programming/red-green-refactor_cycle.webp" alt="">
+        <h3>how to phrase test questions</h3>
+        <h4 class="capital">R-I-T-E</h4>
+        <ul>
+            <li><b>R</b>eadable:<br>The description for the test and the failure messages should make it clear what the
+                tests actual and expected behavior is, and why. A well-written test has minimal test code, tests one
+                thing, and one thing only, and it's clear at a glance what the test should do.</li>
+            <li><b>I</b>solated:<br>Our tests should be "atomic" or isolated from one another. We shouldn't have to pass
+                one test before we can pass another. Instead, we should be able to run them in any order and they'll
+                still pass.</li>
+            <li><b>T</b>horough:<br>Our tests should also be thorough, expect the unexpected! For example, what happens
+                if someone enters in something totally unrelated to the expected input.</li>
+            <li><b>E</b>xplicit:<br>Finally, our test should be explicit. This ties in with code readability above, if
+                someone looks at the test it should be obvious how to replicate the result.</li>
+        </ul>
+        <h4>definition fo "unit testing" and "integrated testing"</h4>
+        <ul>
+            <li><b>"unit tests":</b> are for individual modules</li>
+            <li><b>"integration tests":</b> check how multiple modules work together</li>
+        </ul>
+    </main>
+    <script src="../../js/add_navBarProgramming.js"></script>
+</body>
+
+</html>

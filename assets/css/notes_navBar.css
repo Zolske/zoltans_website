@@ -12,6 +12,7 @@
     --important: rgb(247, 109, 109);
     --overView: rgb(250, 172, 112);
     --plainUnfoldBox: rgba(243, 187, 45, 0.3);
+    --layerBackground: FloralWhite;
 }
 
 /* 62.5% of 16px is 10px. Which makes 1rem = 10px */
@@ -71,6 +72,7 @@ p {
 
 li {
     font-size: 2rem;
+    margin-bottom: 1rem;
 }
 
 li>ul {
@@ -88,12 +90,12 @@ li>ul {
 }
 
 .thumbUp {
-    list-style-image: url(/images/LOGO/thumb_up_icon.png);
+    list-style-image: url(/assets/images/logo/symbols/16x16_symbols/thumb-up16x16.png);
     text-align: left;
 }
 
 .thumbDown {
-    list-style-image: url(/images/LOGO/down_hand_thumb_icon.png);
+    list-style-image: url(/assets/images/logo/symbols/16x16_symbols/thumb-down16x16.png);
     text-align: left;
 }
 
@@ -102,8 +104,34 @@ li>ul {
     text-align: left;
 }
 
+/* prevent the list-style-image to be displayed in sub lists */
+li ul {
+    list-style-image: initial;
+}
+
 .align-left {
     text-align: left;
+}
+
+.capital {
+    text-transform: capitalize;
+}
+
+/* use floRight or floLeft class on div which contains <div class="floRight"><p><img></p></div> */
+/* clears float after div to which floRight or floLeft class is applied to */
+.floRight::after,
+.floLeft::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.floRight img {
+    float: right;
+}
+
+.floLeft img {
+    float: left;
 }
 
 /* start table /////////////////////////////////////////////////////////////////////////////// */
@@ -272,6 +300,13 @@ details {
 .grid-container {
     display: grid;
     grid-column-gap: 50px;
+}
+
+.layer {
+    box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+    background-color: var(--layerBackground);
+    margin: 0.3rem;
+    padding: 0.2rem;
 }
 
 /* start navBar /////////////////////////////////////////////////////////////////////////////////// */

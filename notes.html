@@ -43,16 +43,22 @@
         <section class="main__content mobile-notes">
             <h2><i class="fa-solid fa-link"></i> <span class="underline">links to "My Notes"</span></h2>
             <ul class="main__content__ul-links">
-                <li><a href="" onmouseover="toggleDetails('show_programming')"> <img
-                            src="assets/images/logo/64x64_icons/programming64x64.png" alt="">Programming</a></li>
+                <li><a href="assets/html/programming/pro_index.html" onmouseover="toggleDetails('show_programming')">
+                        <img src="assets/images/logo/64x64_icons/programming64x64.png" alt="">Programming</a></li>
                 <li><a href="" onmouseover="toggleDetails('show_git')"> <img
                             src="assets/images/logo/64x64_icons/git64x64.png" alt="">Git</a></li>
                 <li><a href="" onmouseover="toggleDetails('show_html')"> <img
                             src="assets/images/logo/64x64_icons/html64x64.png" alt="">HTML</a></li>
                 <li><a href="" onmouseover="toggleDetails('show_css')"> <img
                             src="assets/images/logo/64x64_icons/css64x64.png" alt="">CSS</a></li>
-                <li><a href="assets/html/JavaScript/js_index.html" onmouseover="toggleDetails('show_js')"> <img
-                            src="assets/images/logo/64x64_icons/js64x64.png" alt="">JavaScript</a></li>
+                <li>
+                    <div class="flex-middle">
+                        <a href="assets/html/JavaScript/js_index.html" onmouseover="toggleDetails('show_js')"> <img
+                                src="assets/images/logo/64x64_icons/js64x64.png" alt=""> JavaScript</a>
+                        <a href="assets/html/JavaScript/js_jest.html" onmouseover="toggleDetails('show_jest')"> <img
+                                src="assets/images/logo/64x64_icons/jest64x64.png" alt="">Jest</a>
+                    </div>
+                </li>
                 <li><a href="" onmouseover="toggleDetails('show_python')"> <img
                             src="assets/images/logo/64x64_icons/python64x64.png" alt="">Python</a></li>
             </ul>
@@ -130,6 +136,14 @@
                     <p><span class="bold">Typing discipline:</span> Dynamic, weak, duck</p>
                     <p><span class="bold">Paradigm:</span> Multi-paradigm: event-driven, functional, imperative,
                         procedural, object-oriented programming</p>
+                </article>
+                <article class="show_jest" style="display: none;">
+                    <h3><span class="underline">Jest</span></h3>
+                    <p>Jest is a <b>JavaScript testing framework</b>, with a focus on simplicity and support for large
+                        web applications.<br>It works with projects using Babel, TypeScript, Node.js, React, Angular,
+                        Vue.js and Svelte.</p>
+                    <p><span class="bold">Designed & Build by:</span> Christoph Nakazawa</p>
+                    <p><span class="bold">Maintained by:</span> Meta (Facebook)</p>
                 </article>
                 <article class="show_python" style="display: none;">
                     <h3><span class="underline">Python</span></h3>

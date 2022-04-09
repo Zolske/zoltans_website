@@ -24,20 +24,16 @@ const navBar = [
     ["../../../projects.html"],
     ["Zoltan's Notes"],
     ["../../../notes.html"],
-    ["JavaScript HOME"],
-    ["../JavaScript/js_index.html"],
+    ["Programming HOME"],
+    ["../programming/pro_index.html"],
   ],
   [
-    ["BASIC"],
+    ["CONCEPTS"],
     ["#"],
-    ["Functions"],
-    ["../JavaScript/js_functions.html"],
-    ["Operators"],
-    ["../JavaScript/js_operator-spread.html"],
-    ["Array Methods"],
-    ["../JavaScript/js_array_methods.html"],
+    ["Software Testing"],
+    ["../programming/pro_testing.html"],
   ],
-  [["FRAMEWORK"], ["#"], ["Jest"], ["../JavaScript/js_jest.html"]],
+  [["TOOLS"], ["#"], ["VS Code"], ["../programming/pro_vscode.html"]],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
 
