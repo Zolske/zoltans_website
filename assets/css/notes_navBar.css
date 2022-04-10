@@ -13,6 +13,7 @@
     --overView: rgb(250, 172, 112);
     --plainUnfoldBox: rgba(243, 187, 45, 0.3);
     --layerBackground: FloralWhite;
+    --subHeader: deepskyblue;
 }
 
 /* 62.5% of 16px is 10px. Which makes 1rem = 10px */
@@ -151,6 +152,7 @@ th {
 
 th {
     background-color: var(--tableHeadColor);
+    padding: 0.8rem;
 }
 
 td {
@@ -167,6 +169,7 @@ td ol {
 .tabCode {
     background-color: var(--codeBackColor);
     font-family: monospace;
+    padding: 0.5rem;
 }
 
 .oriText {
@@ -185,6 +188,13 @@ td details p {
 table caption {
     font-size: 1.6rem;
     font-style: italic;
+}
+
+.subHeader {
+    background-color: var(--subHeader);
+    text-transform: lowercase;
+    letter-spacing: 1rem;
+    padding: 0.4rem;
 }
 
 /*start table border /////////////////////////////////////////////////////////////////////////////// */
@@ -285,6 +295,8 @@ summary {
 
 details {
     border: solid 3px var(--exampleBackColor);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
 }
 
 /* summary::before {

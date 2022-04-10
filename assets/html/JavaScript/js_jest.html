@@ -40,8 +40,8 @@
                     <p><img src="../../images/notes/JavaScript/jest/file_structure.jpg" alt="">
                         create a folder (<i>e.g. "test" or "__test__"</i>) in the JavaScript directory of your
                         project,<br>create a file with the same name as the JavaScript file you want to test in that
-                        folder except that you also include <b>.test</b> before the <b>.js</b> extension (<i>convention
-                            to mark them as test files</i>)
+                        folder except that you also include <b>.test</b> before the <b>.js</b> extension (<i>marks them
+                            as test file(s)</i>)
                     </p>
                 </div>
             </li>
@@ -65,22 +65,465 @@
 */
 const { FUNCTION_1, OBJECT_6, ARRAY_2, VARIABLE } = require("../example");</pre><br>(<i>in the code above , the data is
                     imported from one level up <code>../</code> and the <code>example</code> file (without <b>.js</b>),
-                    the
-                    path is relative from where the test file is to the file where are the functions, ... imported
+                    the path is relative from where the test file is to the file where are the functions, ... imported
                     from)</i>
             </li>
             <li>to run a test from the command line use following command:<br><code>npm test</code></li>
             <li>
                 <div class="floRight">
                     <p><img src="../../images/notes/JavaScript/jest/fail_to_connect_test.jpg" alt="">if you
-                        run the "test" but get an error message <code>Test suit failed to
-                            run</code>, that means
-                        that the data which should be tested is not correctly connected to the test script, check if the
-                        path is correct <code>require("../example")</code></p>
+                        run the "test" but get an error message <code>Test suit failed to run</code>, that means that
+                        the data which should be tested is not correctly connected to the test script, check if the path
+                        is correct <code>require("../example")</code></p>
                 </div>
             </li>
         </ol>
         <h2>writing a test</h2>
+        <img src="../../images/notes/JavaScript/jest/jest_test-block.svg" alt="">
+        <ol>
+            <li>
+                <b><code>describe()</code> function block:</b><br>
+                <div class="floRight">
+                    <p>
+                        <img width="400" src="../../images/notes/JavaScript/jest/jest_describe().svg" alt="">
+                        The describe() function contains the individual test. It is used to group the test(s) together
+                        in the "test code" and in the "test results" where its "message" will appear. It is optional to
+                        use the describe() function, because the test work without it but it helps to structure and
+                        organize the test better.
+                    </p>
+                </div>
+
+            </li>
+            <li><b><code>test()</code> function:</b><br>
+                <div class="floRight">
+                    <p>
+                        <img width="400" src="../../images/notes/JavaScript/jest/jest_test().svg" alt="">
+                        The test() function contains the condition or conditions which all need to evaluate to true for
+                        the function to pass in the test result. It can also contain code which is not directly part of
+                        the condition like functions, variable declarations, ... .
+                    </p>
+                </div>
+            </li>
+            <li><b>test condition</b>
+                <div class="floRight">
+                    <p>
+                        <img width="400" src="../../images/notes/JavaScript/jest/jest_condition.svg" alt="">
+                        The "test condition" matches the outcome of the expect() function with the outcome of the
+                        "matcher" method. Only if both results evaluate to true the "test" passes. the expect function
+                        returns the result of the expression which has been passed as an argument. There are different
+                        type of "matcher" methods.
+                    </p>
+                </div>
+            </li>
+        </ol>
+        <h2>"matcher" methods</h2>
+        <table>
+            <tr>
+                <th>
+                    "matcher" methods
+                </th>
+                <th>
+                    description
+                </th>
+            </tr>
+            <tr>
+                <th colspan="2" class="subHeader">Common Matchers</th>
+            </tr>
+            <tr>
+                <td><code>.not</code></td>
+                <td>Tests the opposite of a matcher, by putting it in front of the matcher. (<i>e.g.
+                        <code>.not.toBe()</code></i>)<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">test('adding positive numbers is not zero', () => {
+      for (let a = 1; a < 10; a++) {
+        for (let b = 1; b < 10; b++) {
+          expect(a + b).not.toBe(0);
+        }
+      }
+});</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <td><code>.toBe()</code></td>
+                <td><code>toBe</code> uses <code>Object.is</code> to test "exact equality"<br>
+                    <details>
+                        <summary>two values are the same if one of the following holds:</summary>
+                        <ul>
+                            <li>both undefined</li>
+                            <li>both null</li>
+                            <li>both true or both false</li>
+                            <li>both strings of the same length with the same characters in the same order</li>
+                            <li>both the same object (meaning both values reference the same object in memory)</li>
+                            <li>both numbers and</li>
+                            <li>both +0</li>
+                            <li>both -0</li>
+                            <li>both NaN</li>
+                            <li>or both non-zero and both not NaN and both have the same value</li>
+                        </ul>
+                    </details>
+                    <details>
+                        <summary>examples of "exact equality"</summary>
+                        <pre class="oriText tabCode">// Case 1: Evaluation result is the same as using ===
+    Object.is(25, 25);                // true
+    Object.is('foo', 'foo');          // true
+    Object.is('foo', 'bar');          // false
+    Object.is(null, null);            // true
+    Object.is(undefined, undefined);  // true
+    Object.is(window, window);        // true
+    Object.is([], []);                // false
+    var foo = { a: 1 };
+    var bar = { a: 1 };
+    Object.is(foo, foo);              // true
+    Object.is(foo, bar);              // false
+    
+// Case 2: Signed zero
+    Object.is(0, -0);                 // false
+    Object.is(+0, -0);                // false
+    Object.is(-0, -0);                // true
+    Object.is(0n, -0n);               // true
+    
+// Case 3: NaN
+    Object.is(NaN, 0/0);              // true
+    Object.is(NaN, Number.NaN)        // true</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <td><code>.toEqual()</code></td>
+                <td>checks the value of an object or array by recursively checking every field of an object or
+                    array<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">test('object assignment', () => {
+      const data = {one: 1};
+      data['two'] = 2;
+      expect(data).toEqual({one: 1, two: 2});
+});</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <th class="subHeader" colspan="2">Truthiness</th>
+            </tr>
+            <tr>
+                <td><code>.toBeNull()</code></td>
+                <td>matches only null</td>
+            </tr>
+            <tr>
+                <td><code>.toBeUndefined()</code></td>
+                <td>matches only undefined</td>
+            </tr>
+            <tr>
+                <td><code>.toBeDefined()</code></td>
+                <td> is the opposite of toBeUndefined</td>
+            </tr>
+            <tr>
+                <td><code>.toBeTruthy()</code></td>
+                <td>matches anything that an if statement treats as true</td>
+            </tr>
+            <tr>
+                <td><code>.toBeFalsy()</code></td>
+                <td>matches anything that an if statement treats as false</td>
+            </tr>
+            <tr>
+                <td><code>.toBeGreaterThan()</code> or <code>.toBeLessThan()</code></td>
+                <td>for number value comparisons</td>
+            </tr>
+            <tr>
+                <td><code>.toMatch()</code></td>
+                <td>accepts a Regex pattern to match a string output</td>
+            </tr>
+            <tr>
+                <td><code>.toContain()</code></td>
+                <td>can be used to see if a value is contained in an Array</td>
+            </tr>
+            <tr>
+                <th class="subHeader" colspan="2">Numbers</th>
+            </tr>
+            <tr>
+                <td><code>.toBeCloseTo()</code></td>
+                <td>For floating point equality, use <code>toBeCloseTo</code> instead of <code>toEqual</code>, because
+                    you don't want
+                    a test to depend on a tiny rounding error.<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">test('adding floating point numbers', () => {
+      const value = 0.1 + 0.2;
+      //expect(value).toBe(0.3);           This won't work because of rounding error
+      expect(value).toBeCloseTo(0.3); // This works.
+});</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <th class="subHeader" colspan="2">Strings</th>
+            </tr>
+            <tr>
+                <td><code>.toMatch()</code></td>
+                <td>Checks strings against regular expressions.<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">test('there is no I in team', () => {
+      expect('team').not.toMatch(/I/);
+});
+    
+test('but there is a "stop" in Christoph', () => {
+      expect('Christoph').toMatch(/stop/);
+});</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <th class="subHeader" colspan="2">Arrays and iterables</th>
+            </tr>
+            <tr>
+                <td><code>.toContain()</code></td>
+                <td>Checks if an array or iterable contains a particular item.<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">const shoppingList = [
+      'diapers',
+      'kleenex',
+      'trash bags',
+      'paper towels',
+      'milk',
+];
+    
+test('the shopping list has milk on it', () => {
+      expect(shoppingList).toContain('milk');
+      expect(new Set(shoppingList)).toContain('milk');
+});</pre>
+                    </details>
+                </td>
+            </tr>
+            <tr>
+                <th class="subHeader" colspan="2">Exceptions</th>
+            </tr>
+            <tr>
+                <td><code>.toThrow()</code></td>
+                <td>Tests whether a particular function throws an error when it's called.<br>
+                    <details>
+                        <summary>example:</summary>
+                        <pre class="oriText tabCode">function compileAndroidCode() {
+      throw new Error('you are using the wrong JDK');
+}
+    
+test('compiling android goes as expected', () => {
+      expect(() => compileAndroidCode()).toThrow();
+      expect(() => compileAndroidCode()).toThrow(Error);
+    
+// You can also use the exact error message or a regexp
+      expect(() => compileAndroidCode()).toThrow('you are using the wrong JDK');
+      expect(() => compileAndroidCode()).toThrow(/JDK/);
+});</pre>
+                    </details>
+                </td>
+            </tr>
+        </table>
+        <h2>extended test result</h2>
+        <ol>
+            <li>Configure the NPM script for running our tests from the command line. Open up the
+                <b>package.json</b><mark
+                    title="this file has been created through the previous steps and shoold be in the root directory">*</mark>
+                and change under "scripts" the key "test" with the value <b>"jest --coverage"</b> :<br>
+                <pre class="oriText tabCode">...
+"scripts": {
+  "test": "jest --coverage"
+},
+...</pre>
+            </li>
+            <li>
+                run the test from the command line <code>npm test</code>
+            </li>
+            <li>
+                <div class="floRight">
+                    <p><img src="../../images/notes/JavaScript/jest/coverage-report.jpg" alt="">a new folder has been
+                        created, look in the root directory of your project for the path
+                        <b>coverage/lcov-report/index.html</b> to find and open the newly created index.html</p>
+                </div>
+            </li>
+        </ol>
+        <h2>how to load an html file for the test into the dom</h2>
+        <ul>
+            <li>add following code to the beginning of your test file:<br>
+                <pre class="oriText tabCode">beforeAll( () => {
+    let fs = require("fs");         //fs is part of the node standard library
+    let fileContents = fs.readFileSync("index.html", "utf-8");
+    document.open();
+    document.write(fileContents);
+    document.close;
+});</pre>
+                <p><i>"index.html" can be replaced with any other html file name which should be loaded before the test
+                        into the DOM</i></p>
+            </li>
+            <li>the html file exists now in the DOM and can be manipulated from within the test file even before a test
+                is run<br>
+                <pre class="oriText tabCode">describe("test block message shown in the test result", () => {
+    beforeAll( () => {
+        game.score = 42;    //set the value to 42 of the "score" key on the "game" object
+        newGame(42);        //calls the "newGame" function
+    });
+    test("individual test message ONE", () => {
+      expect(1).toBe(1);
+    });
+});</pre>
+            </li>
+        </ul>
+        <h2>Setup and Teardown</h2>
+        <p class="expText">Often while writing tests you have some setup work that needs to happen before tests run, and
+            you have some finishing work that needs to happen after tests run. Jest provides helper functions to handle
+            this.</p>
+        <h3>Repeating Setup For Many Tests</h3>
+        <p class="expText">If you have some work you need to do repeatedly for many tests, you can use
+            <code>beforeEach</code> and <code>afterEach</code>.<br>Functions within <code>beforeEach</code> and
+            <code>afterEach</code> which are prefixed with <code>return</code>, can return a "promise".</p>
+        <details>
+            <summary>example:</summary>
+            <p>For example, let's say that several tests interact with a database of cities. You have a method
+                initializeCityDatabase() that must be called before each of these tests, and a method
+                clearCityDatabase() that must be called after each of these tests. You can do this with:</p>
+            <pre class="oriText tabCode">beforeEach(() => {
+      initializeCityDatabase();
+    });
+
+    afterEach(() => {
+      clearCityDatabase();
+    });
+
+    test('city database has Vienna', () => {
+      expect(isCity('Vienna')).toBeTruthy();
+    });
+
+    test('city database has San Juan', () => {
+      expect(isCity('San Juan')).toBeTruthy();
+});</pre>
+            <p>beforeEach and afterEach can handle asynchronous code in the same ways that tests can handle asynchronous
+                code - they can either take a done parameter or return a promise. For example, if
+                initializeCityDatabase() returned a promise that resolved when the database was initialized, we would
+                want to return that promise:</p>
+            <pre class="oriText tabCode">beforeEach(() => {
+    return initializeCityDatabase();
+});</pre>
+        </details>
+        <h3>One-Time Setup</h3>
+        <p class="expText">In some cases, you only need to do setup once, at the beginning of a file. This can be
+            especially bothersome when the setup is asynchronous, so you can't do it inline. Jest provides
+            <code>beforeAll</code> and <code>afterAll</code> to handle this situation.</p>
+        <details>
+            <summary>example:</summary>
+            <p>For example, if both initializeCityDatabase and clearCityDatabase returned promises, and the city
+                database could be reused between tests, we could change our test code to:</p>
+            <pre class="oriText tabCode">beforeAll(() => {
+  return initializeCityDatabase();
+});
+
+afterAll(() => {
+  return clearCityDatabase();
+});
+
+test('city database has Vienna', () => {
+  expect(isCity('Vienna')).toBeTruthy();
+});
+
+test('city database has San Juan', () => {
+  expect(isCity('San Juan')).toBeTruthy();
+});</pre>
+        </details>
+        <h3>Scoping</h3>
+        <p class="expText">By default, the <code>beforeAll</code> and <code>afterAll</code> blocks apply to every test
+            in a file. You can also group tests together using a describe block. When they are inside a describe block,
+            the <code>beforeAll</code> and <code>afterAll</code> blocks only apply to the tests within that describe
+            block.</p>
+        <details>
+            <summary>example:</summary>
+            <p>For example, let's say we had not just a city database, but also a food database. We could do different
+                setup for different tests:</p>
+            <pre class="oriText tabCode">// Applies to all tests in this file
+beforeEach(() => {
+      return initializeCityDatabase();
+    });
+    
+    test('city database has Vienna', () => {
+      expect(isCity('Vienna')).toBeTruthy();
+    });
+    
+    test('city database has San Juan', () => {
+      expect(isCity('San Juan')).toBeTruthy();
+    });
+    
+    describe('matching cities to foods', () => {
+      // Applies only to tests in this describe block
+      beforeEach(() => {
+        return initializeFoodDatabase();
+      });
+    
+      test('Vienna &lt; 3 veal', () => {
+        expect(isValidCityFoodPair('Vienna', 'Wiener Schnitzel')).toBe(true);
+      });
+    
+      test('San Juan &lt; 3 plantains', () => {
+        expect(isValidCityFoodPair('San Juan', 'Mofongo')).toBe(true);
+      });
+});</pre>
+            <p>Note that the top-level beforeEach is executed before the beforeEach inside the describe block. It may
+                help to illustrate the order of execution of all hooks.</p>
+            <pre class="oriText tabCode">beforeAll(() => console.log('1 - beforeAll'));
+    afterAll(() => console.log('1 - afterAll'));
+    beforeEach(() => console.log('1 - beforeEach'));
+    afterEach(() => console.log('1 - afterEach'));
+    test('', () => console.log('1 - test'));
+    describe('Scoped / Nested block', () => {
+      beforeAll(() => console.log('2 - beforeAll'));
+      afterAll(() => console.log('2 - afterAll'));
+      beforeEach(() => console.log('2 - beforeEach'));
+      afterEach(() => console.log('2 - afterEach'));
+      test('', () => console.log('2 - test'));
+    });
+    
+    // 1 - beforeAll
+    // 1 - beforeEach
+    // 1 - test
+    // 1 - afterEach
+    // 2 - beforeAll
+    // 1 - beforeEach
+    // 2 - beforeEach
+    // 2 - test
+    // 2 - afterEach
+    // 1 - afterEach
+    // 2 - afterAll
+    // 1 - afterAll</pre>
+        </details>
+        <h2>Top Tips</h2>
+        <ul>
+            <li>It is not possible to test "eventhandlers" across browser with the "Jest" test.<br>To work around that
+                problem, we can: <ul>
+                    <li>
+                        set <code>data-type</code> attributes to the html elements which should receive the event
+                    </li>
+                    <li>
+                        the attached function should then also change the value of the <code>data-type</code> attribute
+                    </li>
+                    <li>
+                        a successful change can be tested with "Jest" and therefore also proven that the handler worked
+                    </li>
+                </ul>
+            </li>
+            <li>
+                <p class="expText">
+                    "it's good to think about what happens in our function as being kind of like a black box. We can
+                    test what goes in, we can test what comes out, but we don't have many ways of testing what's inside
+                    unless they're doing something to change or set the global state. So we're starting our global state
+                    in the game object, which is why we're using this as a counter."<br>(<i>Matt Rudge - Senior Product
+                        Developer @ Code Institute</i>)
+                </p>
+            </li>
+            <li>
+                Every test should work isolated from all other tests, make sure the values are reset before and after,
+                so that they not influence other tests.
+            </li>
+        </ul>
     </main>
     <script src="../../js/add_navBarJS.js"></script>
 </body>
