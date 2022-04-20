@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Python, Python Notes, Django, Django Notes" />
+    <meta name="description" content="Zoltan's notes to Python, Django." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/python.ico">
+    <meta>
+    <title>Django</title>
+</head>
+
+<body>
+    <main>
+        <h1><img src="../../images/logo/64x64_icons/django64x64.png" alt="">django</h1>
+        <p class="expText">
+            Django is a free and open source framework for building web apps with Python. It is used for the "backend".
+        </p>
+        <h2>Setting up Django</h2>
+        <h3>Creating a Django Project</h3>
+        <ol class="floRight">
+            <img src="../../images/notes/python/django/new_project_structure.jpg" alt="">
+            <li>install the Django package into your projects "virtual environment"<br><code>pipenv install
+                    django</code></li>
+            <li>create a Django project<br><code>django-admin startproject PROJECT_NAME<mark
+                        title="PROJECT_NAME is the name of the project">*</mark> .<mark
+                        title="the dot on the end tells django to create the project in the current directory and not in a new sub folder called PROJECT_NAME">*</mark></code>
+                <ul>
+                    <li>the PROJECT_NAME folder contains the essential Python files</li>
+                    <li>the <b>manage.py</b> file which is created next to the PROJECT_NAME folder, is a "wrapper"
+                        wrapped around "<b>django-admin</b>"</li>
+                </ul>
+            </li>
+        </ol>
+        <h3>running django on a local server</h3>
+        <ul>
+            <li>starts the local server on port 8000<mark title="Another port can be specified by appending the port number to the command, e.g.:
+                    python manage.py runserver 9000  //would run on port 9000">*</mark> (<i>can be viewed in the
+                    browser<mark
+                        title="there is a link in the 'terminal message' which will open the server in the browser when clicked on with the mouse + CTRL">*</mark></i>)<br><code>python
+                    manage.py runserver</code>
+            </li>
+            <li>to quit the server press <code>CTRL</code> + <code>c</code> in the terminal</li>
+        </ul>
+        <h3>Creating a "Django App"</h3>
+        <p class="expText">
+            Every Django project is a collection of various apps. Each app provides a certain type of functionality.
+        </p>
+        <ul class="floRight">
+            <img src="../../images/notes/python/django/new_project_app.jpg">
+            <li>create a new django app<br><code>python manage.py startapp APP_NAME<mark
+                        title="APP_NAME is the name of the django app">*</mark></code></li>
+            <li><b>NOTE:</b> Every app needs to be registered in the <b>settings.py</b> under <b>INSTALLED_APP</b> in
+                the Django project folder by adding there name.<br>
+                <details class="disInBlock">
+                    <summary>example: register new app</summary>
+                    <pre class="oriText tabCode">INSTALLED_APPS = [
+    'django.contrib.admin',
+    'django.contrib.auth',
+    'django.contrib.contenttypes',
+    'django.contrib.sessions',
+    'django.contrib.messages',
+    'django.contrib.staticfiles',
+    'NEW_APP_1',
+    'NEW_APP_2',
+]</pre>
+                    <table>
+                        <tr>
+                            <th>predefined django apps</th>
+                            <th>explanation</th>
+                        </tr>
+                        <tr>
+                            <td><code>django.contrib.admin</code></td>
+                            <td><i>creates an admin interface to manage data</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>django.contrib.auth</code></td>
+                            <td><i>is used to authenticates users</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>django.contrib.sessions</code></td>
+                            <td><i>is not used any more, a session is a temporary memory on the server to manage user
+                                    data, can be deleted</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>django.contrib.messages</code></td>
+                            <td><i>is used to display onetime messages to the user</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>django.contrib.staticfiles</code></td>
+                            <td><i>serves static files like images, css files, ...</i></td>
+                        </tr>
+                    </table>
+                </details>
+            </li>
+            <li>
+                <details class="disInBlock">
+                    <summary>NEW_APP structure</summary>
+                    <table>
+                        <tr>
+                            <th>folder / file</th>
+                            <th>explanation</th>
+                        </tr>
+                        <tr>
+                            <td><code>migration</code></td>
+                            <td><i>is a folder in which we generate database tables</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>admin.py</code></td>
+                            <td><i>determines how the app will look</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>apps.py</code></td>
+                            <td><i>is where the app is configured</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>models.py</code></td>
+                            <td><i>model classes are defined in this app, to pull out data from the database and present
+                                    it to the user</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>test.py</code></td>
+                            <td><i>contains the unit tests</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>urls.py</code></td>
+                            <td><i>needs to be manually created if needed, is where the "urls" are "mapped" to the
+                                    "views"</i></td>
+                        </tr>
+                        <tr>
+                            <td><code>views.py</code></td>
+                            <td><i>is a request handler</i></td>
+                        </tr>
+                    </table>
+                </details>
+            </li>
+        </ul>
+    </main>
+    <script src="../../js/add_navBarPython.js"></script>
+</body>
+
+</html>

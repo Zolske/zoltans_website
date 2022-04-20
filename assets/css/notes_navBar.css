@@ -299,11 +299,9 @@ details {
     margin-bottom: 1rem;
 }
 
-/* summary::before {
-    content: "for example: ";
-    letter-spacing: 0.2rem;
-    font-style: italic;
-} */
+.disInBlock {
+    display: inline-block;
+}
 
 .flex {
     display: flex;

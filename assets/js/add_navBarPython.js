@@ -24,22 +24,11 @@ const navBar = [
     ["../../../projects.html"],
     ["Zoltan's Notes"],
     ["../../../notes.html"],
-    ["Programming HOME"],
-    ["../programming/pro_index.html"],
+    ["Python HOME"],
+    ["../python/py_index.html"],
   ],
-  [
-    ["CONCEPTS"],
-    ["#"],
-    ["Software Testing"],
-    ["../programming/pro_testing.html"],
-  ],
-  [
-    ["DATA BASE"],
-    ["#"],
-    ["Database Management Systems"],
-    ["../programming/pro_database_management_systems.html"],
-  ],
-  [["TOOLS"], ["#"], ["VS Code"], ["../programming/pro_vscode.html"]],
+  [["BASIC"], ["#"]],
+  [["FRAMEWORK"], ["#"], ["Django"], ["../python/py_django.html"]],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
 

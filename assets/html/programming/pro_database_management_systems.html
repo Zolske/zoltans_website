@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="programming concept, programming concept notes" />
+    <meta name="description" content="Zoltan's notes to Programming." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/programming.ico">
+    <meta>
+    <title>Database Management Systems</title>
+</head>
+
+<body>
+    <main>
+        <h1>Database Management Systems </h1>
+        <p class="expText">Data is stored information, which are Structured pieces of information that are collected,
+            stored and modified.</p>
+        <h2>about data</h2>
+        <h3>How data is organized</h3>
+        <table>
+            <tr>
+                <th>data store</th>
+                <th>searchable</th>
+                <th>pattern</th>
+            </tr>
+            <tr>
+                <td>a repository for long-term storage to hold our organization's data such as a database</td>
+                <td>data store becomes an archive that can then be searched and queried to find data</td>
+                <td>the power to identify trends and unearth hidden patterns that are important to our business</td>
+            </tr>
+        </table>
+        <h3>the 2 main database types</h3>
+        <table>
+            <tr>
+                <th>relational database SQL (<i><u>S</u>tructured <u>Q</u>uery <u>L</u>anguage</i>)<br>(<i>which sends
+                        commands to relational databases</i>)</th>
+                <th>non relational database NoSQL</th>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>most commonly used type of database</li>
+                        <li>consist of various tables that hold records and can be linked together<br>(<i>changing
+                                linked data in one table changes it also in the other tables</i>)</li>
+                        <li><u><b>schema:</b></u><br>is meta data to define the fields in an table by its structure</li>
+                        <li><u><b>data row:</b></u><br>data entry which is structured according the table schema</li>
+                        <li><u><b>primary key / id:</b></u><br>identifies the data row in the table</li>
+                        <li><u><b>foreign key / id:</b></u><br>relates (<i>links</i>) to data from another table</li>
+                    </ul>
+                    <img src="../../images/notes/Programming/database/sql.svg" alt="">
+                </td>
+                <td>
+                    <ul>
+                        <li>
+                            come in many different varieties (<i>document-oriented databases, graph stores, time-series
+                                databases, key-value stores, geospatial databases, and wide-column databases</i>)
+                        </li>
+                        <li>emerged from structured data formats such as JSON, XML, and BSON</li>
+                        <li>data is not linked between tables and can use different fields within the same table</li>
+                    </ul>
+                    <img src="../../images/notes/Programming/database/no-sql.svg" alt="">
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li class="thumbUp">allow us to define connections between records across different tables, it
+                            allows us to store and update data once, instead of repeating the same bit of data
+                            throughout</li>
+                        <li class="thumbDown">quite complicated and hard to maintain</li>
+                    </ul>
+                </td>
+                <td>
+                    <ul>
+                        <li class="thumbUp">web companies with a very high rate of operations can scale their
+                            database beyond what is possible with a relational database</li>
+                        <li class="thumbUp">each document is considered completely separate from the other documents,
+                            and can have a completely different set of fields</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+        <h3>Modeling data</h3>
+        <p class="expText">It is better to plan the structure (<i>schema</i>) of the data model before creating it.
+            Especially "SQL" databases are harder to change after. This can be done with the help of an "<b>
+                Entity-Relationship Diagram</b>".</p>
+        <p>The general recommendation is to split the work into the following three design phases.</p>
+        <ol>
+            <li><b><u>Conceptual:</u></b><br>the highest level phase where we map out the main entities, relationships,
+                and attributes without a regard to storing them in the database yet.</li>
+            <li><u><b>Logical:</b></u><br>in this phase, we decide which entities and relationships will actually be
+                stored in a relational database, and associate each with a table, containing attributes as columns.</li>
+            <li><u><b>Physical:</b></u><br>this is the lowest level phase in which we decide how exactly each of those
+                tables should be stored in a computer.</li>
+        </ol>
+    </main>
+    <script src="../../js/add_navBarProgramming.js"></script>
+</body>
+
+</html>
