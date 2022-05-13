@@ -28,7 +28,14 @@ const navBar = [
     ["../python/py_index.html"],
   ],
   [["BASIC"], ["#"]],
-  [["FRAMEWORK"], ["#"], ["Django"], ["../python/py_django.html"]],
+  [
+    ["FRAMEWORK"],
+    ["#"],
+    ["Cheat Sheet: Django"],
+    ["../python/py_cheat_django.html"],
+    ["Django"],
+    ["../python/py_django.html"],
+  ],
 ];
 document.body.onload = createNavBar; //calls function "creatNavBar" when body is loaded
 
@@ -89,3 +96,18 @@ function createNavBar() {
     // }
   }
 }
+
+// start adding sideNavBar ///////////////////////////////////////////////////////////////////////////////
+
+// document.body.onload = createSideBar;
+
+// function createSideBar() {
+//   const elementsH2 = document.getElementsByTagName("h2");
+//   for (let i = 0; i < elementsH2.length; i++) {
+//     let contentH2 = "";
+//     contentH2 = elementsH2[i].innerHTML;
+//     contentH2 = contentH2.replace(/^\s+|\s+$/gm, "");
+//     contentH2 = contentH2.replace(" ", "_");
+//     console.log(contentH2);
+//   }
+// }

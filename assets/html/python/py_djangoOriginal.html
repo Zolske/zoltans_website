@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Python, Python Notes, Django, Django Notes" />
+    <meta name="description" content="Zoltan's notes to Python, Django." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/python.ico">
+    <meta>
+    <title>Django</title>
+</head>
+
+<body>
+    <main>
+        <h1><img src="../../images/logo/64x64_icons/django64x64.png" alt="">django</h1>
+        <p class="expText">
+            Django is a free and open source framework for building web apps with Python. It is used for the "backend".
+        </p>
+        <p><i>NOTE: My notes are based on George Nigel book<br><a href="https://djangobook.com/books/" target="_blank"
+                    rel="noopener noreferrer" aria-label="link to George Nigel book"
+                    title="link to George Nigel book">"Build a Website With Django 3: A complete introduction to
+                    Django"</a></i></p>
+        <!-- start >>> How Django works ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>How Django works</h2>
+        <p class="expText">Django is a <b>M</b>odel-<b>V</b>iew-<b>C</b>ontroller (<b>MVC</b>) framework. MVC is a
+            software design pattern that aims to separate a software application into three interconnected parts.
+            <br><b>NOTE:</b> MVC is called MTV (<b>M</b>odel <b>T</b>emplate <b>V</b>iew) in Django.</p>
+        <details class="conBox">
+            <summary></summary>
+            <h3>overview</h3>
+            <div class="floRight">
+                <img src="../../images/notes/python/django/MTV_pattern.png" alt="">
+                <ul>
+                    <li>the <b>model:</b><br>
+                        provides the interface with the database containing the application data. It retrieves data from
+                        the database, which is requested by the view.</li>
+                    <li>the <b class="crossOut">view</b> <b>template:</b><br>contains the logic that decides what
+                        information to present to the user and collects information from the user to send to the
+                        <b>view</b></li>
+                    <li>the <b class="crossOut">controller</b> <b>view:</b><br>manages business logic for the
+                        application and acts as an information broker between the <b>model</b> and the <b>template</b>.
+                        It sends the packaged and formatted data to the template.
+                    </li>
+                </ul>
+            </div>
+            <h3>the model</h3>
+            <div class="floRight">
+                <img src="../../images/notes/python/django/Django-Models.png" alt="">
+                <p class="expText">Django's models provide an <b>O</b>bject-<b>r</b>elational <b>M</b>apping (ORM) to
+                    the underlying database. ORM is a powerful programming technique that makes working with data and
+                    relational databases much easier.</p>
+                <p><b>Object</b> (<b>O</b>RM):<br>
+                    Most common databases are programmed with some form of <b>S</b>tructured
+                    <b>Q</b>uery <b>L</b>anguage (SQL), however, each database implements SQL differently. SQL can be
+                    complicated and challenging to learn. An ORM tool, on the other hand, provides a simple mapping
+                    between an object (the O in ORM) and the underlying database. This means the programmer need not
+                    know the database structure, nor does it require complex SQL to manipulate and retrieve data. In
+                    Django, the model is the object mapped to the database. When you create a model, Django creates a
+                    corresponding table in the database, without you having to write a single line of SQL.
+                    Django prefixes the table name with the name of your Django application.</p>
+            </div>
+            <div class="floRight">
+                <img src="../../images/notes/python/django/model_table_1.png" alt="">
+                <p>
+                    <b>Relationship</b> (O<b>R</b>M):<br> The model also links related information in the database. In
+                    the example on the right a second model is created to keep track of a user's course enrollments.
+                    Repeating all the user's information in the "yourapp_Course" table would be against good design
+                    principles, so we instead create a relationship between the "yourapp_Course" table and the
+                    "yourapp_UserProfile" table. This relationship is created by linking the models with a "<b>foreign
+                        key</b>"
+                </p>
+                <p>There are five databases officially support:<br>SQLite<mark
+                        title="SQLite is for early development and testing. Don't use it in production.">*</mark>,
+                    PostgreSQL, MySQL, MariaDB, Oracle<mark
+                        title="Oracle is for big corporations with deep pockets.">*</mark>
+                    <br>Django installs and configures SQLite automatically.</p>
+            </div>
+            <h3>the template</h3>
+            <p class="expText">A Django template is a text file designed to separate an application's data from the way
+                it is presented. Django's templates are not limited to HTML. The design of Django's templates is based
+                on several core principles:
+                <ol>
+                    <li>A template system should separate program logic from design.</li>
+                    <li>
+                        Templates should discourage redundancy (<i><b>D</b>on't <b>R</b>epeat <b>Y</b>ourself
+                            (DRY)</i>).
+                    </li>
+                    <li>
+                        The template system should be safe and secure, code execution in the template must be forbidden.
+                    </li>
+                </ol>
+            </p>
+            <h4>Separate Logic From Design</h4>
+            <p>The <b>D</b>jango <b>t</b>emplate <b>l</b>anguage (DTL) is a plain-text scripting language that uses tags
+                to provide presentation logic for deciding what content to display in the template.</p>
+            <p><i>for example:</i> <code>&lt;p&gt;Dear <b>{{ person_name }}</b>,&lt;/p&gt;</code>
+                <ul>
+                    <li>
+                        the script in bold is a Django variable tag, when your browser renders this template, Django
+                        will replace the variable <b>{{&nbsp;person_name&nbsp;}}</b> with the name passed to the
+                        template by the view
+                    </li>
+                    <li>works with Html, JavaSCript, CSS and Frameworks like Bootstrap</li>
+                </ul>
+            </p>
+            <h4>Don't Repeat Yourself</h4>
+            <div class="floRight"><img src="../../images/notes/python/django/template_both-1.png" alt="">
+                <p>Django uses template inheritance which helps minimize repetition, redundant code and make it also
+                    easier to apply changes.
+                </p>
+                <p>The parent template contains content common to the entire website, the child templates
+                    inherit those common features but only contain unique content in there template.</p>
+                <p>Changes can be applied to the parent templed which will affect the entire side, rather then to every
+                    single side.</p>
+                <h4>Template Security</h4>
+                <p>Code execution is forbidden on templates.</p>
+                <p><u>The DTL provides display logic only, this includes:</u></p>
+                <ul>
+                    <li class="thumbUp">Displaying variables. This can be simple text like a user's name or more complex
+                        data like HTML formatted text.
+                    </li>
+                    <li class="thumbUp">Choosing which content to display based on logical checks. E.g., if a user is
+                        logged in, then display a user menu or user-only content.</li>
+                    <li class="thumbUp">Iterating over lists of data. Most
+                        often used to insert database information into HTML lists.</li>
+                    <li class="thumbUp">Formatting data. E.g., date
+                        formatting, text manipulation and other filters that act on the data.</li>
+                </ul>
+                <p><u>Things you can't do in a Django template:</u></p>
+                <ul>
+                    <li class="thumbDown">Execute Python code</li>
+                    <li class="thumbDown">Assign a value to a variable</li>
+                    <li class="thumbDown">Perform advanced logic</li>
+                </ul>
+            </div>
+            <ul>
+                <li>Django's templates adds additional security features like automatically escaping all strings,
+                    Cross-Site Scripting protection and Cross-Site Request Forgery protection.</li>
+                <li>These restrictions only apply to the Django Template Language. There are no restrictions on you
+                    adding JavaScript, for example, to Django templates.</li>
+            </ul>
+            <h3>the views</h3>
+            <p class="expText">Django's views are the information brokers of a Django application. A view sources data
+                from your database (or an external data source or service) and delivers it to a template. For a web
+                application, the view delivers webpage content and templates, for a RESTful API this content could be
+                properly formatted JSON data.</p>
+            <ul>
+                <li>The view decides what data gets delivered to the template, either by acting on input from the user
+                    or in response to other business logic and internal processes.</li>
+                <li>Each Django view performs a specific function and has an associated template.</li>
+                <li>Views are represented by either a Python function or a method of a Python class.</li>
+                <li>Class-based views add extensibility to Django's views, as well as several built-in views that make
+                    creating common views (like displaying a list of articles) easier to implement.</li>
+            </ul>
+            <p><u>Django has built-in views for many common display tasks.</u></p>
+            <ul>
+                <li>the 404 (page not found), 500 (server error), 403 (HTTP forbidden), 400 (bad request) view</li>
+                <li><b>ListView</b> for displaying a list of data objects (<i>e.g., list all articles</i>)</li>
+                <li><b>DetailView</b> for displaying a single object (<i>e.g., individual article</i>)</li>
+                <li><b>RedirectView</b> for redirecting to another URL</li>
+                <li><b>FormView</b> for displaying a form</li>
+                <li>Additional class-based generic date views for showing day, week, month and yearly collections of
+                    objects like blog posts and articles.</li>
+            </ul>
+            <h2>URLconf, Tying it all Together</h2>
+            <p class="expText">Tells the view what to display in the browser based on what the user has requested.</p>
+            <div class="floRight">
+                <img width="500" src="../../images/notes/python/django/user-request.svg" alt="">
+                <p>
+                    Navigation in a Django website is the same as any other website. Pages and other content are
+                    accessed
+                    via a Uniform Resource Locator (URL).
+                </p>
+                <p><u>When a user clicks on a link on a website:</u></p>
+                <ol>
+                    <li>a request for that URL is sent to Django</li>
+                    <li>Django checks the "<b>URL Configuration (URLconf)</b> in <b>urls.py</b>. When Django finds a URL
+                        that matches the requested URL, it calls the view associated with that URL</li>
+                    <li>the selected view then renders the content to a template, as per the business logic in the view,
+                        and sends the rendered content back to your browser for display</li>
+                </ol>
+            </div>
+        </details>
+        <!-- end >>> How Django works ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- start >>> Setting up Django ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>Setting up Django</h2>
+        <details class="conBox">
+            <summary></summary>
+            <h3>Creating a Django Project</h3>
+            <ol>
+                <li>install the Django package into your projects "virtual environment"<br><code>pipenv install
+                        django</code></li>
+                <li>activate your "virtual environment"<br><code>pipenv shell</code></li>
+                <li>create a Django project (<i>a good name is <b>config</b></i>)<br><code>django-admin startproject
+                        PROJECT_NAME<mark title="PROJECT_NAME is the name of the project">*</mark> .<mark
+                            title="the dot on the end tells django to create the project in the current directory and not in a new sub folder called PROJECT_NAME">*</mark></code><br>
+                    <details class="disInBlock">
+                        <summary>django "project" file structure</summary>
+                        <ul class="floRight"> <img src="../../images/notes/python/django/new_project_structure.jpg"
+                                alt="">
+                            <li>the PROJECT_NAME folder contains the essential Python files</li>
+                            <li>the <b>manage.py</b> file which is created next to the PROJECT_NAME folder, is a Python
+                                "wrapper" wrapped around "<b>django-admin</b>"</li>
+                            <li>you can rename the project folder to easier mark it as the project folder (<i>Django
+                                    does not care how it is called</i>)</li>
+                        </ul>
+                    </details>
+                </li>
+            </ol>
+            <h3>Creating a "Django App"</h3>
+            <p class="expText">
+                Every Django project is a collection of various apps. Each app provides a certain type of functionality.
+            </p>
+            <ul>
+                <li>create a new django app<br><code>python manage.py startapp APP_NAME<mark
+                            title="APP_NAME is the name of the django app">*</mark></code><br>
+                    <details class="disInBlock">
+                        <summary>NEW_APP structure</summary>
+                        <table>
+                            <tr>
+                                <th>folder / file</th>
+                                <th>explanation</th>
+                            </tr>
+                            <tr>
+                                <td><code>migration</code></td>
+                                <td><i>is a folder in which we generate database tables</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>admin.py</code></td>
+                                <td><i>determines how the app will look</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>apps.py</code></td>
+                                <td><i>is where the app is configured</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>models.py</code></td>
+                                <td><i>model classes are defined in this app, to pull out data from the database and
+                                        present
+                                        it to the user</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>test.py</code></td>
+                                <td><i>contains the unit tests</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>urls.py</code></td>
+                                <td><i>needs to be manually created if needed, is where the "urls" are "mapped" to the
+                                        "views"</i></td>
+                            </tr>
+                            <tr>
+                                <td><code>views.py</code></td>
+                                <td><i>is a request handler</i></td>
+                            </tr>
+                        </table>
+                    </details>
+                    <ol>
+                        <li>every app needs to be registered</li>
+                        <li>open the <b>settings.py</b> in the <b>PROJECT_NAME</b> directory</li>
+                        <li>under <code>INSTALLED_APP</code> add the name of the "app" to the list
+                            <br>
+                            <details class="disInBlock">
+                                <summary>example: register new app</summary>
+                                <div class="floRight">
+                                    <img src="../../images/notes/python/django/new_project_app.jpg">
+                                    <pre class="oriText tabCode">INSTALLED_APPS = [                                   
+        'django.contrib.admin',
+        'django.contrib.auth',
+        'django.contrib.contenttypes',
+        'django.contrib.sessions',
+        'django.contrib.messages',
+        'django.contrib.staticfiles',
+        'NEW_APP_1',
+        'NEW_APP_2',
+    ]</pre>
+                                    <table>
+                                        <tr>
+                                            <th>predefined django apps</th>
+                                            <th>explanation</th>
+                                        </tr>
+                                        <tr>
+                                            <td><code>django.contrib.admin</code></td>
+                                            <td><i>creates an admin interface to manage data</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>django.contrib.auth</code></td>
+                                            <td><i>is used to authenticates users</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>django.contrib.sessions</code></td>
+                                            <td><i>a session is a temporary memory on the server to manage user
+                                                    data, can be deleted</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>django.contrib.messages</code></td>
+                                            <td><i>is used to display onetime messages to the user</i></td>
+                                        </tr>
+                                        <tr>
+                                            <td><code>django.contrib.staticfiles</code></td>
+                                            <td><i>serves static files like images, css files, ...</i></td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </details>
+                        </li>
+                    </ol>
+                </li>
+            </ul>
+            <h3>running django on a local server</h3>
+            <ul>
+                <li>starts the local server on port 8000<mark title="Another port can be specified by appending the port number to the command, e.g.:
+                        python manage.py runserver 9000  //would run on port 9000">*</mark> (<i>can be viewed in the
+                        browser<mark
+                            title="there is a link in the 'terminal message' which will open the server in the browser when clicked on with the mouse + CTRL">*</mark></i>)<br><code>python
+                        manage.py runserver</code>
+                </li>
+                <li>to quit the server press <code>CTRL</code> + <code>c</code> in the terminal</li>
+            </ul>
+        </details>
+        <!-- end >>> Setting up Django ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- start >>> HTTP_request/response_cycle ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>HTTP request/response cycle</h2>
+        <p class="expText">
+
+        </p>
+        <details class="conBox" open>
+            <summary>example code</summary>
+            <ol>
+                <div class="floRight">
+                    <img width="300" src="../../images/notes/python/django/HTTP_request_response_cycle-addrees.svg"
+                        alt="">
+                    <li>user adds a "slug"<mark
+                            title="is the part of a URL that identifies a particular page on a website in an easy-to-read form">*</mark>
+                        to the url address<br><i>for example: /hello</i></li>
+                </div>
+                <hr>
+                <div class="floRight">
+                    <img width="150" src="../../images/notes/python/django/HTTP_request_response_cycle-config_urls.svg"
+                        alt="">
+                    <li>Django look <b>always first</b> in the <code>PROJECT_NAME/urls.py</code> for the matching path
+                        in
+                        <code>urlpatterns&nbsp;=&nbsp;[]</code><br><i>for example:</i><br>
+                        <div class="hiCode">
+                            #...PROJECT_NAME/urls.py<br>
+                            from django.contrib import admin<br>
+                            from django.urls import path<mark title="add the include() function: from django.urls">,
+                                include</mark><br>
+                            <br>
+                            urlpatterns = [<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;path('admin/', admin.site.urls),<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<mark title="django looks for a matching path from top to bottom, in our example 'hello/' matches,
+the include function directs the search to the app 'pages' file 'urls.py'">path('hello/',
+                                include('pages.urls'))</mark><br>
+                            ]
+                        </div>
+                    </li>
+                    <hr>
+                    <div class="floRight">
+                        <img width="200" src="../../images/notes/python/django/HTTP_request_response_cycle-app_urls.svg"
+                            alt="">
+                        <li>the search is usually redirected to the apps <code>urls.py</code> for the matching path in
+                            <code>urlpatterns&nbsp;=&nbsp;[]</code> (<i>the apps urls.py needs to be manually
+                                created</i>)<br><i>for example:</i><br>
+                            <div class="hiCode">
+                                #...pages/urls.py<br>
+                                from django.urls import path<br>
+                                from <mark
+                                    title="the 'dot' tells Django to look in the same directory and 'views' to look in the 'views.py'">.views</mark>
+                                import <mark title="import the 'homePageView' function">homePageView</mark><br>
+                                <br>
+                                urlpatterns = [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<mark
+                                    title="the search matches the empty string because 'hello' has been already found before">path(''</mark>,
+                                <mark
+                                    title="calls the 'homePageView' function which has been declared in 'views.py'">homePageView</mark>,
+                                <mark title="the 'Naming URL pattern' is optional">name ='home'</mark>),<br>
+                                ]<br>
+                            </div>
+                        </li>
+                        <li>
+
+                        </li>
+                    </div>
+                </div>
+            </ol>
+        </details>
+        <!-- end >>> HTTP_request/response_cycle ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- start >>> writing code ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>writing code</h2>
+        <details class="conBox">
+            <summary></summary>
+            <h3>"Views" and mapping urls to it</h3>
+            <h4>Writing "Views" (request handler)</h4>
+            <p class="expText">In "views" we handle requests by defining functions that take a request and then respond.
+            </p>
+            <p>
+                Django uses request and response objects to pass state through the system.<br><br>
+                When a page is requested, Django creates an HttpRequest object that contains metadata about the request.
+                Then Django loads the appropriate view, passing the HttpRequest as the first argument to the view
+                function.
+                Each view is responsible for returning an HttpResponse object.
+            </p>
+            <caption>
+                <figcaption><i>create a new app ("playground"), write this code into "views.py"</i></figcaption>
+                <pre class="oriText tabCode">from django.http import HttpResponse
+    
+    def say_hello(request):
+        return HttpResponse('Hello World')</pre>
+            </caption>
+            <p>The "view" now needs to be "mapped" to a "URL" so that the function will be called.</p>
+            <h4>Mapping URLs to Views</h4>
+            <ul>
+                <li>the file for the "URL"s is by convention named <b>urls.py</b></li>
+                <li><code>urlpatterns</code> is a special variable Django is looking for and is set to an array or "url
+                    pattern objects".</li>
+            </ul>
+            <caption>
+                <figcaption><i>create a file called "urls.py" under the app "Playground", write this code</i>
+                </figcaption>
+                <pre class="oriText tabCode">from django.urls import path
+from . import views                 # '.'stands for the current folder
+    
+    urlpatterns = [
+        path('hello/', views.say_hello)
+    ]</pre>
+            </caption>
+            <p>Need to be imported into the main url configuration.</p>
+            <h4>main urls.py</h4>
+            <p>located in the "Django project folder" under "urls.py"</p>
+            <ol>
+                <li>import the <b>include</b> function from <b>django.urls</b><br><code>from django.urls import
+                        include</code></li>
+                <li>add the "url path" to the "urlpatterns"<br>
+                    <pre class="oriText tabCode">urlpatterns = [
+    path('...'), # other paths may already set
+    path('playground/', include('playground.urls'))
+]</pre>
+                </li>
+            </ol>
+            <p>When the user adds to the http address "/playground/hello", then he will be redirected to a side which
+                has the text from the first "urls.py" "Hello World".<br>NOTE: The starter side displays an error "404",
+                but the redirection still works.</p>
+            <h4>using templates</h4>
+            <p class="expText">What in other framework's is called a "view" is in Django a "template". They allow us to
+                display
+                html pages.</p>
+            <ol>
+                <li>create a "<b>templates</b>" folder in the "playground" app directory</li>
+                <li>inside the "templates" folder, create a "hello.html" file with some html (it dose not need a "boiler
+                    platte")</li>
+                <li>change the "views.py" in the folder "playground"<br>
+                    <pre class="oriText tabCode">from django.http import HttpResponse
+    
+    def say_hello(request):
+    # "return HttpResponse('Hello World')" old line, take out
+    return render(request, 'hello.html')</pre>
+                </li>
+            </ol>
+            <p>The path from the landing page (.../playground/hello) still works but now a html page is rendered.</p>
+            <h2>debug django</h2>
+            <h3>debugging with VSCode</h3>
+            <h4>set up the VSCode debugger</h4>
+            <ol>
+                <li>click on the "<b>Run and Debug</b>" button <img
+                        src="../../images/notes/python/django/debug-button.jpg">
+                    or use the short cut <code>CTRL</code> + <code>SHIFT</code> + <code>d</code></li>
+                <li>click on "<b>create a launch.json file</b>", choose the "<b>workspace</b>" folder in which the
+                    "launch.json" file will be created, select environment "Django"</li>
+                <li>open the launch.json file from the ".vscode" folder and add another port number then the one on
+                    which
+                    the local server is running to "args" (<i>not "8000"</i>)<br>
+                    <pre class="oriText tabCode">"configurations": [{
+        "args": [ "runserver", "9000" ],
+}]</pre>
+                </li>
+            </ol>
+        </details>
+        <!-- end >>> writing code ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- start >>> how to use the VSCode debugger ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>how to use the VSCode debugger</h2>
+        <details class="conBox">
+            <summary></summary>
+            <ul>
+                <li>set the breakpoint by clicking on the code line <img
+                        src="../../images/notes/python/django/break-point.jpg" alt=""></li>
+                <li>run the debugger <img src="../../images/notes/python/django/start-debug.jpg" alt=""></li>
+                <li>click the link in the terminal <img src="../../images/notes/python/django/terminal-debug-link.jpg"
+                        alt=""> while holding <code>CTRL</code></li>
+                <li>a new window opens in the browser, if needed, navigate in the "app" to the part where the
+                    "breakpoint" is set</li>
+                <li>the program is executed till it gets to the first "breakpoint" <br><img
+                        src="../../images/notes/python/django/first-breakpoint.jpg" alt=""></li>
+                <li>you can see the attributes of the variable in the debugger window (<i>in this example it is the
+                        "request" object</i>)<br><img src="../../images/notes/python/django/debug-info.jpg" alt=""></li>
+                <li>with "<b>step over</b>" <img src="../../images/notes/python/django/debug-step_over.jpg" alt=""> we
+                    can
+                    move to the next line</li>
+                <li>variables which the debugger has "passed" can be checked in the debugger window or added in the
+                    "watch"
+                    window by clicking on the <code>+</code> icon<br><img
+                        src="../../images/notes/python/django/debug-watch.jpg"></li>
+                <li><b>NOTE:</b> As you "step through" the code, the browser window changes to the exact same stages as
+                    it
+                    is in the code. The debugger and the browser output are linked, that is also true the other way
+                    around,
+                    you don't see anything in the debugger window if you have not navigated to the right place in the
+                    browser.<br><img src="../../images/notes/python/django/debugger-and-browser-link.svg"></li>
+                <li><b>step in</b> <img src="../../images/notes/python/django/debug-step_in.jpg"> you to not just see
+                    the
+                    result of the function but to also step into the function which may be defined somewhere else</li>
+                <li><b>step out</b> <img src="../../images/notes/python/django/debug-step_out.jpg"> allows you to leave
+                    a
+                    function you have stepped into before</li>
+                <li><b>restart</b> <img src="../../images/notes/python/django/debug-step_restart.jpg" alt=""> the
+                    debugger
+                    from the beginning of the breakpoint</li>
+            </ul>
+        </details>
+        <!-- end >>> how to use the VSCode debugger ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////// -->
+    </main>
+
+    <script src="../../js/add_navBarPython.js"></script>
+</body>
+
+</html>

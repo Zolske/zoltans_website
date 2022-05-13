@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="keywords" content="Django Cheat Sheet, Django Cheat Sheet Notes" />
+    <meta name="description" content="Zoltan's notes to Django Cheat Sheet." />
+    <link rel="stylesheet" href="../../css/notes_navBar.css">
+    <link rel="icon" href="../../images/logo/favicon/python.ico">
+    <meta>
+    <title>Cheat Sheet: Django</title>
+</head>
+
+<body>
+    <main>
+        <h1>Cheat Sheet: Django</h1>
+        <table class="codExplain">
+            <tr>
+                <th>setting up a django project</th>
+            </tr>
+            <tr>
+                <td>python -m pip install django</td>
+            </tr>
+            <tr>
+                <td>install the Django package into the current directory</td>
+            </tr>
+            <tr>
+                <td>python -m venv .venv</td>
+            </tr>
+            <tr>
+                <td>creates a "virtual environment" with the name <b>.venv</b> which is the conventional name</td>
+            </tr>
+            <tr>
+                <td>.venv\Scripts\Activate</td>
+            </tr>
+            <tr>
+                <td>activates the "virtual environment" with the name <b>.venv</b></td>
+            </tr>
+            <tr>
+                <td>deactivate</td>
+            </tr>
+            <tr>
+                <td>deactivates the "virtual environment"</td>
+            </tr>
+            <tr>
+                <td>pip freeze > requirements.txt</td>
+            </tr>
+            <tr>
+                <td>Outputs the content of the current virtual environment (required python packages) and by using the
+                    <b>></b> operator we can define the name of the output file which is by convention
+                    requirements.txt</td>
+            </tr>
+            <tr>
+                <td>django-admin startproject PROJECT_NAME .</td>
+            </tr>
+            <tr>
+                <td>create a Django project with the name <b>PROJECT_NAME</b> (a good name is <b>config</b>)</td>
+            </tr>
+            <tr>
+                <td>python manage.py startapp APP_NAME</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>create a new django app with the name <b>APP_NAME</b></li>
+                        <li>needs to be registered: <code>PROJECT_NAME/settings.py</code> under
+                            <code>INSTALLED_APP</code> (<i>just add the apps name to the list</i>)</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python manage.py runserver</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>starts the local server on port 8000</li>
+                        <li>appending a port number to the command runs the server on a different port</li>
+                        <li>exit the server <code>Ctrl + c</code></li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+    </main>
+    <script src="../../js/add_navBarPython.js"></script>
+</body>
+
+</html>

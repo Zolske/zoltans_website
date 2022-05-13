@@ -5,8 +5,8 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="keywords" content="Python, Python Notes, Django, Django Notes" />
-    <meta name="description" content="Zoltan's notes to Python, Django." />
+    <meta name="keywords" content="Django, Django Notes" />
+    <meta name="description" content="Zoltan's notes to Django." />
     <link rel="stylesheet" href="../../css/notes_navBar.css">
     <link rel="icon" href="../../images/logo/favicon/python.ico">
     <meta>
@@ -19,125 +19,299 @@
         <p class="expText">
             Django is a free and open source framework for building web apps with Python. It is used for the "backend".
         </p>
-        <h2>Setting up Django</h2>
-        <h3>Creating a Django Project</h3>
-        <ol class="floRight">
-            <img src="../../images/notes/python/django/new_project_structure.jpg" alt="">
-            <li>install the Django package into your projects "virtual environment"<br><code>pipenv install
-                    django</code></li>
-            <li>create a Django project<br><code>django-admin startproject PROJECT_NAME<mark
-                        title="PROJECT_NAME is the name of the project">*</mark> .<mark
-                        title="the dot on the end tells django to create the project in the current directory and not in a new sub folder called PROJECT_NAME">*</mark></code>
-                <ul>
-                    <li>the PROJECT_NAME folder contains the essential Python files</li>
-                    <li>the <b>manage.py</b> file which is created next to the PROJECT_NAME folder, is a "wrapper"
-                        wrapped around "<b>django-admin</b>"</li>
-                </ul>
-            </li>
-        </ol>
-        <h3>running django on a local server</h3>
-        <ul>
-            <li>starts the local server on port 8000<mark title="Another port can be specified by appending the port number to the command, e.g.:
-                    python manage.py runserver 9000  //would run on port 9000">*</mark> (<i>can be viewed in the
-                    browser<mark
-                        title="there is a link in the 'terminal message' which will open the server in the browser when clicked on with the mouse + CTRL">*</mark></i>)<br><code>python
-                    manage.py runserver</code>
-            </li>
-            <li>to quit the server press <code>CTRL</code> + <code>c</code> in the terminal</li>
-        </ul>
-        <h3>Creating a "Django App"</h3>
-        <p class="expText">
-            Every Django project is a collection of various apps. Each app provides a certain type of functionality.
+        <!-- >>> Set Up /////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>Set UP</h2>
+        <!-- set up your virtual environment in python & activate it-->
+        <details class="conBox">
+            <summary>set up a virtual environment in python & activate it</summary>
+            <ol>
+                <li>create a virtual environment:<br>
+                    <code>python -m venv .venv</code>
+                    <details class="exaBox">
+                        <summary>.venv</summary>
+                        <ol>
+                            <li>the dot <code>.</code> hides the folder</li>
+                            <li><code>venv</code> is the name of the folder</li>
+                            <li>it is convention to name the folder <code>.venv</code></li>
+                        </ol>
+                    </details>
+                </li>
+                <li>activate the virtual environment on the terminal:<br><code>.venv\Scripts\Activate</code><br>
+                    <details class="exaBox">
+                        <summary><b>NOTE:</b> windows may requirer setting an execution policy</summary>
+                        <ol>
+                            <li>create a virtual environment:<br>
+                                <code>python -m venv .venv</code><br>and set execution policy with the command
+                                :<br><code> Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope
+                                    CurrentUser</code></li>
+                            <li>activate the virtual environment:<br><code>.venv\Scripts\Activate.ps1</code></li>
+                        </ol>
+                    </details>
+                </li>
+                <li>deactivate the virtual environment on the terminal:<br><code>deactivate</code></li>
+                <li>add the hidden folder of the virtual environment (<b>.venv/</b> <mark
+                        title="is the name of the virtual environment, don't forget '/' otherwise the content of the folder is added">*</mark>)
+                    to the <b>.gitignore</b> file</li>
+                <li>create a <b>requirements.txt</b> file which contains the record of the required packages:<br>
+                    <code> pip freeze > requirements.txt</code><br>
+                    (<i>the command needs to be repeated after new packages have been added</i>)</li>
+            </ol>
+        </details>
+        <!-- install Django & create a project -->
+        <details class="conBox">
+            <summary>install Django & create a project</summary>
+            <ol>
+                <li>install Django:<br><code>python -m pip install django</code></li>
+                <li>create a Django project:<br><code>django-admin startproject <b>django_project</b> .</code>
+                    <details class="exaBox">
+                        <summary>django_project .</summary>
+                        <ol>
+                            <li><code>django_project</code> is the name of the Django project, can be any name but don't
+                                use hyphen</li>
+                            <li><code>.</code> the dot is optional, but it tells Django to create the project in the
+                                current directory and <b>not</b> to create a folder with the same name first</li>
+                        </ol>
+                    </details><br>
+                    <details class="exaBox">
+                        <summary>project folder structure</summary>
+                        ├── django_project <mark title="project folder">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── __init__.py <mark
+                            title="empty file which indicates that the files in the folder are part of a Python package">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── asgi.py <mark
+                            title="allows for an optional Asynchronous Server Gateway Interface to be run">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── settings.py <mark
+                            title="controls our Django project's overall settings">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; ├── urls.py <mark
+                            title="tells Django which pages to build in response to a browser or URL request">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; └── wsgi.py <mark
+                            title="stands for Web Server Gateway Interface, which helps Django serve our web pages">*</mark><br>
+                        ├── manage.py <mark title="is not part of django_project but is used to execute various Django
+commands such as running the local web server or creating a new app">*</mark><br>
+                        └── .venv/ <mark title="hidden folder which contains the virtual environment">*</mark><br>
+                    </details>
+
+                </li>
+            </ol>
+        </details>
+        <!-- Create An App -->
+        <details class="conBox">
+            <summary>create an app & register it in project/settings.py</summary>
+            <p class="expText">
+                Django uses the concept of projects and apps to keep code clean and readable. A single top-level Django
+                project can contain multiple apps. Each app controls an isolated piece of functionality.
+            </p>
+            <ol>
+                <li>create a new app:<br><code>python manage.py startapp <b>APP_NAME</b></code>
+                    <br>
+                    <details class="exaBox">
+                        <summary>app file structure</summary>
+                        ├─ pages <mark title="app folder, in this example the apps name is 'pages'">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ __init__.py <mark
+                            title="empty file which indicates that the files in the folder are part of a Python package">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ admin.py <mark
+                            title="is a configuration file for the built-in Django Admin app">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ apps.py <mark
+                            title="is a configuration file for the app itself">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ migrations <mark
+                            title="keeps track of any changes to our models.py file so it stays in sync with our database">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; │&nbsp;&nbsp;&nbsp;&nbsp;└─ __init__.py <mark
+                            title="empty file which indicates that the files in the folder are part of a Python package">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ models.py <mark
+                            title="is where we define our database models which Django automatically translates into database tables">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; ├─ tests.py <mark title="is for app-specific tests">*</mark><br>
+                        │&nbsp;&nbsp;&nbsp;&nbsp; └─ views.py <mark
+                            title="is where we handle the request/response logic for our web app">*</mark><br>
+                    </details>
+                </li>
+                <li><b>NOTE:</b> every app needs to be registered otherwise Django does not know about it,<br>
+                    <i>add following code:</i><br>
+                    <code>"<b>app_name</b>.apps.<b>App_name</b>Config"</code><br><i>to the</i> <b>INSTALLED_APPS =
+                        []</b> <i>list in the</i>
+                    <b>PROJECT_FOLDER/settings.py</b><br>
+                    <!-- command explanation and example  -->
+                    <details class="exaBox">
+                        <summary>command explanation with example</summary>
+                        <p><code>"<b>pages</b>.apps.<b>Pages</b>Config"</code></p>
+                        <ul>
+                            <li><b>pages</b> is the name of the app in this example</li>
+                            <li>the <b>apps.py</b> file and its content is generated by Django when the app is
+                                created<br>
+                                <pre class="tabCode">
+from django.apps import AppConfig
+
+
+class PagesConfig(AppConfig):
+    default_auto_field = 'django.db.models.BigAutoField'
+    name = 'pages'</pre>
+                            </li>
+                        </ul>
+                        <ol>
+                            <li><code><b>pages</b></code><br>tells Django to "walk" into the 'pages' package
+                                (<i>folder</i>) </li>
+                            <li><code>.apps</code><br>"walk" into the file 'apps.py'</li>
+                            <li><code><b>Pages</b>Config</code><br>call the function</li>
+                        </ol>
+                    </details>
+                </li>
+            </ol>
+        </details>
+        <!-- how to run Django's local web server -->
+        <details class="conBox">
+            <summary>how to run Django's local web server</summary>
+            <ol>
+                <li>start Django's local web server on port 8000 with the command "runserver" which is located in
+                    "manage.py"<br><code>python manage.py runserver</code><br>
+                    <details class="exaBox">
+                        <summary>change port</summary>
+                        <ol>
+                            <li>append the port number to the command, e.g.: port 9000<br><code>python manage.py
+                                    runserver 9000</code></li>
+                        </ol>
+                    </details>
+                    <details class="exaBox">
+                        <summary>warning messages</summary>
+                        <ul>
+                            <li>warnings about 18 "<b>unapplied migrations</b>" appear because the initial database has
+                                not jet been "migrated"</li>
+                            <li>to migrate exit the local server <code>Ctrl + c</code> and run the
+                                command:<br><code>python manage.py migrate</code></li>
+                            <li>Django has now created a SQLite database and migrated its built-in apps. This is
+                                represented by the new file <b>db.sqlite3</b> which was created in our directory.</li>
+                        </ul>
+
+                    </details>
+                </li>
+                <li>click the link in the terminal output or follow the link <a href="http://127.0.0.1:8000/"
+                        target="_blank">http://127.0.0.1:8000/</a></li>
+                <li>stop the local server with the terminal short cut <code>Ctrl + c</code></li>
+            </ol>
+        </details>
+        <!-- <<< Set Up /////////////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- >>> HTTP Request/Response Cycle /////////////////////////////////////////////////////////////////////////////// -->
+        <h2>HTTP Request/Response Cycle</h2>
+        <p class="expText">Every time you visit a webpage an initial “request” is sent by the “client” and a “response”
+            is sent back by a “server”. What a web framework like Django does is accept HTTP requests to a
+            given URL and returns a HTTP response containing the information necessary to render a webpage.
         </p>
-        <ul class="floRight">
-            <img src="../../images/notes/python/django/new_project_app.jpg">
-            <li>create a new django app<br><code>python manage.py startapp APP_NAME<mark
-                        title="APP_NAME is the name of the django app">*</mark></code></li>
-            <li><b>NOTE:</b> Every app needs to be registered in the <b>settings.py</b> under <b>INSTALLED_APP</b> in
-                the Django project folder by adding there name.<br>
-                <details class="disInBlock">
-                    <summary>example: register new app</summary>
-                    <pre class="oriText tabCode">INSTALLED_APPS = [
-    'django.contrib.admin',
-    'django.contrib.auth',
-    'django.contrib.contenttypes',
-    'django.contrib.sessions',
-    'django.contrib.messages',
-    'django.contrib.staticfiles',
-    'NEW_APP_1',
-    'NEW_APP_2',
-]</pre>
-                    <table>
-                        <tr>
-                            <th>predefined django apps</th>
-                            <th>explanation</th>
-                        </tr>
-                        <tr>
-                            <td><code>django.contrib.admin</code></td>
-                            <td><i>creates an admin interface to manage data</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>django.contrib.auth</code></td>
-                            <td><i>is used to authenticates users</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>django.contrib.sessions</code></td>
-                            <td><i>is not used any more, a session is a temporary memory on the server to manage user
-                                    data, can be deleted</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>django.contrib.messages</code></td>
-                            <td><i>is used to display onetime messages to the user</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>django.contrib.staticfiles</code></td>
-                            <td><i>serves static files like images, css files, ...</i></td>
-                        </tr>
-                    </table>
-                </details>
-            </li>
-            <li>
-                <details class="disInBlock">
-                    <summary>NEW_APP structure</summary>
-                    <table>
-                        <tr>
-                            <th>folder / file</th>
-                            <th>explanation</th>
-                        </tr>
-                        <tr>
-                            <td><code>migration</code></td>
-                            <td><i>is a folder in which we generate database tables</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>admin.py</code></td>
-                            <td><i>determines how the app will look</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>apps.py</code></td>
-                            <td><i>is where the app is configured</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>models.py</code></td>
-                            <td><i>model classes are defined in this app, to pull out data from the database and present
-                                    it to the user</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>test.py</code></td>
-                            <td><i>contains the unit tests</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>urls.py</code></td>
-                            <td><i>needs to be manually created if needed, is where the "urls" are "mapped" to the
-                                    "views"</i></td>
-                        </tr>
-                        <tr>
-                            <td><code>views.py</code></td>
-                            <td><i>is a request handler</i></td>
-                        </tr>
-                    </table>
-                </details>
-            </li>
-        </ul>
+        <!-- Django's MVT pattern -->
+        <details class="conBox">
+            <summary>Django's <b>MVT</b> pattern</summary>
+            <ul>
+                <p class="listH">Django's <b>MVT</b> pattern:</p>
+                <li><b><u>M</u>odel:</b> Manages data and core business logic</li>
+                <li><b><u>V</u>iew:</b> Describes which data is sent to the user but not its presentation</li>
+                <li><b><u>T</u>emplate:</b> Presents the data as HTML with optional CSS, JavaScript, and Static Assets
+                </li>
+                <li><b>URL Configuration:</b> Regular-expression components configured to a View</li>
+            </ul>
+            <ol>
+                <p class="listH">HTTP Request > URL > View > Model & Template > HTTP Response</p>
+                <li>When you type in a URL, Django checks if (in project/urls.py) it finds a matching URL pattern.</li>
+                <li>The URL pattern is linked to a single view (contained in views.py) which combines the data from the
+                    model (stored in models.py) and the styling from a template (any file ending in .html).</li>
+                <li> The view then returns a HTTP response to the user.</li>
+            </ol>
+        </details>
+        <!-- example of an "HTTP Request/Response Cycle" -->
+        <details class="conBox">
+            <summary>example of an "HTTP Request/Response Cycle"</summary>
+            <p class="expText">In Django, four separate files aligning with this MVT pattern are required to power one
+                single dynamic (aka linked to a database) webpage:</p>
+            <ol>
+                <li>urls.py</li>
+                <li>views.py</li>
+                <li>models.py</li>
+                <li>template.html (any HTML file will do)</li>
+            </ol>
+            <p>However, to create a static webpage (not linked to a database) we can hardcode the data into a view so
+                the model is not needed.</p>
+            <p>The following steppes show what happen's when the user enters an request in the url. The yellow
+                highlighted code mark's the code which need to be added or has additional explanation.</p>
+            <hr>
+            <ol>
+                <div class="floRight">
+                    <img width="300" src="../../images/notes/python/django/HTTP_request_response_cycle-addrees.svg"
+                        alt="">
+                    <li>user adds a "slug"<mark
+                            title="is the part of a URL that identifies a particular page on a website in an easy-to-read form">*</mark>
+                        to the url address<br><i>for example: /hello</i></li>
+                </div>
+                <hr>
+                <div class="floRight">
+                    <img width="150" src="../../images/notes/python/django/HTTP_request_response_cycle-config_urls.svg"
+                        alt="">
+                    <li>Django look <b>always first</b> in the <code>PROJECT_NAME/urls.py</code> for the matching path
+                        in
+                        <code>urlpatterns&nbsp;=&nbsp;[]</code><br><i>example: updated the project/urls.py with the
+                            yellow marked code</i><br>
+                        <div class="hiCode">
+                            #...PROJECT_NAME/urls.py<br>
+                            from django.contrib import admin<br>
+                            from django.urls import path<mark title="add the include() function: from django.urls">,
+                                include</mark><br>
+                            <br>
+                            urlpatterns = [<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;path('admin/', admin.site.urls),<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;<mark title="django looks for a matching path from top to bottom, in our example 'hello/' matches,
+        the include function directs the search to the app 'pages' file 'urls.py'">path('hello/',
+                                include('pages.urls'))</mark><br>
+                            ]
+                        </div>
+                    </li>
+                    <hr>
+                    <div class="floRight">
+                        <img width="200" src="../../images/notes/python/django/HTTP_request_response_cycle-app_urls.svg"
+                            alt="">
+                        <li>the search is redirected to the apps <code>urls.py</code> to match the rest of the requested
+                            'url' with the path in
+                            <code>urlpatterns&nbsp;=&nbsp;[]</code><br>
+                            <b>NOTE:</b> urls.py needs to be manually created in the 'apps' directory<br><i>
+                                example: create the file pages/urls.py with the following
+                                code</i><br>
+                            <div class="hiCode">
+                                #...pages/urls.py<br>
+                                from django.urls import path<br>
+                                from <mark
+                                    title="the 'dot' tells Django to look in the same directory and 'views' to look in the 'views.py'">.views</mark>
+                                import <mark title="import the 'homePageView' function">homePageView</mark><br>
+                                <br>
+                                urlpatterns = [<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;<mark
+                                    title="the search matches the empty string because 'hello' has been already found before">path(''</mark>,
+                                <mark
+                                    title="calls the 'homePageView' function which has been declared in 'views.py'">homePageView</mark>,
+                                <mark title="the 'named URL pattern' is optional">name ='home'</mark>),<br>
+                                ]<br>
+                            </div>
+                        </li>
+                        <li>the '<b>homePageView</b>' function (FBVs) is called from the apps <code>views.py</code>
+                            file<br><i>example: updated the pages/views.py with the
+                                yellow marked code</i><br>
+                            <div class="hiCode">
+                                # pages/views.py<br>
+                                <mark
+                                    title="imports the build-in 'HttpResponse' method  so we can return a response object to the user">from
+                                    django.http import HttpResponse</mark><br>
+                                <br>
+                                <br>
+                                def homePageView<mark
+                                    title="the function accepts the request object">(request)</mark>:<br>
+                                <mark title="returns a response with the string 'Hello, World!'">return
+                                    HttpResponse("Hello, World!")</mark><br>
+                            </div>
+                        </li>
+                        <hr>
+                        <div class="floRight">
+                            <img width="300"
+                                src="../../images/notes/python/django/Copy of HTTP_request_response_hello.svg" alt="">
+                            <li>a page with the string "Hello, World!" is returned to the user</li>
+                        </div>
+                    </div>
+                </div>
+            </ol>
+            <hr>
+        </details>
+        <!-- <<< HTTP Request/Response Cycle /////////////////////////////////////////////////////////////////////////////// -->
     </main>
     <script src="../../js/add_navBarPython.js"></script>
 </body>

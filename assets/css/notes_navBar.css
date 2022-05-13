@@ -83,7 +83,8 @@ li>ul {
 
 .listH {
     list-style-type: none;
-    margin-left: -20px;
+    margin-left: -2rem;
+    margin-bottom: 0.2rem;
     text-decoration: underline;
     letter-spacing: 0.1ch;
     font-size: 2rem;
@@ -114,6 +115,10 @@ li ul {
     text-align: left;
 }
 
+.align-center {
+    text-align: center;
+}
+
 .capital {
     text-transform: capitalize;
 }
@@ -138,8 +143,21 @@ li ul {
 /* start table /////////////////////////////////////////////////////////////////////////////// */
 table {
     border-collapse: collapse;
-    max-width: fit-content;
+    /* max-width: fit-content; */
     margin-top: 1rem;
+}
+
+/* every second tr row in the table has tabCode style, starting with the first */
+.codExplain tr:nth-child(even) td {
+    background-color: var(--codeBackColor);
+    font-family: monospace;
+    padding: 0.5rem;
+    border-bottom: none;
+}
+
+.codExplain tr:nth-child(odd) td {
+    padding-left: 1rem;
+    border-top: none;
 }
 
 td,
@@ -164,12 +182,6 @@ td ul,
 td ol {
     margin: 0;
     padding-left: 2rem;
-}
-
-.tabCode {
-    background-color: var(--codeBackColor);
-    font-family: monospace;
-    padding: 0.5rem;
 }
 
 .oriText {
@@ -258,6 +270,20 @@ code {
     font-size: 1.6rem;
 }
 
+
+.tabCode {
+    background-color: var(--codeBackColor);
+    font-family: monospace;
+    padding: 0.5rem;
+}
+
+.hiCode {
+    background-color: var(--codeBackColor);
+    font-family: monospace;
+    padding: 0.5rem;
+    display: inline-block;
+}
+
 .exam {
     background-color: var(--exampleBackColor);
     font-style: italic;
@@ -291,12 +317,52 @@ summary {
     font-style: italic;
     /* margin-bottom: 0.5ch; */
     max-width: 100ch;
+    cursor: pointer;
 }
 
 details {
     border: solid 3px var(--exampleBackColor);
     margin-top: 0.5rem;
     margin-bottom: 1rem;
+}
+
+.conBox {
+    border: solid 3px var(--fontColor);
+    margin-top: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.conBox p,
+.conBox h4,
+.conBox table,
+.conBox img {
+    margin: 0 1rem 1rem 1rem;
+}
+
+.conBox ul details,
+.conBox ol details {
+    margin-left: 0;
+}
+
+.conBox summary {
+    background-color: var(--backColorPage);
+    cursor: pointer;
+    color: var(--fontColor);
+}
+
+.exaBox {
+    border: solid 3px var(--exampleBackColor);
+    margin: 0.5rem 0.5rem 1rem 0;
+    width: fit-content;
+    display: inline-block;
+}
+
+.exaBox summary {
+    background-color: var(--exampleBackColor);
+    cursor: pointer;
+    color: var(--fontColor);
+    padding: 0 0.5rem;
+    font-size: 1.6rem;
 }
 
 .disInBlock {
@@ -317,6 +383,14 @@ details {
     background-color: var(--layerBackground);
     margin: 0.3rem;
     padding: 0.2rem;
+}
+
+figcaption {
+    font-size: 1.8rem;
+}
+
+.crossOut {
+    text-decoration: line-through;
 }
 
 /* start navBar /////////////////////////////////////////////////////////////////////////////////// */
@@ -378,8 +452,44 @@ li.dropdown {
     background-color: #f1f1f1;
 }
 
+
+
 .dropdown:hover .dropdown-content {
     display: block;
 }
 
 /* end navBar ///////////////////////////////////////////////////////////////////// */
+
+/* start navSide ///////////////////////////////////////////////////////////////////// */
+.sidenav {
+    width: fit-content;
+    position: fixed;
+    z-index: 1;
+    top: 20px;
+    left: 10px;
+    background: #eee;
+    overflow-x: hidden;
+    padding: 8px 0;
+}
+
+.sidenav a {
+    padding: 6px 8px 6px 16px;
+    text-decoration: none;
+    font-size: 25px;
+    color: #2196F3;
+    display: block;
+}
+
+.sidenav a:hover {
+    color: #064579;
+}
+
+/* <div class="sidenav">
+<a class="h2" href="#Setting_up_Django">Setting up Django</a>
+<a class="h3" href="#Creating_a_Django_Project">Creating a Django Project</a>
+<a href="#clients">Clients</a>
+<a href="#contact">Contact</a>
+</div> */
+
+
+/* end navSide ///////////////////////////////////////////////////////////////////// */
