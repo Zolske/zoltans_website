@@ -33,7 +33,7 @@
                 <td>creates a "virtual environment" with the name <b>.venv</b> which is the conventional name</td>
             </tr>
             <tr>
-                <td>.venv\Scripts\Activate</td>
+                <td>.venv\Scripts\activate</td>
             </tr>
             <tr>
                 <td>activates the "virtual environment" with the name <b>.venv</b></td>
@@ -66,7 +66,10 @@
                     <ul>
                         <li>create a new django app with the name <b>APP_NAME</b></li>
                         <li>needs to be registered: <code>PROJECT_NAME/settings.py</code> under
-                            <code>INSTALLED_APP</code> (<i>just add the apps name to the list</i>)</li>
+                            <code>INSTALLED_APP</code> (<i>'<mark
+                                    title="name of the app in lowercase">app_name</mark>.apps.<mark
+                                    title="name of the app, capitalize the first letter">App_name</mark>Config'</i>)
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -79,6 +82,181 @@
                         <li>starts the local server on port 8000</li>
                         <li>appending a port number to the command runs the server on a different port</li>
                         <li>exit the server <code>Ctrl + c</code></li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python manage.py migrate</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>creates a local database to which Django is migrating</li>
+                        <li>migrate will sync the database with the current state of any database models contained in
+                            the project and listed in INSTALLED_APPS</li>
+                    </ul>
+                </td>
+            </tr>
+        </table>
+
+        <!-- testing //////////////////////////////////////////////////////////////////////////// -->
+        <table class="codExplain">
+            <tr>
+                <th>testing</th>
+            </tr>
+            <tr>
+                <td>python manage.py test</td>
+            </tr>
+            <tr>
+                <td>runs the Django test in the terminal</td>
+            </tr>
+        </table>
+
+        <!-- heroku login from cli -->
+        <table class="codExplain">
+            <tr>
+                <th>heroku from the cli</th>
+            </tr>
+            <tr>
+                <td>heroku login</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>activate first the "virtual environment"</li>
+                        <li>log into "Heroku" from the command line</li>
+                        <li>browser opens for authentication</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>heroku create</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>creating a new Heroku app, from the command line, Heroku will create a random
+                            name for our app, for example: murmuring-plateau-30548 .</li>
+                        <li>The heroku <b>create</b> command also creates a dedicated <b>remote</b> named heroku for our
+                            app.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>git remote -v</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>shows the remote repository's for "Git" and "Heroku"<br>
+                            <p class="hiCode">
+                                heroku https://git.heroku.com/murmuring-plateau-30548.git (fetch)<br>
+                                heroku https://git.heroku.com/murmuring-plateau-30548.git (push)<br>
+                                origin https://github.com/Zolske/django_test_helloWorld.git (fetch)<br>
+                                origin https://github.com/Zolske/django_test_helloWorld.git (push)
+                            </p>
+                        </li>
+                        <li>
+                            This new remote means that as long as we include heroku in a command we have the ability to
+                            both
+                            push and fetch code from Heroku now.
+                        </li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>heroku config:set DISABLE_COLLECTSTATIC=1</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>By default, Django will try to optimize files like CSS and JavaScript which can causes
+                            issues. The command tells Heroku to ignore static files.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>git push heroku main</td>
+            </tr>
+            <tr>
+                <td>Adding <b>heroku</b> to the command sends the code also to Heroku.</td>
+            </tr>
+            <tr>
+                <td>heroku ps:scale web=1</td>
+            </tr>
+            <tr>
+                <td>Make's our Heroku app "live". As websites grow in traffic they need additional
+                    Heroku services but for the basic's the lowest level (<i>web=1</i>) is enough.</td>
+            </tr>
+            <tr>
+                <td>heroku open</td>
+            </tr>
+            <tr>
+                <td>opens the "web browser" with the "life" version of our Heroku app</td>
+            </tr>
+        </table>
+
+        <!-- deployment checklist -->
+        <table class="codExplain">
+            <tr>
+                <th>deployment checklist (<i>make sure you are in the "virtual environment"</i>)</th>
+            </tr>
+            <tr>
+                <td>python -m pip install gunicorn</td>
+            </tr>
+            <tr>
+                <td>installs the web server "Gunicorn"</td>
+            </tr>
+            <tr>
+                <td>python -m pip freeze > requirements.txt</td>
+            </tr>
+            <tr>
+                <td>creates a a file which is conventionally called '<b>requirements.txt</b>' which contains all
+                    dependency at the time the command was called, call command again to over write old requirements
+                    with latest</td>
+            </tr>
+            <tr>
+                <td>ALLOWED_HOSTS = ["*"]</td>
+            </tr>
+            <tr>
+                <td>set the allowed hosts under <b>django_project/settings.py</b>, the asterisk accepts all hosts</td>
+            </tr>
+            <tr>
+                <td>web: gunicorn PROJECT_NAME.wsgi --log-file -</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>create a file named "<b>Procfile</b>" with no extension in the root directory</li>
+                        <li>add the code which is shown above, PROJECT_NAME is the name of the Django project folder
+                        </li>
+                        <li>The Procfile is specific to Heroku and provides instructions on how to run the application
+                            in
+                            their stack.</li>
+                        <li><b>web: gunicorn</b><br>
+                            for the web function to use gunicorn as the server</li>
+                        <li><b>django_project.wsgi</b><br>
+                            to use the WSGI config file located at <mark
+                                title="Django project folder">django_project</mark>.wsgi</li>
+                        <li><b>--log-file -</b><br>
+                            the flag --log-file - makes any logging messages visible to us</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python-3.10.2</td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li>create a file named "<b>runtime.txt</b>" in the root directory (<i><a
+                                    href="https://devcenter.heroku.com/articles/python-runtimes" target="_blank">Heroku
+                                    doc 'runtime.txt'</a></i>)</li>
+                        <li>add the version of python in the format shown above <ul>
+                                <li>you can check the used python version with the command:<br>
+                                    python --version</li>
+                            </ul>
+                        </li>
                     </ul>
                 </td>
             </tr>

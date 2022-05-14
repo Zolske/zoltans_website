@@ -125,7 +125,7 @@ commands such as running the local web server or creating a new app">*</mark><br
                 </li>
                 <li><b>NOTE:</b> every app needs to be registered otherwise Django does not know about it,<br>
                     <i>add following code:</i><br>
-                    <code>"<b>app_name</b>.apps.<b>App_name</b>Config"</code><br><i>to the</i> <b>INSTALLED_APPS =
+                    <code>'<b>app_name</b>.apps.<b>App_name</b>Config'</code><br><i>to the</i> <b>INSTALLED_APPS =
                         []</b> <i>list in the</i>
                     <b>PROJECT_FOLDER/settings.py</b><br>
                     <!-- command explanation and example  -->
@@ -312,6 +312,485 @@ class PagesConfig(AppConfig):
             <hr>
         </details>
         <!-- <<< HTTP Request/Response Cycle /////////////////////////////////////////////////////////////////////////////// -->
+        <!-- connect a apps views -->
+        <h2>connecting the apps "views"</h2>
+        <details class="conBox">
+            <summary>connecting the apps "views" (class-based generic views)</summary>
+            <ol>
+                <li>in "PROJECT_NAME/urls.py", add the "url path" to the urlpattern<br>
+                    <div class="hiCode">
+                        #...PROJECT_NAME/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path<mark title="add the include() function: from django.urls">,
+                            include</mark><br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path('admin<mark
+                            title="all paths need to have a backslash / if they are not empty">/</mark>',
+                        admin.site.urls),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<mark title="django looks for a matching path from top to bottom, a empty string as first parameter '' works as homepage
+(no slug, just the default address), the 'include function' directs the search to the app named
+'pages' and from there to the file 'urls.py'">path('',
+                            include('pages.urls'))</mark><br>
+                        ]
+                    </div>
+                </li>
+                <li>create the "urls.py" file in the app<br>
+                    <div class="hiCode">
+                        #...pages/urls.py<br>
+                        from django.urls import path<br>
+                        from <mark
+                            title="the 'dot' tells Django to look in the same directory and 'views' to look in the 'views.py'">.views</mark>
+                        import HomePageView, AboutPageView<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path("about<mark
+                            title="all paths need to have a backslash / if they are not empty">/</mark>",
+                        AboutPageView.as_view(), <mark
+                            title="The 'url name' is optional, it is used by the 'url tag' to link to the page">name='about'</mark>),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<mark title="the 1st parameter is a empty string">path(''</mark>,
+                        <mark
+                            title="name of the view needs to have the addition 'as_view()'">HomePageView.as_view()</mark>,
+                        <mark
+                            title="the 'named URL pattern' is optional, it is used by the 'url tag' to link to the page">name
+                            ='home'</mark>),<br>
+                        ]</div>
+                    <ul>
+                        <li>when using Class-Based Views, you always add <b>as_view()</b> to the end of the view name
+                        </li>
+                    </ul><br>
+                    </div>
+                </li>
+                <li>write the logic for the "views" into the app's views.py<br>
+                    <p class="hiCode"># pages/views.py<br>
+                        from django.views.generic import TemplateView<br>
+                        <br>
+                        <br>
+                        class HomePageView(TemplateView):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "home.html"
+                        <br>
+                        <br>
+                        class AboutPageView(TemplateView):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "about.html"</p>
+                    <details class="exaBox">
+                        <summary>the built-in TemplateView</summary>
+                        <ul>
+                            <li>it is a <b>class-based generic views</b></li>
+                            <li>Note that we've capitalized our view, HomePageView, since it's now a Python class.
+                                Classes, unlike functions, should always be capitalized.</li>
+                            <li> The TemplateView already contains all the logic needed to display our template, we just
+                                need to specify the template's name.</li>
+                        </ul>
+                    </details>
+                </li>
+            </ol>
+        </details>
+        <!-- templates -->
+        <h2>connecting the templates</h2>
+        <p class="expText">Templates are individual HTML files that can be linked together and also include basic logic.
+        </p>
+        <details class="conBox">
+            <summary>where to place templates</summary>
+            <h3>django's default template structure</h3>
+            <p>By default, Django's template loader will look within each app for related templates. However the
+                structure is somewhat confusing: each app needs a new templates directory, another directory with the
+                same name as the app, and then the template file.</p>
+            <p>└─ pages <mark title="app folder">*</mark><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ templates <mark
+                    title="folder needs to be manually created, django is looking for it when searching for templates">*</mark><br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ pages <mark
+                    title="the templates need to be saved in another folder with the same name as the app">*</mark><br>
+                &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ home.html <mark
+                    title="the actually template HTML file ">*</mark></p>
+            <h3>one level template file structure</h3>
+            <ol>
+                <li>create a folder called "<b>templates</b>" in the root directory, in which you will save your HTML
+                    files<br>
+                    <code>mkdir templates</code></li>
+                <li> update "<b>django_project/settings.py</b>" to tell Django the location of our new templates
+                    directory.<br>
+                    <p class="hiCode">
+                        # django_project/settings.py<br>
+                        TEMPLATES = [<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;"DIRS": [<mark title="add this code">BASE_DIR / "templates"</mark>],<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;},<br>
+                        ]</p>
+                </li>
+            </ol>
+            <p>├─ django_project <mark title="django project folder">*</mark><br>
+                ├─ pages <mark title="app folder">*</mark><br>
+                ├─ templates <mark title="folder needs to be manually created, django is looking for it when searching
+for templates, it is not under the app folder but in the root directory">*</mark><br>
+                &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ├─ home.html <mark
+                    title="the actually template HTML file ">*</mark></p>
+        </details>
+        <!-- extending templates -->
+        <h2>extending templates</h2>
+        <p class="expText">Content that is repeated on every page (header, footer, ...) can be inherited by all other
+            templates. This is achieved with the help of Django's templating language.</p>
+        <details class="conBox">
+            <summary>adding links with Django's templating language</summary>
+            <ol>
+                <li>create the base template (<i>from which other templates will inherit</i>) which is called
+                    "<b>base.html</b>" by convention and save it in the "<b>templates</b>" folder<br>
+                    <p>
+                        ├─ pages<br>
+                        ├─ templates<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ base.html <mark
+                            title="'parent template' conventionally called 'base.html'">*</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;├─ home.html<br>
+                    </p>
+                </li>
+                <li>add following code to the the base.html:<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        &lt;header><br>
+                        &nbsp;&nbsp;&lt;a href="{% url <mark title="the 'URL name' is created in the APP/urls.py,
+The 'url tag' uses these names to automatically create a link">'home'</mark> %}">Home&lt;/a> |<br>
+                        &nbsp;&nbsp;&lt;a href="<mark
+                            title="link to the page">{% url 'about' %}</mark>">About&lt;/a><br>
+                        &lt;/header><br>
+                        <br>
+                        {% block content %}<br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>Template tags take the form of <b>{% something %}</b> where the “something” is the template
+                            tag itself.</li>
+                        <li>full list of built-in template tags <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#built-in-template-tags-and-filters"
+                                target="_blank">here in the official docs</a></li>
+                        <li>To add URL links in our project we can use the built-in url template tag which takes the URL
+                            pattern name as an argument. (<a
+                                href="https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#url"
+                                target="_blank">link to official "url tag" docs</a>)</li>
+                        <li>Blocks can be overwritten by child templates via inheritance. While it's optional to name
+                            our closing endblock (<i>you could just write {% endblock %}</i>) doing so helps
+                            with readability, especially in larger template files.</li>
+                    </ul>
+                </li>
+                <li>update the 'child template' with the extend method (<i><a
+                            href="https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#extends"
+                            target="_blank">link to official extend doc</a></i>)<br>
+                    <p class="hiCode">
+                        # ... templates/home.html<br>
+                        <mark title="connection to the 'parent template'">{% extends "base.html" %}</mark><br>
+                        <br>
+                        <mark title="the content between this blocks is inserted into this version of the 'parent template',
+all other elements are the same as in the 'parent'">{% block content %}</mark><br>
+                        &lt;h1>Homepage&lt;/h1><br>
+                        {% endblock content %}
+                    </p>
+                    <ul>
+                        <li>the <b>{% extends "..." %}</b> block/method connects the 'child template' to the 'parent
+                            template'</li>
+                        <li>every element is taken from the 'parent' except the part with the <b>{% block content %}</b>
+                            which is replaced with the 'child's' <b>{% block content %}</b> content</li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- tests -->
+        <h2>tests</h2>
+        <p class="expText">
+            It's important to add automated tests and run them whenever a codebase changes. Tests require a small amount
+            of upfront time to write but more than pay off later on.
+        </p>
+        <!-- testing -->
+        <details class="conBox">
+            <summary>testing</summary>
+            <p class="listH">there are two types of tests ...</p>
+            <ol>
+                <li><b>Unit tests:</b><br>check a piece of functionality in isolation <ul>
+                        <li class="thumbUp">run faster and are easier to maintain since they focus on only a small piece
+                            of code</li>
+                    </ul>
+                </li>
+                <li><b>Integration tests:</b><br>check multiple pieces linked together <ul>
+                        <li class="thumbDown"> are slower and harder to maintain since a failure doesn't point you in
+                            the specific
+                            direction of the cause</li>
+                    </ul>
+                </li>
+            </ol>
+            <ul>
+                <li>Most developers focus on writing many unit tests and a small amount of integration tests.</li>
+                <li>Django's own testing framework provides several extensions on top of Python's <b>unittest</b>.</li>
+            </ul>
+            <p class="listH">Django tests ...</p>
+            <ul>
+                <li><a href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#the-test-client"
+                        target="_blank">test client</a> for making dummy Web browser requests,</li>
+                <li>a number of Django-specific additional <a
+                        href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#assertions"
+                        target="_blank">assertions</a>,</li>
+                <li>
+                    <p class="listH">Django has four test case classes: ...</p>
+                    <ul>
+                        <li><b>SimpleTestCase:</b> (<i><a
+                                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#simpletestcase"
+                                    target="_blank">official doc</a></i>)<br>is used when a database is not necessary
+                        </li>
+                        <li><b>TestCase:</b> (<i><a
+                                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#testcase"
+                                    target="_blank">official doc</a></i>)<br> is used when you do want to test the
+                            database</li>
+                        <li><b>TransactionTestCase:</b> (<i><a
+                                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#transactiontestcase"
+                                    target="_blank">official doc</a></i>)<br>useful if you need to directly test
+                            database transactions</li>
+                        <li><b>LiveServerTestCase:</b> (<i><a
+                                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.LiveServerTestCase"
+                                    target="_blank">official doc</a></i>)<br>launches a live server thread useful for
+                            testing with browser-based tools like "Selenium"</li>
+                    </ul>
+                    <details class="exaBox">
+                        <summary>naming of methods in unittest and django.test</summary>
+                        <p>The naming of methods in unittest and django.test are written in camelCase rather than the
+                            more Pythonic snake_case pattern. The reason is that unittest is based on the jUnit testing
+                            framework from Java, which does use camelCase, so when unittest was added to Python it came
+                            along with camelCase naming.</p>
+                    </details>
+                    <p>Tests are written in the apps <b>test.py</b> and executed in the terminal.<br><code>python
+                            manage.py test</code>
+                    </p>
+                </li>
+            </ul>
+        </details>
+        <!-- testing with 'SimpleTestCase' -->
+        <details class="conBox">
+            <summary>testing with 'SimpleTestCase'</summary>
+            <p class="expText">Generally it is a good idea to abide by the concept of DRY (Don't Repeat Yourself)
+                coding, but unit tests work best when they are self contained and extremely verbose.</p>
+            <p class="listH">test to check if HTTP status codes of 200 is returned</p>
+            <ol>
+                <li>write the test in the apps test.py<br>
+                    <p class="hiCode">
+                        # pages/tests.py<br>
+                        from django.test import SimpleTestCase<br>
+                        <br>
+                        <br>
+                        class HomepageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_url_exists_at_correct_location(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get("/")<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)<br>
+                        <br>
+                        <br>
+                        class AboutpageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_url_exists_at_correct_location(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get("/about/")<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)</p>
+                </li>
+            </ol>
+            <p class="listH">test if the 'url name' matches the 'url path'</p>
+            <ol>
+                <li>Django utility function <a href="https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#reverse"
+                        target="_blank">reverse</a> can be used for testing<br>
+                    <p class="hiCode">
+                        # pages/tests.py<br>
+                        from django.urls import reverse<br>
+                        <br>
+                        <br>
+                        class HomepageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_url_available_by_name(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("home"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)<br>
+                        <br>
+                        <br>
+                        class AboutpageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_url_available_by_name(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("about"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)</p>
+                </li>
+            </ol>
+            <p class="listH">correct templates and that they display the expected content</p>
+            <ol>
+                <li>We can use <a
+                        href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.SimpleTestCase.assertTemplateUsed"
+                        target="_blank">assertTemplateUsed</a> and <a
+                        href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.SimpleTestCase.assertContains"
+                        target="_blank">assertContains</a> to achieve this.<br>
+                    <p class="hiCode">
+                        # pages/tests.py<br>
+                        from django.test import SimpleTestCase<br>
+                        from django.urls import reverse<br>
+                        <br>
+                        <br>
+                        class HomepageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_template_name_correct(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("home"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertTemplateUsed(response, "home.html")<br>
+                        <br>
+                        &nbsp;&nbsp;def test_template_content(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("home"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertContains(response, "&lt;h1>Homepage&lt;/h1>")<br>
+                        <br>
+                        <br>
+                        class AboutpageTests(SimpleTestCase):<br>
+                        &nbsp;&nbsp;def test_template_name_correct(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("about"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertTemplateUsed(response, "about.html")<br>
+                        <br>
+                        &nbsp;&nbsp;def test_template_content(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("about"))<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.assertContains(response, "&lt;h1>About page&lt;/h1>")</p>
+                </li>
+            </ol>
+        </details>
+        <!-- Local vs Production -->
+        <h2>Local vs Production</h2>
+        <p class="expText">To make our site available on the Internet where everyone can see it, we need to deploy our
+            code to an external server and database. This is called putting our code into <b>production</b>.<br>Django
+            comes with its own basic server, which is only suitable for local usage.<br>
+            As web server we can use <a href="https://gunicorn.org/" target="_blank">Gunicorn</a> and as hosting
+            provider <a href="https://www.heroku.com/home" target="_blank">Heroku</a>.</p>
+        <!-- deployment checklist -->
+        <details class="conBox">
+            <summary>deployment checklist</summary>
+            <ol>
+                <li>install Gunicorn<br><code>python -m pip install gunicorn</code></li>
+                <li>create a requirements.txt file <details class="exaBox">
+                        <summary>explanation</summary>
+                        <p>Create a requirements.txt file containing all the specific Python dependencies in our
+                            project. That is, every Python package currently installed in our virtual environment. This
+                            is necessary in case we (or a team member) want to recreate the repository from scratch in
+                            the future. It also helps Heroku recognize that this is a Python project, which simplifies
+                            the deployment steps.</p>
+                    </details><br><code>python -m pip freeze > requirements.txt</code></li>
+                <li>update <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#allowed-hosts"
+                        target="_blank">ALLOWED_HOSTS</a> in django_project/settings.py <details class="exaBox">
+                        <summary>explain ALLOWED_HOSTS</summary>
+                        <p>The ALLOWED_HOSTS setting represents that host/domain names our Django site can serve.
+                            This is a security measure to prevent HTTP Host header attacks. For now, we'll use the
+                            wildcard asterisk, * so that all domains are acceptable.</p>
+                    </details><br>
+                    <code>
+                        ALLOWED_HOSTS = ["<mark title="the wildcard asterisk *, all domains are acceptable">*</mark>"]
+                    </code>
+                </li>
+                <li>create a file named "<b>Procfile</b>" with no extension in the root directory with following
+                    code:<br>
+                    <code>web: gunicorn django_project.wsgi --log-file -</code><br>
+                    (<i>The Procfile is specific to Heroku and provides instructions on how to run the application in
+                        their stack.</i>) <ul>
+                        <li><b>web: gunicorn</b><br>
+                            for the web function to use gunicorn as the server</li>
+                        <li><b>django_project.wsgi</b><br>
+                            to use the WSGI config file located at <mark
+                                title="Django project folder">django_project</mark>.wsgi</li>
+                        <li><b>--log-file -</b><br>
+                            the flag --log-file - makes any logging messages visible to us</li>
+                    </ul>
+                </li>
+                <li>create a file named "<b>runtime.txt</b>" in the root directory and add which Python version should
+                    run on Heroku (<i><a href="https://devcenter.heroku.com/articles/python-runtimes"
+                            target="_blank">doc 'runtime.txt'</a></i>)<br>
+                    <code>python-3.10.2</code>
+                    <ul>
+                        <li>you can check the used python version with the command:<br>
+                            <code>python --version</code></li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <h2>deploying an app to Heroku over the cli</h2>
+        <details class="conBox">
+            <summary>how to deploy to Heroku</summary>
+            <ol>
+                <li>execute the "deployment checklist"</li>
+                <li>ignore static files (like CSS & JavaScript) for now<br>
+                    <code>heroku config:set DISABLE_COLLECTSTATIC=1</code></li>
+                <li>push the code to Heroku<br><code>git push heroku main</code></li>
+                <li>make the Heroku app "live"<br>
+                    <code>heroku ps:scale web=1</code></li>
+                <li>opens the "web browser" with the "life" version of our Heroku app<br>
+                    <code>heroku open</code></li>
+            </ol>
+        </details>
+        <h2>Django's ORM (<u>O</u>bject-<u>R</u>elational <u>M</u>apper)</h2>
+        <p class="expText">
+            There is built-in support for multiple database backends: PostgreSQL, MySQL, MariaDB, Oracle, and SQLite.
+            This means that we, as developers, can write the same Python code in a models.py file and it will
+            automatically be translated into the correct SQL for each database. The only configuration required is to
+            update the <a href="https://docs.djangoproject.com/en/4.0/ref/databases/" target="_blank">DATABASES</a>
+            section of our django_project/settings.py file.
+        </p>
+        <!-- creating a database -->
+        <details class="conBox">
+            <summary>creating a database</summary>
+            <ul>
+                <li>execute the migrate command to create an initial database based on Django's default settings<br>
+                    <code>python manage.py migrate</code><br>
+                    <details class="exaBox">
+                        <summary>migrate</summary>
+                        <p> Migrate will sync the database with the current state of any database models contained in
+                            the project and listed in INSTALLED_APPS. In other words, to make sure the database reflects
+                            the current state of your project you'll need to run migrate (and also makemigrations) each
+                            time you update a model.</p>
+                    </details>
+                </li>
+            </ul>
+        </details>
+        <!-- Create a Database Model -->
+        <details class="conBox">
+            <summary>Create a Database Model</summary>
+            <p class="expText">Django's ORM will automatically turn this model into a database table for us.</p>
+            <ul>
+                <li>Create a new database model in the <b>models.py</b> which is called Post and has the database field
+                    text.<br>
+                    <p class="hiCode">
+                        # posts/models.py<br>
+                        from django.db import models<br>
+                        <br>
+                        <br>
+                        class <mark title="name of the new database model is 'Post'">Post</mark>(models.Model):<br>
+                        &nbsp;&nbsp;text = models.<mark
+                            title="specified the type of content it will hold, TextField()">TextField()</mark></p>
+                </li>
+                <li>Django provides many <a href="https://docs.djangoproject.com/en/4.0/ref/models/fields/"
+                        target="_blank">model fields</a> supporting common types of content such as characters, dates,
+                    integers, emails, and so on.</li>
+            </ul>
+        </details>
+        <!-- Activating models -->
+        <details class="conBox" open>
+            <summary>Activating models</summary>
+            <p class="expText">After a new model is created, it need's to be also activate.</p>
+            <ul>
+                <li>Whenever we create or modify an existing model we will need to update Django in a two-step process:
+                    <ol>
+                        <li>create a migrations file with the makemigrations command<br>
+                            <code>python manage.py makemigrations DATABASE_NAME</code>
+                            <br>
+                            <ul>
+                                <li>Migration files create a reference of any changes to the database models which means
+                                    we can track changes and debug errors as necessary over time.<br>
+                                    <details class="exaBox">
+                                        <summary>migrations for all</summary>
+                                        <p>Note that you don't have to include a name after makemigrations. If you
+                                            simply run python manage.py makemigrations, a migrations file will be
+                                            created for all available changes throughout the Django project. That is
+                                            fine in a small project such as ours with only a single app, but most Django
+                                            projects have more than one app! Therefore ,if you made model changes in
+                                            multiple apps the resulting migrations file would include all those changes!
+                                            This is not ideal. Migrations file should be as small and concise as
+                                            possible as this makes it easier to debug in the future or even roll back
+                                            changes as needed. Therefore, as a best practice, adopt the habit of always
+                                            including the name of an app when executing the makemigrations command!</p>
+                                    </details>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>we build the actual database with the migrate command which executes the instructions in our
+                            migrations file.<br>
+                            <code>python manage.py migrate</code></li>
+                    </ol>
+                </li>
+            </ul>
+        </details>
     </main>
     <script src="../../js/add_navBarPython.js"></script>
 </body>
