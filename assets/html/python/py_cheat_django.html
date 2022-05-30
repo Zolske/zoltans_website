@@ -21,12 +21,6 @@
                 <th>setting up a django project</th>
             </tr>
             <tr>
-                <td>python -m pip install django</td>
-            </tr>
-            <tr>
-                <td>install the Django package into the current directory</td>
-            </tr>
-            <tr>
                 <td>python -m venv .venv</td>
             </tr>
             <tr>
@@ -45,18 +39,54 @@
                 <td>deactivates the "virtual environment"</td>
             </tr>
             <tr>
-                <td>pip freeze > requirements.txt</td>
+                <td>git init</td>
             </tr>
             <tr>
-                <td>Outputs the content of the current virtual environment (required python packages) and by using the
-                    <b>></b> operator we can define the name of the output file which is by convention
-                    requirements.txt</td>
+                <td>creates a "local" git repository</td>
+            </tr>
+            <tr>
+                <td>New-Item .gitignore. ; Set-Content .gitignore. '.venv/'</td>
+            </tr>
+            <tr>
+                <td>create the hidden .gitignore file and add the hidden folder .venv with all its sub folders
+                </td>
+            </tr>
+            <tr>
+                <td>python -m pip install django</td>
+            </tr>
+            <tr>
+                <td>install the Django package into the current directory</td>
             </tr>
             <tr>
                 <td>django-admin startproject PROJECT_NAME .</td>
             </tr>
             <tr>
                 <td>create a Django project with the name <b>PROJECT_NAME</b> (a good name is <b>config</b>)</td>
+            </tr>
+            <tr>
+                <td>python -m venv <mark title="create a virtual environment in the hidden folder venv">.venv</mark><br>
+                    .venv\Scripts\<mark title="activates the virtual environment">activate</mark><br>
+                    git <mark title="initializes a local git repository">init</mark><br>
+                    <mark title="creates a hidden gitignore file in 'power shell">New-Item .gitignore.</mark> ; <mark
+                        title="writes into the .gitignore file in 'power shell', prevents the virtual environment from being submitted">Set-Content
+                        .gitignore. '.venv/'</mark><br>
+                    python -m pip <mark title="installs Django">install django</mark><br>
+                    django-admin startproject <mark title="creates a django project 'django_project'">django_project
+                        .</mark><br>
+                    git <mark
+                        title="add's all files (except .gitignore) and commit's them with the 'initial commit' message">add
+                        . && git commit -m "initial commit"</mark><br>
+                    gh <mark title="creates a gitHub repository">repo create</mark> <mark
+                        title="repo is public use '--private' to make it private">--public</mark> <mark
+                        title="specify the source directory which is the current .">--source=.</mark> <mark
+                        title="sets the upstream, where to commit to, gitHub new created repo">--remote=upstream</mark>
+                    <mark title="pushes the commit to gitHub">--push</mark><br>
+                </td>
+            </tr>
+            <tr>
+                <td>combines the previews commands and creates a repository on GitHub with the name of the root folder,
+                    pushes commits
+                </td>
             </tr>
             <tr>
                 <td>python manage.py startapp APP_NAME</td>
@@ -97,6 +127,79 @@
                     </ul>
                 </td>
             </tr>
+            <tr>
+                <td>STATIC_ROOT = BASE_DIR / "staticfiles"<br>
+                    STATICFILES_STORAGE = "django.contrib.staticfiles.storage.StaticFilesStorage"</td>
+            </tr>
+            <tr>
+                <td>updated <b>django_project/settings.py</b> at the bottom: <ul>
+                        <li>set the <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#static-root"
+                                target="_blank">STATIC_ROOT</a> configuration, which is the absolute location of these
+                            collected files, to a folder called staticfiles.</li>
+                        <li>set the <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#staticfiles-storage"
+                                target="_blank">STATICFILES_STORAGE</a>, which is the file storage engine used by
+                            collectstatic</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python manage.py collectstatic</td>
+            </tr>
+            <tr>
+                <td>The command compiles all static files throughout the project into a singe directory ("staticfiles")
+                    suitable for deployment.
+                    <ul>
+                        <li>staticfiles/admin :<br>
+                            the folder and its content is automatically created</li>
+                        <li>Before each new deployment, the collectstatic command must be run to compile them into this
+                            staticfiles folder used in production.</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python -m pip install whitenoise</td>
+            </tr>
+            <tr>
+                <td>The "<a href="http://whitenoise.evans.io/en/stable/" target="_blank">WhiteNoise</a>" package serves
+                    these compiled static files in production. <br> The command install's the latest version of the
+                    "whiteNoise" package using pip.</td>
+            </tr>
+            <tr>
+                <td>INSTALLED_APPS = [ ...<br>
+                    <mark
+                        title="add whitenoise to the INSTALLED_APPS above the built-in staticfiles app">"whitenoise.runserver_nostatic",</mark>
+                    ...<br>
+                    <hr>
+                    MIDDLEWARE = [ ... <br>
+                    <mark
+                        title="under MIDDLEWARE add a new line for WhiteNoiseMiddleware">"whitenoise.middleware.WhiteNoiseMiddleware",</mark>
+                    ...<br>
+                    <hr>
+                    STATICFILES_STORAGE =
+                    <mark
+                        title="change STATICFILES_STORAGE to use WhiteNoise">"whitenoise.storage.CompressedManifestStaticFilesStorage"</mark>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <ul>
+                        <li><b>add</b> whitenoise to the INSTALLED_APPS above the built-in staticfiles app</li>
+                        <li>under MIDDLEWARE <b>add</b> a new line for WhiteNoiseMiddleware</li>
+                        <li><b>change</b> STATICFILES_STORAGE to use WhiteNoise</li>
+                    </ul>
+                </td>
+            </tr>
+            <tr>
+                <td>python manage.py collectstatic</td>
+            </tr>
+            <tr>
+                <td>since the method has changed run collectstatic one more time to use whitenoise instead: <ul>
+                        <li>There will be a short warning, This will overwrite existing files! Are you sure you want to
+                            do this? Type “yes” and hit Enter. The collected static files are now regenerated in the
+                            same staticfiles folder using WhiteNoise.</li>
+                    </ul>
+                </td>
+            </tr>
         </table>
 
         <!-- testing //////////////////////////////////////////////////////////////////////////// -->
@@ -130,13 +233,15 @@
                 </td>
             </tr>
             <tr>
-                <td>heroku create</td>
+                <td>heroku create <mark
+                        title="name of the app, must be unique, if no name then random name is given">APP_NAME</mark>
+                </td>
             </tr>
             <tr>
                 <td>
                     <ul>
                         <li>creating a new Heroku app, from the command line, Heroku will create a random
-                            name for our app, for example: murmuring-plateau-30548 .</li>
+                            name for our app if no name is appended, for example: murmuring-plateau-30548 .</li>
                         <li>The heroku <b>create</b> command also creates a dedicated <b>remote</b> named heroku for our
                             app.</li>
                     </ul>
@@ -158,8 +263,7 @@
                         </li>
                         <li>
                             This new remote means that as long as we include heroku in a command we have the ability to
-                            both
-                            push and fetch code from Heroku now.
+                            both push and fetch code from Heroku now.
                         </li>
                     </ul>
                 </td>
@@ -170,8 +274,12 @@
             <tr>
                 <td>
                     <ul>
-                        <li>By default, Django will try to optimize files like CSS and JavaScript which can causes
-                            issues. The command tells Heroku to ignore static files.</li>
+                        <li><b>DO NOT CALL THE COMMAND IF YOU HAVE STATIC FILES BUT CALL IT IF YOU HAVE STATIC
+                                FILES!!!</b></li>
+                        <li>By default, Heroku runs Django's <code>collectstatic</code> command. Calling the above
+                            command will prevent the default behavior and <b>ignores static files</b> like CSS and
+                            JavaScript.
+                        </li>
                     </ul>
                 </td>
             </tr>
@@ -216,10 +324,16 @@
                     with latest</td>
             </tr>
             <tr>
-                <td>ALLOWED_HOSTS = ["*"]</td>
+                <td>ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]</td>
             </tr>
             <tr>
-                <td>set the allowed hosts under <b>django_project/settings.py</b>, the asterisk accepts all hosts</td>
+                <td>set the allowed hosts under <b>django_project/settings.py</b>
+                    <ul>
+                        <li>".herokuapp.com" allows heroku</li>
+                        <li>"localhost", "127.0.0.1" allows local host</li>
+                        <li>"*" allows all hosts, which is not very safe</li>
+                    </ul>
+                </td>
             </tr>
             <tr>
                 <td>web: gunicorn PROJECT_NAME.wsgi --log-file -</td>

@@ -15,11 +15,6 @@
 
 <body>
     <main>
-        <h1><img src="../../images/logo/64x64_icons/django64x64.png" alt="">django</h1>
-        <p class="expText">
-            Django is a free and open source framework for building web apps with Python. It is used for the "backend".
-        </p>
-        <!-- >>> Set Up /////////////////////////////////////////////////////////////////////////////////////////////// -->
         <h2>Set UP</h2>
         <!-- set up your virtual environment in python & activate it-->
         <details class="conBox">
@@ -312,10 +307,15 @@ class PagesConfig(AppConfig):
             <hr>
         </details>
         <!-- <<< HTTP Request/Response Cycle /////////////////////////////////////////////////////////////////////////////// -->
-        <!-- connect a apps views -->
-        <h2>connecting the apps "views"</h2>
+        <!-- connect a apps views (TemplateView)-->
+        <h2>connecting the apps "views" (TemplateView)</h2>
         <details class="conBox">
             <summary>connecting the apps "views" (class-based generic views)</summary>
+            <p class="expText">
+                The built in generic <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/base/#django.views.generic.base.TemplateView"
+                    target="_blank">TemplateView</a> can be used to display a template files on a homepage.
+            </p>
             <ol>
                 <li>in "PROJECT_NAME/urls.py", add the "url path" to the urlpattern<br>
                     <div class="hiCode">
@@ -426,7 +426,8 @@ class PagesConfig(AppConfig):
                 ├─ templates <mark title="folder needs to be manually created, django is looking for it when searching
 for templates, it is not under the app folder but in the root directory">*</mark><br>
                 &nbsp;&nbsp; &nbsp;&nbsp;&nbsp;&nbsp; ├─ home.html <mark
-                    title="the actually template HTML file ">*</mark></p>
+                    title="the actually template HTML file ">*</mark>
+            </p>
         </details>
         <!-- extending templates -->
         <h2>extending templates</h2>
@@ -640,6 +641,147 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                 </li>
             </ol>
         </details>
+        <!-- testing with 'TestCase' on databases -->
+        <details class="conBox">
+            <summary>testing with 'TestCase' on databases</summary>
+            <p class="expText"> <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase"
+                    target="_blank">TestCase</a>, let us create a test database we can check against. In other words,
+                we don't need to run tests on our actual database but instead can make a separate test database, fill it
+                with sample data, and then test against it which is a much safer and more performant approach.</p>
+            <!-- setUpTestData() -->
+            <h3>setUpTestData()</h3>
+            <p class="expText">
+                To create our test data We will use the hook <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/testing/tools/#django.test.TestCase.setUpTestData"
+                    target="_blank">setUpTestData()</a>. It is much faster than using the <b>setUp()</b> hook from
+                Python's unittest because it creates the test data only once per test case rather than per test.
+            </p>
+            <ul>
+                <li>All test methods must start with the phrase <b>test</b>* so that Django knows to test them!</li>
+                <li>The test is run against the database model
+                    <!-- posts/ model.py / post -->
+                    <details class="exaBox">
+                        <summary>posts/ model.py / Post</summary>
+                        <p class="hiCode">
+                            # ... posts/models.py<br>
+                            from django.db import models<br>
+                            <br>
+                            <br>
+                            class <mark title="name of the new database model is 'Post'">Post</mark>(models.Model):<br>
+                            &nbsp;&nbsp;text = models.<mark
+                                title="specified the type of content it will hold, TextField()">TextField()</mark></p>
+                    </details>
+                </li>
+            </ul>
+            <ol>
+                <li>add following code to the <b>app's / tests.py</b> :<br>
+                    <p class="hiCode">
+                        # ... posts/tests.py<br>
+                        from django.test import TestCase<br>
+                        <br>
+                        <mark title="import the model you want to test on,
+current folder '.' / models.py / Post (model)">from .models import Post</mark><br>
+                        <br>
+                        <br>
+                        class <mark
+                            title="create a test 'class', PostTests, that extends TestCase">PostTests(TestCase)</mark>:<br>
+                        &nbsp;&nbsp;@classmethod<br>
+                        &nbsp;&nbsp;def <mark
+                            title="the built in method 'setUpTestData' creates the initial data">setUpTestData(cls)</mark>:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<mark
+                            title="'cls.NAME'sores the value which is expected and can be referred as 'self.NAME' in the test">cls.post</mark>
+                        = <mark title="is the model">Post</mark>.objects.create(<mark
+                            title="the data which is send to the database model, in this case the text">text="This is a
+                            test!"</mark>)<br>
+                        <br>
+                        &nbsp;&nbsp;def <mark
+                            title="all test functions have to start with the word 'test', otherwise Django does not recognize them">test_model_content</mark>(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;self.<mark
+                            title="assert Equal checks that the first parameter is equal to the second parameter">assertEqual</mark>(self.post.text,
+                        "This is a test!")</p>
+                </li>
+                <li>run the test in the terminal with the command: <br>
+                    <code>python manage.py test</code><br>
+                    <i>test out put on the terminal:</i>
+                    <!-- passed test -->
+                    <details class="exaBox">
+                        <summary>passed test</summary>
+                        <p class="hiCode">
+                            Found 1 test(s).<br>
+                            Creating test database for alias 'default'...<br>
+                            System check identified no issues (0 silenced).<br>
+                            .<br>
+                            --------------------------------------------------<br>
+                            Ran 1 test in 0.001s<br>
+                            <br><br>
+                            OK<br>
+                            Destroying test database for alias 'default'...</p>
+                    </details>
+                    <!-- failed test -->
+                    <details class="exaBox">
+                        <summary>failed test output</summary>
+                        <p>the last line of the test was changed<br>
+                            <code>self.assertEqual(self.post.text, "This is a <mark
+                                    title="missing 't' in test">tes!</mark>")</code></p>
+                        <p class="hiCode">
+                            Found 1 test(s).<br>
+                            Creating test database for alias 'default'...<br>
+                            System check identified no issues (0 silenced).<br>
+                            F<br>
+                            =====<br>=================================================================<br>
+                            FAIL: test_model_content (post.tests.PostTests)<br>
+                            ----------------------------------------------------------------------<br>
+                            Traceback (most recent call last):<br>
+                            File "C:\Users\zolta\Desktop\Coding Projects\messageBoard\post\tests.py", line 14, in<br>
+                            test_model_content<br>
+                            self.assertEqual(self.post.text, "This is a tes!")<br>
+                            AssertionError: 'This is a test!' != 'This is a tes!'<br>
+                            - This is a test!<br>
+                            ? -<br>
+                            + This is a tes!<br>
+                            <br>
+                            <br>
+                            ----------------------------------------------------------------------<br>
+                            Ran 1 test in 0.001s<br>
+                            <br>
+                            FAILED (failures=1)<br>
+                            Destroying test database for alias 'default'...</p>
+                    </details>
+                </li>
+            </ol>
+            <h3>adding more additional tests</h3>
+            <p class="expText">Adding test's to check if the correct page has been returned and the correct is
+                template used</p>
+            <details class="exaBox">
+                <summary>additional tests, code</summary>
+                <p class="hiCode">
+                    # ... posts/tests.py<br>
+                    from django.test import TestCase<br>
+                    from django.urls import reverse<br>
+                    from .models import Post<br>
+                    <br>
+                    <br>
+                    class PostTests(TestCase):<br>
+                    &nbsp;&nbsp;@classmethod<br>
+                    &nbsp;&nbsp;def setUpTestData(cls):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;cls.post = Post.objects.create(text="This is a test!")<br>
+                    <br>
+                    &nbsp;&nbsp;def test_model_content(self):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(self.post.text, "This is a test!")<br>
+                    <br>
+                    &nbsp;&nbsp;def test_url_exists_at_correct_location(self):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get("/")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)<br>
+                    <br>
+                    &nbsp;&nbsp;def test_homepage(self):<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;response = self.client.get(reverse("home"))<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(response.status_code, 200)<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.assertTemplateUsed(response, "home.html")<br>
+                    &nbsp;&nbsp;&nbsp;&nbsp;self.assertContains(response, "This is a test!")</p>
+            </details>
+
+        </details>
         <!-- Local vs Production -->
         <h2>Local vs Production</h2>
         <p class="expText">To make our site available on the Internet where everyone can see it, we need to deploy our
@@ -661,14 +803,17 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                             the deployment steps.</p>
                     </details><br><code>python -m pip freeze > requirements.txt</code></li>
                 <li>update <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#allowed-hosts"
-                        target="_blank">ALLOWED_HOSTS</a> in django_project/settings.py <details class="exaBox">
+                        target="_blank">ALLOWED_HOSTS</a> in django_project/settings.py
+                    <!-- explain ALLOWED_HOSTS -->
+                    <details class="exaBox">
                         <summary>explain ALLOWED_HOSTS</summary>
                         <p>The ALLOWED_HOSTS setting represents that host/domain names our Django site can serve.
-                            This is a security measure to prevent HTTP Host header attacks. For now, we'll use the
-                            wildcard asterisk, * so that all domains are acceptable.</p>
+                            This is a security measure to prevent HTTP Host header attacks. Using the
+                            wildcard asterisk * allows all domains to be acceptable, which is an unsafe practice.</p>
                     </details><br>
                     <code>
-                        ALLOWED_HOSTS = ["<mark title="the wildcard asterisk *, all domains are acceptable">*</mark>"]
+                        ALLOWED_HOSTS = ["<mark title="Django allows Heroku to host">.herokuapp.com</mark>", <mark
+                            title="Django allows the local host">"localhost", "127.0.0.1"</mark>]
                     </code>
                 </li>
                 <li>create a file named "<b>Procfile</b>" with no extension in the root directory with following
@@ -687,7 +832,8 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                 </li>
                 <li>create a file named "<b>runtime.txt</b>" in the root directory and add which Python version should
                     run on Heroku (<i><a href="https://devcenter.heroku.com/articles/python-runtimes"
-                            target="_blank">doc 'runtime.txt'</a></i>)<br>
+                            target="_blank">doc
+                            'runtime.txt'</a></i>)<br>
                     <code>python-3.10.2</code>
                     <ul>
                         <li>you can check the used python version with the command:<br>
@@ -695,15 +841,23 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                     </ul>
                 </li>
             </ol>
+            <!-- deploying an app to Heroku over the cli -->
         </details>
         <h2>deploying an app to Heroku over the cli</h2>
         <details class="conBox">
             <summary>how to deploy to Heroku</summary>
             <ol>
                 <li>execute the "deployment checklist"</li>
+                <li>deploy first to GitHub</li>
+                <li>log into Heroku with the command:<br>
+                    <code>heroku login</code><br>
+                    (<i>a window opens in the browser for identification, follow the instructions</i>)</li>
+                <li>create a Heroku app with the command:<br>
+                    <code>heroku create</code><br>
+                    (<i>Heroku will create a random name for our app, for example: murmuring-plateau-30548</i>)</li>
                 <li>ignore static files (like CSS & JavaScript) for now<br>
                     <code>heroku config:set DISABLE_COLLECTSTATIC=1</code></li>
-                <li>push the code to Heroku<br><code>git push heroku main</code></li>
+                <li>push the code to GitHub and to Heroku<br><code>git push heroku main</code></li>
                 <li>make the Heroku app "live"<br>
                     <code>heroku ps:scale web=1</code></li>
                 <li>opens the "web browser" with the "life" version of our Heroku app<br>
@@ -742,7 +896,7 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                 <li>Create a new database model in the <b>models.py</b> which is called Post and has the database field
                     text.<br>
                     <p class="hiCode">
-                        # posts/models.py<br>
+                        # ... posts/models.py<br>
                         from django.db import models<br>
                         <br>
                         <br>
@@ -756,7 +910,7 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
             </ul>
         </details>
         <!-- Activating models -->
-        <details class="conBox" open>
+        <details class="conBox">
             <summary>Activating models</summary>
             <p class="expText">After a new model is created, it need's to be also activate.</p>
             <ul>
@@ -790,7 +944,2133 @@ all other elements are the same as in the 'parent'">{% block content %}</mark><b
                     </ol>
                 </li>
             </ul>
+            <!-- Django Admin -->
         </details>
+        <h2>Django Admin</h2>
+        <p class="expText">Django's admin interface provides a visual way to interact with data.</p>
+        <!-- creating a 'super user' -->
+        <details class="conBox">
+            <summary>creating a 'super user'</summary>
+            <p class="expText">To use the Django admin, we first need to create a superuser who can log in.</p>
+            <ol>
+                <li>execute the command below and respond to the prompts for a username, email, and password:<br>
+                    <code>python manage.py createsuperuser</code>
+                    <ul>
+                        <li>When you type your password, it will not appear visible in the command line console for
+                            security reasons.</li>
+                    </ul>
+                </li>
+                <li>to open the admin in Django, run the local server and enter following address:<br>
+                    <code>http://127.0.0.1:8000/admin/</code></li>
+            </ol>
+        </details>
+        <!-- register an app with admin -->
+        <details class="conBox">
+            <summary>register an app with admin</summary>
+            <p class="expText">We must update an app's admin.py file for it to appear in the admin.</p>
+            <ol>
+                <li>updated the <b>app's admin.py</b> with the following code:<br>
+                    <p class="hiCode">
+                        # ... posts/admin.py<br>
+                        from django.contrib import admin<br>
+                        from .models import Post<br>
+                        <br>
+                        admin.site.register(Post)</p>
+                </li>
+            </ol>
+        </details>
+        <!-- labeling admin entry's -->
+        <details class="conBox">
+            <summary>labeling admin entry's</summary>
+            <p class="expText">By default, admin entry's are labeled with '<b>object (1)</b>', '<b>object (2)</b>', ...
+                .</p>
+            <ul>
+                <li>to label the admin entry with the first 50 character's of its text,<br>
+                    add the yellow marked code to the <b>app's / models.py / class</b> :<br>
+                    <p class="hiCode">
+                        # ... posts/models.py<br>
+                        from django.db import models<br>
+                        <br>
+                        <br>
+                        class Post(models.Model):<br>
+                        &nbsp;&nbsp;text = models.TextField()<br>
+                        <br>
+                        <mark title="':50' means that the first 50 characters of the 'text'
+are used to label the admin entry">
+                            &nbsp;&nbsp;def __str__(self):<br>
+                            &nbsp;&nbsp;&nbsp;&nbsp;return self.text[:50]
+                        </mark></p>
+                </li>
+            </ul>
+        </details>
+        <!-- Connecting The Apps "Views" (ListView) -->
+        <details class="conBox">
+            <summary>Connecting The Apps "Views" (ListView)</summary>
+            <p class="expText">
+                The <a href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-display/#listview"
+                    target="_blank">ListView</a> is used to iterate through the list the contents of the database model.
+                Each list item (database entry) can be used separately in the template.
+            </p>
+            <p>Is based on the code in the model :</p>
+            <!-- posts/ model.py / post -->
+            <details class="exaBox">
+                <summary>posts/ model.py / Post</summary>
+                <p class="hiCode">
+                    # ... posts/models.py<br>
+                    from django.db import models<br>
+                    <br>
+                    <br>
+                    class <mark title="name of the new database model is 'Post'">Post</mark>(models.Model):<br>
+                    &nbsp;&nbsp;text = models.<mark
+                        title="specified the type of content it will hold, TextField()">TextField()</mark></p>
+            </details>
+            <ol>
+                <li>add following code to the <b>app's / views.py</b> :<br>
+                    <p class="hiCode">
+                        # ... posts/views.py<br>
+                        from django.views.generic import ListView<br>
+                        <mark title="imports from the current directory '.' / the models.py file / the'Post' model">from
+                            .models import Post</mark><br>
+                        <br>
+                        <br>
+                        class <mark title="name of the view">HomePageView</mark>(<mark
+                            title="use the class 'ListView">ListView</mark>):<br>
+                        &nbsp;&nbsp;<mark title="specify that we want to use the model 'Post'">model = Post</mark><br>
+                        &nbsp;&nbsp;<mark title="specify's the template">template_name = "home.html"</mark></p>
+                </li>
+                <li>create the template:
+                    <ul>
+                        <li>make a folder called 'templates' in the root directory</li>
+                        <li>update the <b>DIRS</b> field in the <b>django_project/settings.py</b> file so that Django
+                            knows to look in this new templates directory.<br>
+                            <p class="hiCode">
+                                # ... django_project/settings.py<br>
+                                TEMPLATES = [<br>
+                                {<br>
+                                ...<br>
+                                "DIRS": [BASE_DIR / "<mark title="tells Django to look in the root directory for the
+folder 'templates', when looking for templates">templates</mark>"],<br>
+                                ...<br>
+                                },<br>
+                                ]</p>
+                        </li>
+                        <li>create the HTML file in our example it is 'home.html' and add the following code:<br>
+                            <p class="hiCode">
+                                # ... templates/home.html<br>
+                                &lt;h1>Message board homepage&lt;/h1><br>
+                                &lt;ul><br>
+                                &nbsp;&nbsp;{% for <mark title="post will hold in each iteration one of the elements from the model">post</mark> in post_list %}<br>
+                                &nbsp;&nbsp;&nbsp;&nbsp;&lt;li>{{ post.text }}&lt;/li><br>
+                                &nbsp;&nbsp;{% endfor %}<br>
+                                &lt;/ul></p><br>
+                            <ul>
+                                <li> ListView automatically returns to us a context variable called
+                                    "<b>MODEL_NAME</b>_list", where <b>MODEL_NAME</b> is our model name, that we can
+                                    loop over via the built in <a
+                                        href="https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#std:templatetag-for"
+                                        target="_blank">for</a> template tag.</li>
+                                <li>We can create our own variable called post and can then access the desired field we
+                                    want displayed, text, as post.text.</li>
+                            </ul>
+
+                        </li>
+                    </ul>
+                <li>connect the project and app urls:
+                    <ul>
+                        <li>update the <b>django_project / urls.py</b> :<br>
+                            <p class="hiCode">
+                                # ... django_project/urls.py<br>
+                                from django.contrib import admin<br>
+                                from django.urls import path, include<br>
+                                <br>
+                                urlpatterns = [<br>
+                                &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                                &nbsp;&nbsp;path(<mark
+                                    title="works a s landing page, because there is no 'slug' specified">""</mark>,
+                                include("posts.urls")),<br>
+                                ] </p>
+                        </li>
+
+                        <li>create the <b>app's / urls.py</b> and add following code:<br>
+                            <p class="hiCode">
+                                # ... posts/urls.py<br>
+                                from django.urls import path<br>
+                                from .views import HomePageView<br>
+                                <br>
+                                urlpatterns = [<br>
+                                &nbsp;&nbsp;path("", HomePageView.as_view(), name="home"),<br>
+                                ]</p>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- >>> start Blog App ////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>Blog App</h2>
+        <!-- "Blog app" set up  -->
+        <details class="conBox">
+            <summary>"Blog app" set up</summary>
+            <ol>
+                <li>make a new directory for our project and move into it<br></li>
+                <li>create and activate a virtual environment and name it <b>venv</b><br>
+                    <code>python -m venv .venv</code> <code>.\.venv\Scripts\activate</code></li>
+                <li>reate a new Django project called django_project<br>
+                    <code>python -m pip install django</code></li>
+                <li>create a new app blog<br>
+                    <code>python manage.py startapp blog</code></li>
+                <li>perform a migration to set up the database<br>
+                    <code>python manage.py migrate</code></li>
+                <li>update django_project/settings.py<br>
+                    <p class="hiCode">
+                        INSTALLED_APPS = [<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;'blog.apps.BlogConfig'<br>
+                        ]</p>
+                </li>
+            </ol>
+        </details>
+        <!-- Database Models -->
+        <details class="conBox">
+            <summary>Database Models</summary>
+            <p>In this example our blog application should have: title, author and body.</p>
+            <ol>
+                <li>enter following code in to the <b>blog / models.py</b> :<br>
+                    <p class="hiCode">
+                        # blog/models.py<br>
+                        from django.db import models<br>
+                        from django.urls import reverse<br>
+                        <br>
+                        <br>
+                        class Post(models.Model):<br>
+                        &nbsp;&nbsp;<mark
+                            title="the field 'title' is limited to the length of 200 characters">title</mark>
+                        =
+                        models.CharField(max_length=200)<br>
+                        &nbsp;&nbsp;<mark
+                            title="the field 'author' uses a 'ForeignKey' that allows for a many-to-one relationship.">author</mark>
+                        = models.ForeignKey(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"<mark
+                            title=" The reference is to the built-in User model that Django provides for authentication.">auth.User</mark>",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;<mark
+                            title="For all many-to-one relationships such as a ForeignKey we must also specify an on_delete option.">on_delete</mark>=models.CASCADE,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;)
+                        &nbsp;&nbsp;<br>
+                        &nbsp;&nbsp;<mark
+                            title="the field 'body' which uses a TextField to automatically expand as needed to fit the user's text">body</mark>
+                        = models.TextField()<br>
+                        <br>
+                        &nbsp;&nbsp;def <mark
+                            title="A __str__ method is added to provide a human-readable version of the model in the admin or Django shell.">__str__</mark>(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return self.title<br>
+                        <br>
+                        &nbsp;&nbsp;def get_absolute_url(self):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;return reverse("post_detail", kwargs={"pk": self.pk})</p>
+                </li>
+                <li>run migrations with the command:<br>
+                    <code>python manage.py makemigrations blog</code></li>
+                <li>migrate the changes to the database with the command:<br>
+                    <code> python manage.py migrate</code></li>
+            </ol>
+        </details>
+        <!-- Admin -->
+        <details class="conBox">
+            <summary>Admin</summary>
+            <ol>
+                <li>create a super user with the command below and follow the prompt:<br>
+                    <code>python manage.py createsuperuser</code></li>
+                <li>update <b>blog/admin.py</b> as follows:<br>
+                    <p class="hiCode">
+                        # ... blog/admin.py<br>
+                        from django.contrib import admin<br>
+                        from .models import Post<br>
+                        <br>
+                        admin.site.register(Post)</p>
+                </li>
+                <li>run the server and log into admin:<br>
+                    <code>python manage.py runserver</code></li>
+                <li>create two new posts<br>
+                    <img width="400" src="../../images/notes/python/django/admin_create_post.jpg" alt=""><br>
+                    <i>If you try to enter a post without an author you will see an error.</i></li>
+            </ol>
+        </details>
+        <!-- URLs -->
+        <details class="conBox">
+            <summary>URLs</summary>
+            <ol>
+                <li>create a new file called <b>urls.py</b> within the <b>blog</b> app and update it with the code
+                    below:<br>
+                    <p class="hiCode">
+                        # ... blog/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import <mark title="import the views, will be created later">BlogListView</mark><br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path(<mark title="The empty string, '', tells Python to match all values">""</mark>,
+                        BlogListView.as_view(), <mark title=" While it's optional to add a named URL it's a best practice you should adopt as it
+helps keep things organized as your number of URLs grows.">name="home"</mark>),<br>
+                        ]<br>
+                    </p>
+                </li>
+                <li>update <b>django_project/urls.py</b> file so that it knows to forward all requests directly to the
+                    blog app:<br>
+                    <p class="hiCode">
+                        # ... django_project/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path, include<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                        &nbsp;&nbsp;path(<mark title=" using an empty string regular expression, '', indicating that URL requests
+should be redirected as is to blog's URLs for further instructions">"",
+                            include("blog.urls"</mark>)),<br>
+                        ]</p>
+                </li>
+            </ol>
+        </details>
+        <!-- Views -->
+        <details class="conBox">
+            <summary>Views (class-based views)</summary>
+            <ul>
+                <li>add to <b>blog / views.py</b> the code below:<br>
+                    <p class="hiCode">
+                        # ... blog/views.py<br>
+                        from django.views.generic import ListView<br>
+                        from .models import Post<br>
+                        <br>
+                        <br>
+                        class BlogListView(ListView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "home.html"</p>
+                </li>
+            </ul>
+        </details>
+        <!-- Templates -->
+        <details class="conBox">
+            <summary>Templates</summary>
+            <p class="expText">
+                We will use a base.html file and a home.html file that inherits from it. When we add templates for
+                creating and editing blog posts, they too can inherit from base.html.
+            </p>
+            <ol>
+                <li>create a folder called '<b>templates</b>' in the root directory</li>
+                <li>update <b>django_project/settings.py</b> so Django knows to look there for our templates:<br>
+                    <p class="hiCode">
+                        # django_project/settings.py<br>
+                        TEMPLATES = [<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;"DIRS": [BASE_DIR / "templates"],<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;},<br>
+                        ]</p>
+                </li>
+                <li>within the <b>templates</b> folder create a file called <b>base.html</b> with following code:<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        &lt;html><br>
+                        &nbsp;&lt;head><br>
+                        &nbsp;&nbsp;&lt;title>Django blog&lt;/title><br>
+                        &nbsp;&lt;/head><br>
+                        &nbsp;&lt;body><br>
+                        &nbsp;&nbsp;&lt;header><br>
+                        &nbsp;&nbsp;&nbsp;&lt;h1>&lt;a href="{% url 'home' %}">Django blog&lt;/a>&lt;/h1><br>
+                        &nbsp;&nbsp;&lt;/header><br>
+                        &nbsp;&nbsp;&lt;div><br>
+                        &nbsp;&nbsp;&nbsp;{% block content %}<br>
+                        &nbsp;&nbsp;&nbsp;{% endblock content %}<br>
+                        &nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&lt;/body><br>
+                        &lt;/html></p>
+                </li>
+                <li>within the <b>templates</b> folder create a file called <b>home.html</b> with following code:<br>
+                    <p class="hiCode">
+                        # ... templates/home.html<br>
+                        {% <mark title="this template extends base.html">extends "base.html"</mark> %}<br>
+                        <br>
+                        {% block content %}<br>
+                        {% for post in post_list %}<br>
+                        &nbsp;&lt;div class="post-entry"><br>
+                        &nbsp;&nbsp;&lt;h2>&lt;a href="">{{ post.title }}&lt;/a>&lt;/h2><br>
+                        &nbsp;&nbsp;&lt;p>{{ post.body }}&lt;/p><br>
+                        &nbsp;&lt;/div><br>
+                        {% endfor %}<br>
+                        {% endblock content %}</p>
+                </li>
+            </ol>
+            <ul>
+                <li>run the local server:<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>the local server should look like this:</i><br>
+                    <img with="300" src="../../images/notes/python/django/so_far_blog_app.jpg" alt=""></li>
+            </ul>
+        </details>
+        <!-- Static Files -->
+        <details class="conBox">
+            <summary>Static Files</summary>
+            <p class="expText">CSS, JavaScript, and images are a core piece of any modern web application and within the
+                Django world are referred to as “static files”. By default, Django will look within each app for a
+                folder called <b>static</b>.</p>
+            <h3>set the 'static' folder to the 'root directory'</h3>
+            <ol>
+                <li>create a folder called '<b>static</b>'' in the 'root directory'<br>
+                    <code>mkdir static</code></li>
+                <li>we need to tell Django to look for this new folder when loading static files,<br>
+                    add the following code to the bottom of the <b>django_project/settings.py</b> file:<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        STATIC_URL = "/static/"<br>
+                        STATICFILES_DIRS = [BASE_DIR / "static"]</p>
+                </li>
+            </ol>
+            <h3>create and connect a css stylesheet to the template</h3>
+            <ol>
+                <li>create inside the <b>static</b> folder, a <b>css</b> folder with a file called <b>base.css</b>:<br>
+                    <code>ni static/css/base.css</code></li>
+                <li>add following code to the <b>base.css</b>:<br>
+                    <p class="hiCode">
+                        # ... static/css/base.css<br>
+                        header h1 a {<br>
+                        &nbsp;&nbsp;color: red;<br>
+                        &nbsp;}</p>
+                </li>
+                <li>We need to add the static files to our templates by adding {% load static %} to the top of
+                    base.html. Because our other templates inherit from base.html, we only have to add this once.<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        <mark title="adds the static files to our templates">{% load static %}</mark><br>
+                        &lt;html><br>
+                        <br>
+                        &lt;head><br>
+                        &nbsp;&nbsp;&lt;title>Django blog&lt;/title><br>
+                        &nbsp;&nbsp;<mark title="loads the stylesheet">&lt;link rel="stylesheet"
+                            href="{% static 'css/base.css' %}"></mark><br>
+                        &lt;/head><br>
+                        ...</p>
+                </li>
+                <li>run the local server to check the output:<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>the landing page should look like this:</i><br>
+                    <img with="300" src="../../images/notes/python/django/static_css.JPG" alt="">
+                </li>
+            </ol>
+            <h3>import google font & improve style</h3>
+            <ol>
+                <li>open the box and add the following code to <b>templates/base.html</b> :<br>
+                    <details class="exaBox">
+                        <summary>base.html</summary>
+                        <p class="hiCode">
+                            # ... templates/base.html<br>
+                            {% load static %}<br>
+                            &lt;html><br>
+                            <br>
+                            &nbsp;&lt;head><br>
+                            &nbsp;&nbsp;&lt;title>Django blog&lt;/title><br>
+                            &nbsp;&nbsp;
+                            &nbsp;&nbsp;<mark title="loads the google font">&lt;link
+                                href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"
+                                rel="stylesheet"></mark>
+                            &nbsp;&nbsp;<br>
+                            &nbsp;&nbsp;&lt;link href="{% static 'css/base.css' %}" rel="stylesheet"><br>
+                            &nbsp;&lt;/head><br>
+                            ...</p>
+                    </details>
+                </li>
+                <li>open the box and add the following code to <b>static/css/base.css</b> :<br>
+                    <details class="exaBox">
+                        <summary>base.css</summary>
+                        <p class="hiCode">
+                            # ... static/css/base.css<br>
+                            body {<br>
+                            &nbsp;&nbsp;font-family: 'Source Sans Pro', sans-serif;<br>
+                            &nbsp;&nbsp;font-size: 18px;<br>
+                            }<br>
+                            header {<br>
+                            &nbsp;&nbsp; border-bottom: 1px solid #999;<br>
+                            &nbsp;&nbsp; margin-bottom: 2rem;<br>
+                            &nbsp;&nbsp; display: flex;<br>
+                            }<br>
+                            <br>
+                            header h1 a {<br>
+                            &nbsp;&nbsp; color: red;<br>
+                            &nbsp;&nbsp; text-decoration: none;<br>
+                            }<br>
+                            <br>
+                            .nav-left {<br>
+                            &nbsp;&nbsp; margin-right: auto;<br>
+                            }<br>
+                            <br>
+                            .nav-right {<br>
+                            &nbsp;&nbsp; display: flex;<br>
+                            padding-top: 2rem;<br>
+                            }<br>
+                            .post-entry {<br>
+                            &nbsp;&nbsp; margin-bottom: 2rem;<br>
+                            }<br>
+                            <br>
+                            .post-entry h2 {<br>
+                            &nbsp;&nbsp; margin: 0.5rem 0;<br>
+                            }<br>
+                            <br>
+                            .post-entry h2 a,<br>
+                            .post-entry h2 a:visited {<br>
+                            &nbsp;&nbsp; color: blue;<br>
+                            &nbsp;&nbsp; text-decoration: none;<br>
+                            }<br>
+                            <br>
+                            .post-entry p {<br>
+                            &nbsp;&nbsp; margin: 0;<br>
+                            &nbsp;&nbsp; font-weight: 400;<br>
+                            }<br>
+                            <br>
+                            .post-entry h2 a:hover {<br>
+                            &nbsp;&nbsp; color: red;<br>
+                            }</p>
+                    </details>
+                </li>
+                <li>run the local server and compare the result:<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>the landing page should look like this:<br></i>
+                    <img width="200" src="../../images/notes/python/django/static_css_improved.jpg" alt=""></li>
+            </ol>
+        </details>
+        <!-- Individual Blog Pages -->
+        <details class="conBox">
+            <summary>Individual Blog Pages</summary>
+            <p class="expText">We need to create a new view, url, and template.</p>
+            <ol>
+                <li>update the <b>blog/views.py</b> with the generic class-based <a
+                        href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-display/#django.views.generic.detail.DetailView"
+                        target="_blank">DetailView</a> :<br>
+                    <p class="hiCode">
+                        # blog/views.py<br>
+                        from django.views.generic import ListView, DetailView # new<br>
+                        from .models import Post<br>
+                        <br>
+                        <br>
+                        class BlogListView(ListView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "home.html"<br>
+                        <br>
+                        <br>
+                        class BlogDetailView(DetailView): # new<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_detail.html"</p><br>
+                    <ul>
+                        <li>In this new view, we define the model we are using, <b>Post</b>, and the template we want it
+                            associated with, <b>post_detail.html</b>.</li>
+                        <li>By default, DetailView will provide a context object we can use in our template called
+                            either object or the lowercased name of our model, which would be post.</li>
+                        <li>DetailView expects either a primary key or a slug passed to it as the identifier.</li>
+                    </ul>
+                </li>
+                <li>create a new template file for a post detail called <b></b>templates/post_detail.html</b> :<br>
+                    <code>ni templates/post_detail.html</code><br>
+                    add the following code :<br>
+                    <p class="hiCode">
+                        # ... templates/post_detail.html<br>
+                        {% <mark title="specify's that this template inherits from base.html">extends "base.html"</mark> %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;div class="post-entry"><br>
+                        &nbsp;&lt;h2>{{ post.title }}&lt;/h2><br>
+                        &nbsp;&lt;p>{{ post.body }}&lt;/p><br>
+                        &lt;/div><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>At the top we specify that this template inherits from base.html.</li>
+                        <li>Then display the title and body from our context object, which DetailView makes accessible
+                            as post.</li>
+                        <li>Because our context object from DetailView is either our model name post or object we could
+                            also update our template as follows and it would work exactly the same.<br>
+                            <p class="hiCode">
+                                # ... templates/post_detail.html<br>
+                                {% extends "base.html" %}<br>
+                                <br>
+                                {% block content %}<br>
+                                &lt;div class="post-entry"><br>
+                                &nbsp;&lt;h2>{{ object.title }}&lt;/h2><br>
+                                &nbsp;&lt;p>{{ object.body }}&lt;/p><br>
+                                &lt;/div><br>
+                                {% endblock content %}</p>
+                        </li>
+                        <li>If using <b>post</b> or <b>object</b> confusing it is possible to explicitly name the
+                            context-object in our view using <b>context_object_name</b>
+                            <details class="exaBox">
+                                <summary>context_object_name</summary>
+                                <h3>Making “friendly” template contexts</h3>
+                                <p>
+                                    You might have noticed that our sample publisher list template stores all the
+                                    publishers in a variable named object_list. While this works just fine, it isn't all
+                                    that “friendly” to template authors: they have to “just know” that they're dealing
+                                    with publishers here.</p>
+                                <p>Well, if you're dealing with a model object, this is already
+                                    done for you. When you are dealing with an object or queryset, Django is able to
+                                    populate the context using the lowercased version of the model class' name. This is
+                                    provided in addition to the default <b>object_list </b>entry, but contains exactly
+                                    the same
+                                    data, i.e. <b>publisher_list</b>.</p>
+                                <p>If this still isn't a good match, you can manually set
+                                    the name of the context variable. The <b>context_object_name</b> attribute on a
+                                    generic
+                                    view specifies the context variable to use:
+                                </p>
+                                <p class="hiCode">
+                                    # views.py<br>
+                                    from django.views.generic import ListView<br>
+                                    from books.models import Publisher<br>
+                                    <br>
+                                    class PublisherListView(ListView):<br>
+                                    &nbsp;&nbsp;model = Publisher<br>
+                                    &nbsp;&nbsp;context_object_name = 'my_favorite_publishers'</p><br>
+                                <p>
+                                    <i>
+                                        Providing a useful context_object_name is always a good idea. Your coworkers who
+                                        design templates will thank you.
+                                    </i>
+                                </p>
+                            </details>
+                        </li>
+                    </ul>
+                </li>
+                <li>adding a new URL path for our view, add the following code to <b>blog/urls.py</b> :<br>
+                    <p class="hiCode">
+                        # ... blog/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import BlogListView, BlogDetailView # new<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("post/&lt;int:pk>/", BlogDetailView.as_view(), name="post_detail"), # new<br>
+                        &nbsp;&nbsp;path("", BlogListView.as_view(), name="home"),<br>
+                        ]</p>
+                    <ul>
+                        <li>All blog post entries will start with post/.</li>
+                        <li>The primary key for our post entry which will be represented as an integer,
+                            <b>&lt;int:pk></b>.
+                            <!-- primary key -->
+                            <details class="exaBox">
+                                <summary>primary key</summary>
+                                <p>Django automatically adds an auto-incrementing primary key to our database models. So
+                                    while we only declared the fields title, author, and body on our Post model,
+                                    under-the-hood Django also added another field called id, which is our primary key.
+                                    We can access it as either id or pk.</p>
+                            </details>
+                        </li>
+                        <li>The pk for our first “Hello, World” post is 1. For the second post, it is 2. And so on.
+                            Therefore when we go to the individual entry page for our first post, we can expect that its
+                            URL pattern will be post/1/.</li>
+                        <li>If you look back to the get_absolute_url method on our Post model it passes in a pk argument
+                            because the URL here requires it. Understanding how primary keys and get_absolute_url
+                            methods work.</li>
+                    </ul>
+                </li>
+                <li>run the local server and you can see that each database entry has it's own page:<br>
+                    <code>python manage.py runserver</code><br>
+                    <img src="../../images/notes/python/django/blog_individual.JPG" alt=""><br>
+                    <i>the first blog post should be at http://127.0.0.1:8000/post/1/</i><br>
+                    <i>the second entry at http://127.0.0.1:8000/post/2/</i></li>
+                <li>update the link on the homepage so we can directly access individual blog posts from there,<br>
+                    swap out the current empty link, <b>&lt;a href=""></b>, for <b>&lt;a
+                        href="{% url 'post_detail' post.pk %}"></b><br>
+                    <p class="hiCode">
+                        # ... templates/home.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        {% for post in post_list %}<br>
+                        &lt;div class="post-entry"><br>
+                        &nbsp;&nbsp&lt;h2>&lt;a
+                        href="<mark
+                            title="add '{% url 'post_detail' post.pk %}'">{% url 'post_detail' post.pk %}</mark>">{{ post.title }}&lt;/a>&lt;/h2><br>
+                        &nbsp;&nbsp&lt;p>{{ post.body }}&lt;/p><br>
+                        &lt;/div><br>
+                        {% endfor %}<br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>We start off by using Django's url template tag and specify the URL pattern name of
+                            post_detail.</li>
+                        <li>If you look at post_detail in our URLs file it expects to be passed an argument pk
+                            representing the primary key for the blog post. Fortunately, Django has already created and
+                            included this pk field on our post object but we must pass it into the URL by adding it to
+                            the template as post.pk.</li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- Tests -->
+        <details class="conBox">
+            <summary>Tests</summary>
+            <p class="hiCode">
+                # blog/tests.py<br>
+                from django.contrib.auth import get_user_model<br>
+                from django.test import TestCase<br>
+                <br>
+                from .models import Post<br>
+                <br>
+                <br>
+                class BlogTests(TestCase):<br>
+                &nbsp;&nbsp;@classmethod<br>
+                &nbsp;&nbsp;def setUpTestData(cls):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;cls.user = get_user_model().objects.create_user(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;username="testuser", email="test@email.com", password="secret"<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                <br>
+                &nbsp;&nbsp;cls.post = Post.objects.create(<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;title="A good title",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;body="Nice body content",<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;author=cls.user,<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                <br>
+                &nbsp;&nbsp;def test_post_model(self):<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(self.post.title, "A good title")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(self.post.body, "Nice body content")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(self.post.author.username, "testuser")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(str(self.post), "A good title")<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;self.assertEqual(self.post.get_absolute_url(), "/post/1/")</p>
+            <ul>
+                <li>At the top we imported <a
+                        href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#django.contrib.auth.get_user_model"
+                        target="_blank">get_user_model()</a> to refer to our User</li>
+                <li>Our class BlogTests contains set up data for both a test user and a test post.</li>
+                <li>All the tests are focused on the Post model so we name our test test_post_model. It checks that all
+                    three model fields return the expected values.</li>
+            </ul>
+        </details>
+        <!-- Forms: add a form for the user to submit posts -->
+        <details class="conBox">
+            <summary>Forms: add a form for the user to submit posts</summary>
+            <p class="expText">By adding forms the user can create, edit, or delete any of their blog entries. Writing
+                this code by hand would be time-consuming and difficult so Django comes with powerful <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/forms/" target="_blank">built-in Forms</a> that
+                abstract away much of the difficulty for us. Django also comes with <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/"
+                    target="_blank">generic editing views</a> for common tasks like displaying, creating, updating, or
+                deleting a form.</p>
+            <h3>Create View</h3>
+            <p class="expText">To start, update our <b>base template</b> to display a link to a page for entering new
+                blog posts. It will take the form <b>&lt;a href="{% url 'post_new' %}">&lt;/a</b>> where post_new is the
+                name for our URL.
+            </p>
+            <ol>
+                <li>update the template :<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        {% load static %}<br>
+                        &lt;html><br>
+                        &nbsp;&lt;head><br>
+                        &nbsp;&nbsp;&lt;title>Django blog&lt;/title><br>
+                        &nbsp;&nbsp;&lt;link href="https://fonts.googleapis.com/css?family=\Source+Sans+Pro:400"
+                        rel="stylesheet"><br>
+                        &nbsp;&nbsp;&lt;link href="{% static 'css/base.css' %}"rel="stylesheet"><br>
+                        &nbsp;&lt;/head><br>
+                        &nbsp;&lt;body><br>
+                        &nbsp;&nbsp;&lt;div><br>
+                        &nbsp;&nbsp;&nbsp;&lt;header><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="nav-left"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>&lt;a href="{% url 'home' %}">Django
+                        blog&lt;/a>&lt;/h1><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="nav-right"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="{% url 'post_new' %}">+ New Blog Post&lt;/a><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&nbsp;&nbsp;&lt;/header><br>
+                        &nbsp;&nbsp;&nbsp;{% block content %}<br>
+                        &nbsp;&nbsp;&nbsp;{% endblock content %}<br>
+                        &nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&lt;/body><br>
+                        &lt;/html></p>
+                </li>
+                <li>add a new URL for <b>post_new</b>:<br>
+                    <p class="hiCode">
+                        # ... blog/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import BlogListView, BlogDetailView, BlogCreateView # new<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("post/new/", BlogCreateView.as_view(), name="post_new"), # new<br>
+                        &nbsp;&nbsp;path("post/&lt;int:pk>/", BlogDetailView.as_view(), name="post_detail"),<br>
+                        &nbsp;&nbsp;path("", BlogListView.as_view(), name="home"),<br>
+                        ]</p>
+                    <ul>
+                        <li>Import BlogCreateView (which has not been created yet) at the top and then add a URL path
+                            for post/new/.</li>
+                        <li>We will give it the URL name of post_new so it can be referred to later in our templates.
+                        </li>
+                    </ul>
+                </li>
+                <li>update the view:<br>
+                    <p class="hiCode">
+                        # blog/views.py<br>
+                        from django.views.generic import ListView, DetailView<br>
+                        from django.views.generic.edit import CreateView # new<br>
+                        <br>
+                        from .models import Post<br>
+                        <br>
+                        <br>
+                        class BlogListView(ListView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "home.html"<br>
+                        <br>
+                        class BlogDetailView(DetailView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_detail.html"<br>
+                        <br>
+                        class BlogCreateView(CreateView): # new<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_new.html"<br>
+                        &nbsp;&nbsp;fields = ["title", "author", "body"]</p>
+                    <ul>
+                        <li>Within BlogCreateView we specify our database model, Post, the name of our template,
+                            post_new.html, and explicitly set the database fields we want to expose which are title,
+                            author, and body.</li>
+                    </ul>
+                </li>
+                <li>create post_new.html template:<br>
+                    <p class="hiCode">
+                        # ... templates/post_new.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h1>New post&lt;/h1><br>
+                        &lt;form action="" method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;{{ form.as_p }}<br>
+                        &nbsp;&nbsp;&lt;input type="submit" value="Save"><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                </li>
+                <ul>
+                    <li>Use HTML &lt;form> tags with the POST method since we're sending data. If we were receiving
+                        data from a form, for example in a search box, we would use GET.</li>
+                    <li>Add a <a href="https://docs.djangoproject.com/en/4.0/ref/csrf/"
+                            target="_blank">{% csrf_token %}</a>
+                        which Django provides to protect our form from
+                        cross-site request forgery. <b>You should use it for all your Django forms.</b></li>
+                    <li>Then to output our form data we use {{ form.as_p }} which renders the specified fields within
+                        paragraph &lt;p> tags.</li>
+                    <li>Finally, specify an input type of submit and assign it the value “Save”.</li>
+                </ul>
+                <li>run the local server:<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>Click the “+ New Blog Post” link in the upper righthand corner. It will redirect to web page at
+                        http://127.0.0.1:8000/post/new/.<br></i>
+                    <img width="400" src="../../images/notes/python/django/blogApp-user_can_create_post.jpg" alt="">
+                </li>
+            </ol>
+        </details>
+        <!-- UpdateView: user can edit posts -->
+        <details class="conBox">
+            <summary>UpdateView: user can edit posts</summary>
+            <p class="expText">We'll again use a built-in Django class-based generic view, <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/#django.views.generic.edit.UpdateView"
+                    target="_blank">UpdateView</a>, and create the
+                requisite template, url, and view.</p>
+            <ol>
+                <li>add a new link to post_detail.html so that the option to edit a blog post appears on an individual
+                    blog page:<br>
+                    <p class="hiCode">
+                        # ... templates/post_detail.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;div class="post-entry"><br>
+                        &nbsp;&nbsp;&lt;h2>{{ post.title }}&lt;/h2><br>
+                        &nbsp;&nbsp;&lt;p>{{ post.body }}&lt;/p><br>
+                        &lt;/div><br>
+                        <br>
+                        &lt;a href="{% url 'post_edit' post.pk %}">+ Edit Blog Post&lt;/a><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>We've added a link using &lt;a href>...</a> and the Django template engine's {% url ... %}
+                            tag.</li>
+                        <li>Within it, we've specified the target name of our url, which will be called post_edit and
+                            also passed the parameter needed, which is the primary key of the post post.pk.</li>
+                    </ul>
+                </li>
+                <li>create the template file for our edit page called post_edit.html :<br>
+                    <p class="hiCode">
+                        <!-- templates/post_edit.html -->
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h1>Edit post&lt;/h1><br>
+                        &lt;form action="" method="post">{% csrf_token %}<br>
+                        &nbsp;{{ form.as_p }}<br>
+                        &nbsp;&lt;input type="submit" value="Update"><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>We again use HTML &lt;form>&lt;/form> tags, Django's csrf_token for security, form.as_p to
+                            display our form fields with paragraph tags, and finally give it the value “Update” on the
+                            submit button.</li>
+                    </ul>
+                </li>
+                <li>update views:<br>
+                    <p class="hiCode">
+                        # blog/views.py<br>
+                        from django.views.generic import ListView, DetailView<br>
+                        from django.views.generic.edit import CreateView, UpdateView # new<br>
+                        <br>
+                        from .models import Post<br>
+                        <br>
+                        <br>
+                        class BlogListView(ListView):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "home.html"<br>
+                        <br>
+                        <br>
+                        class BlogDetailView(DetailView):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "post_detail.html"<br>
+                        <br>
+                        <br>
+                        class BlogCreateView(CreateView):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "post_new.html"<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = ["title", "author", "body"]<br>
+                        <br>
+                        <br>
+                        class BlogUpdateView(UpdateView): # new<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;template_name = "post_edit.html"<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = ["title", "body"]</p>
+                    <ul>
+                        <li>Notice that in BlogUpdateView we are explicitly listing the fields we want to use ["title",
+                            "body"] rather than using "__all__". This is because we assume that the author of the post
+                            is not changing; we only want the title and text to be editable.</li>
+                    </ul>
+                </li>
+                <li>update urls.py :<br>
+                    <p class="hiCode">
+                        # ... blog/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;BlogListView,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;BlogDetailView,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;BlogCreateView,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;BlogUpdateView # new<br>
+                        )<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path("post/new/", BlogCreateView.as_view(),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;name="post_new"),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path("post/&lt;int:pk>/", BlogDetailView.as_view(),
+                        name="post_detail"),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path("post/&lt;int:pk>/edit/", BlogUpdateView.as_view(),
+                        name="post_edit"), # new<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;path("", BlogListView.as_view(), name="home"),<br>
+                        ]</p>
+                </li>
+                <li>run the local server to check the result:<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>Now if you click on a blog entry you'll see our new Edit button.</i><br>
+                    <img width="200" src="../../images/notes/python/django/blogApp-edit_post.JPG" alt=""><br>
+                    <i>If you click on “+ Edit Blog Post” you'll be redirected to /post/1/edit/ if it is your first blog
+                        post, hence the 1 in the URL. Note that the form is pre-filled with our database's existing data
+                        for the post.</i><br>
+                    <img width="400" src="../../images/notes/python/django/blogApp-edit_post_screen.JPG" alt=""><br>
+                    After making a change and clicking the “Update” button we are redirected to the detail view of the
+                    post where you can see the change. This is because of our get_absolute_url setting. Navigate to the
+                    homepage and you can see the change next to all the other entries.
+                </li>
+            </ol>
+        </details>
+        <!-- DeleteView: user can delete a post -->
+        <details class="conBox">
+            <summary>DeleteView: user can delete a post</summary>
+            <p class="expText">
+                The process for creating a form to delete blog posts is very similar to that for updating a post. We'll
+                use yet another generic class-based view, <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/class-based-views/generic-editing/#deleteview"
+                    target="_blank">DeleteView</a>, create the necessary view, url, and template.
+            </p>
+            <ol>
+                <li>Add a new link to post_detail.html so that the option to edit a blog post appears on an individual
+                    blog page. :<br>
+                    <p class="hiCode">
+                        # ... templates/post_detail.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;div class="post-entry"><br>
+                        &nbsp;&nbsp;&lt;h2>{{ post.title }}&lt;/h2><br>
+                        &nbsp;&nbsp;&lt;p>{{ post.body }}&lt;/p><br>
+                        &lt;/div><br>
+                        <br>
+                        &lt;p>&lt;a href="{% url 'post_edit' post.pk %}">+ Edit Blog Post&lt;/a>&lt;/p><br>
+                        &lt;p>&lt;a href="{% url 'post_delete' post.pk %}">+ Delete Blog Post&lt;/a>&lt;/p><br>
+                        {% endblock content %}</p>
+                </li>
+                <li>create a new file for our delete page template with the name templates/<b>post_delete.html</b> :<br>
+                    <p class="hiCode">
+                        # ... templates/post_delete.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h1>Delete post&lt;/h1><br>
+                        &lt;form action="" method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;&lt;p>Are you sure you want to delete "{{ post.title }}"?&lt;/p><br>
+                        &nbsp;&nbsp;&lt;input type="submit" value="Confirm"><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>Note we are using post.title here to display the title of our blog post. We could also just
+                            use object.title as it too is provided by DetailView.</li>
+                    </ul>
+                </li>
+                <li>update the blog/<b>views.py</b> :<br>
+                    <p class="hiCode">
+                        # ... blog/views.py<br>
+                        from django.views.generic import ListView, DetailView<br>
+                        from django.views.generic.edit import CreateView, UpdateView, DeleteView # new<br>
+                        from django.urls import reverse_lazy # new<br>
+                        <br>
+                        from .models import Post<br>
+                        <br>
+                        <br>
+                        class BlogListView(ListView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "home.html"<br>
+                        <br>
+                        <br>
+                        class BlogDetailView(DetailView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_detail.html"<br>
+                        <br>
+                        <br>
+                        class BlogCreateView(CreateView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_new.html"<br>
+                        &nbsp;&nbsp;fields = ["title", "author", "body"]<br>
+                        <br>
+                        <br>
+                        class BlogUpdateView(UpdateView):<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_edit.html"<br>
+                        &nbsp;&nbsp;fields = ["title", "body"]<br>
+                        <br>
+                        <br>
+                        class BlogDeleteView(DeleteView): # new<br>
+                        &nbsp;&nbsp;model = Post<br>
+                        &nbsp;&nbsp;template_name = "post_delete.html"<br>
+                        &nbsp;&nbsp;success_url = reverse_lazy("home")</p>
+                    <ul>
+                        <li>The DeleteView specifies a model which is Post, a template post_delete.html, and a third
+                            field called success_url. What does this do? Well, after a blog post is deleted we want to
+                            redirect the user to another page which is, in our case, the homepage at home.</li>
+                        <li>An astute reader might notice that both CreateView and UpdateView also have redirects yet we
+                            did not have to specify a success_url. This is because Django will automatically use
+                            get_absolute_url() on the model object if it is available. And the only way to know about
+                            this trait is to very closely read and remember the docs, where it talks about model forms
+                            and success_url. Or more likely to have an error crop up and backtrack to sort out this
+                            internal Django behavior.</li>
+                        <li>One final point: we use <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#reverse-lazy"
+                                target="_blank">reverse_lazy</a> here as opposed to just <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/urlresolvers/#reverse"
+                                target="_blank">reverse</a> so that it won't
+                            execute the URL redirect until our view has finished deleting the blog post.</li>
+                    </ul>
+                </li>
+                <li>create a URL by importing our view BlogDeleteView and adding a new pattern:<br>
+                    <p class="hiCode">
+                        # ... blog/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import (<br>
+                        &nbsp;&nbsp;BlogListView,<br>
+                        &nbsp;&nbsp;BlogDetailView,<br>
+                        &nbsp;&nbsp;BlogCreateView,<br>
+                        &nbsp;&nbsp;BlogUpdateView,<br>
+                        &nbsp;&nbsp;BlogDeleteView, # new<br>
+                        )<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("post/new/", BlogCreateView.as_view(), name="post_new"),<br>
+                        &nbsp;&nbsp;path("post/&lt;int:pk>/", BlogDetailView.as_view(), name="post_detail"),<br>
+                        &nbsp;&nbsp;path("post/&lt;int:pk>/edit/", BlogUpdateView.as_view(),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;name="post_edit"),<br>
+                        &nbsp;&nbsp;path("post/&lt;int:pk>/delete/", BlogDeleteView.as_view(),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;name="post_delete"), # new<br>
+                        &nbsp;&nbsp;path("", BlogListView.as_view(), name="home"),<br>
+                        ]</p>
+                </li>
+            </ol>
+        </details>
+        <!-- Tests -->
+        <details class="conBox">
+            <summary>Tests</summary>
+            <ul>
+                <li>update the tests.py:<br>
+                    <p class="hiCode">
+                        # ... blog/tests.py<br>
+                        ...<br>
+                        def test_post_createview(self): # new<br>
+                        &nbsp;&nbsp;response = self.client.post(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;reverse("post_new"),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "New title",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"body": "New text",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"author": self.user.id,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;)<br>
+                        &nbsp;&nbsp;self.assertEqual(response.status_code, 302)<br>
+                        &nbsp;&nbsp;self.assertEqual(Post.objects.last().title, "New title")<br>
+                        &nbsp;&nbsp;self.assertEqual(Post.objects.last().body, "New text")<br>
+                        <br>
+                        def test_post_updateview(self): # new<br>
+                        &nbsp;&nbsp;response = self.client.post(<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;reverse("post_edit", args="1"),<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"title": "Updated title",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;"body": "Updated text",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;},<br>
+                        &nbsp;&nbsp;)<br>
+                        &nbsp;&nbsp;self.assertEqual(response.status_code, 302)<br>
+                        &nbsp;&nbsp;self.assertEqual(Post.objects.last().title, "Updated title")<br>
+                        &nbsp;&nbsp;self.assertEqual(Post.objects.last().body, "Updated text")<br>
+                        <br>
+                        def test_post_deleteview(self): # new<br>
+                        &nbsp;&nbsp;response = self.client.post(reverse("post_delete", args="1"))<br>
+                        &nbsp;&nbsp;self.assertEqual(response.status_code, 302)</p>
+                    <ul>
+                        <li>For test_post_createview we create a new response and check that the page has a 302 redirect
+                            status code and the last() object created on our model matches the new response.</li>
+                        <li>Then test_post_updateview sees if we can update the initial post created in setUpTestData
+                            since that data is available throughout our entire test class.</li>
+                        <li>The last new test, test_post_deleteview, confirms that a 302 redirect occurs when deleting
+                            a post.</li>
+                    </ul>
+                </li>
+            </ul>
+        </details>
+        <!-- User Accounts -->
+        <details class="conBox">
+            <summary>User Accounts</summary>
+            <p class="expText">
+                Django comes with a powerful, built-in <a href="https://docs.djangoproject.com/en/4.0/topics/auth/"
+                    target="_blank">user authentication system</a> that we can use and customize as
+                needed.
+            </p>
+            <p>Whenever you create a new project, by default Django installs the auth app, which provides us with a <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/contrib/auth/#django.contrib.auth.models.User"
+                    target="_blank">User object</a> containing:</p>
+            <ul>
+                <li>username</li>
+                <li>password</li>
+                <li>email</li>
+                <li>first_name</li>
+                <li>last_name</li>
+            </ul>
+            <p>We will use this User object to implement log in, log out, and sign up in our blog application.</p>
+            <h3>Log In</h3>
+            <p>Django provides us with a default view for a log in page via <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.views.LoginView"
+                    target="_blank">LoginView</a>. All we need to add are a URL
+                pattern for the auth system, a log in template, and a small update to our django_project/settings.py
+                file.</p>
+            <ul>
+                <li>update the django_project/urls.py file:<br>
+                    <p class="hiCode">
+                        # ... django_project/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path, include<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                        &nbsp;&nbsp;path("accounts/", include("django.contrib.auth.urls")), # new<br>
+                        &nbsp;&nbsp;path("", include("blog.urls")),<br>
+                        ]</p>
+                    <ul>
+                        <li>As the <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.views.LoginView"
+                                target="_blank">LoginView</a> documentation notes, by default Django will look within a
+                            templates directory called registration for a file called login.html for a log in form.</li>
+                    </ul>
+                </li>
+                <li>create a new directory called registration:<br>
+                    <code>mkdir templates/registration</code>
+                </li>
+                <li>create a new file called <b>login.html</b> inside the registration directory with the following
+                    code:<br>
+                    <p class="hiCode">
+                        # ... templates/registration/login.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h2>Log In&lt;/h2><br>
+                        &lt;form method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;{{ form.as_p }}<br>
+                        &nbsp;&nbsp;&lt;button type="submit">Log In&lt;/button><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>We're using HTML &lt;form>&lt;/form> tags and specifying the POST method since we're sending
+                            data to the server (we'd use GET if we were requesting data, such as in a search engine
+                            form).
+                        </li>
+                        <li> We add {% csrf_token %} for security concerns, namely to prevent a CSRF Attack.</li>
+                        <li>The form's contents are outputted between paragraph tags thanks to {{ form.as_p }} and then
+                            we add a “submit” button.</li>
+                    </ul>
+                <li>We need to specify where to redirect the user upon a successful log in. We can set this with
+                    the LOGIN_REDIRECT_URL setting. At the bottom of the django_project/settings.py :<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        LOGIN_REDIRECT_URL = "home" # new</p><br>
+                    <i>Now the user will be redirected to the 'home' template which is our homepage. And we're actually
+                        done at this point! If you now start up the Django server again with python manage.py runserver
+                        and navigate to our log in page at http://127.0.0.1:8000/accounts/login/</i><br>
+                    <i>Upon entering the log in info for our superuser account, we are redirected to the homepage.
+                        Notice that we didn't add any view logic or create a database model because the Django auth
+                        system provided both for us automatically.</i>
+                </li>
+                </li>
+            </ul>
+        </details>
+        <!-- Updated Homepage -->
+        <details class="conBox">
+            <summary>Updated Homepage</summary>
+            <p class="expText">Let’s update our base.html template so we display a message to users whether they are
+                logged in or not. We can use the <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/contrib/auth/#django.contrib.auth.models.User.is_authenticated"
+                    target="_blank">is_authenticated</a> attribute for this.</p>
+            <ul>
+                <li>Update the base.html file with new code starting beneath the closing &lt;/header> tag.<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        {% load static %}<br>
+                        &lt;html><br>
+                        &nbsp;&lt;head><br>
+                        &nbsp;&nbsp;&lt;title>Django blog&lt;/title><br>
+                        &nbsp;&nbsp;&lt;link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400"<br>
+                        rel="stylesheet"><br>
+                        &nbsp;&nbsp;&lt;link href="{% static 'css/base.css' %}" rel="stylesheet"s><br>
+                        &nbsp;&lt;/head><br>
+                        &nbsp;&lt;body><br>
+                        &nbsp;&nbsp;&lt;div><br>
+                        &nbsp;&nbsp;&nbsp;&lt;header><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="nav-left"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;h1>&lt;a href="{% url 'home' %}">Django
+                        blog&lt;/a>&lt;/h1><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;div class="nav-right"><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;a href="{% url 'post_new' %}">+ New Blog Post&lt;/a><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;/div><br>
+                        &nbsp;&nbsp;&lt;/header><br>
+                        &nbsp;&nbsp;{% if user.is_authenticated %}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;p>Hi {{ user.username }}!&lt;/p><br>
+                        &nbsp;&nbsp;{% else %}<br>
+                        &nbsp;&nbsp;&nbsp;&lt;p>You are not logged in.&lt;/p><br>
+                        &nbsp;&nbsp;&nbsp;&lt;a href="{% url 'login' %}">Log In&lt;/a><br>
+                        &nbsp;&nbsp;{% endif %}<br>
+                        &nbsp;{% block content %}<br>
+                        &nbsp;{% endblock content %}<br>
+                        &nbsp;&lt;/div><br>
+                        &lt;/body><br>
+                        &lt;/html></p>
+                </li>
+            </ul>
+        </details>
+        <!-- Log Out Link -->
+        <details class="conBox">
+            <summary>Log Out Link</summary>
+            <p class="expText">
+                Let's add a log out link that redirects to the homepage. Thanks to the Django <b>auth system</b>, this
+                is dead-simple to achieve.
+            </p>
+            <ul>
+                <li>In our base.html file add a one-line {% url 'logout' %} link for logging out just below our user
+                    greeting. :<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        ...<br>
+                        {% if user.is_authenticated %}<br>
+                        &nbsp;&lt;p>Hi {{ user.username }}!&lt;/p><br>
+                        &nbsp;&lt;p>&lt;a href="{% url 'logout' %}">Log out&lt;/a>&lt;/p><br>
+                        {% else %}<br>
+                        ...</p>
+                    <ul>
+                        <li>That's all we need to do as the necessary view is provided to us by the Django auth app. We
+                            do need to specify where to redirect a user upon log out though.</li>
+                    </ul>
+                </li>
+                <li>Update django_project/settings.py to provide a redirect link which is called, appropriately,
+                    LOGOUT_REDIRECT_URL. We can add it right next to our log in redirect so the bottom of the file
+                    should look as follows:<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        LOGIN_REDIRECT_URL = "home"<br>
+                        LOGOUT_REDIRECT_URL = "home"</p><br>
+                    <i>If you refresh the homepage you'll see it now has a “log out” link for logged in users.</i>
+                </li>
+            </ul>
+        </details>
+        <!-- Sign Up -->
+        <details class="conBox">
+            <summary>Sign Up</summary>
+            <p class="expText">
+                We need to write our own view for a sign up page to register new users, but Django provides us with a
+                form class, <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.forms.UserCreationForm"
+                    target="_blank">UserCreationForm</a>, to make things easier. By default it comes with three fields:
+                username, password1, and password2.
+            </p>
+            <h3>account app</h3>
+            <p>the app allows user to sign up</p>
+            <ol>
+                <li>create a new app with the name accounts:<br>
+                    <code>python manage.py startapp accounts</code></li>
+                <li>add the new app to the INSTALLED_APPS setting in our django_project/settings.py file:<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        INSTALLED_APPS = [<br>
+                        &nbsp;&nbsp;"django.contrib.admin",<br>
+                        &nbsp;&nbsp;"django.contrib.auth",<br>
+                        &nbsp;&nbsp;"django.contrib.contenttypes",<br>
+                        &nbsp;&nbsp;"django.contrib.sessions",<br>
+                        &nbsp;&nbsp;"django.contrib.messages",<br>
+                        &nbsp;&nbsp;"django.contrib.staticfiles",<br>
+                        &nbsp;&nbsp;"blog.apps.BlogConfig",<br>
+                        &nbsp;&nbsp;<mark>"accounts.apps.AccountsConfig",</mark> # new<br>
+                        ]</p>
+                </li>
+                <li>add a new URL path in django_project/urls.py pointing to this new app directly below where we
+                    include the built-in auth app:<br>
+                    <p class="hiCode">
+                        # ... django_project/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path, include
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                        &nbsp;&nbsp;path("accounts/", include("django.contrib.auth.urls")),<br>
+                        &nbsp;&nbsp;<mark>path("accounts/", include("accounts.urls")),</mark> # new<br>
+                        &nbsp;&nbsp;path("", include("blog.urls")),<br>
+                        ]</p>
+                    <ul>
+                        <li>The order of our urls matters here because Django reads this file top-to-bottom.</li>
+                        <li>Therefore when we request the /accounts/signup url, Django will first look in auth, not find
+                            it, and then proceed to the accounts app.</li>
+                    </ul>
+                </li>
+                <li>create a file called accounts/urls.py and add the following code:<br>
+                    <p class="hiCode">
+                        # ... accounts/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import SignUpView
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("signup/", SignUpView.as_view(), name="signup"),<br>
+                        ]</p>
+                    <ul>
+                        <li>We're using a not-yet-created view called SignupView which we already know is class-based
+                            since it is capitalized and has the as_view() suffix.</li>
+                        <li> Its path is just signup/ so the overall URL path will be accounts/signup/.</li>
+                    </ul>
+                </li>
+                <li>create the view which uses the built-in UserCreationForm and generic CreateView:<br>
+                    <p class="hiCode">
+                        # accounts/views.py<br>
+                        from django.contrib.auth.forms import UserCreationForm<br>
+                        from django.urls import reverse_lazy<br>
+                        from django.views.generic import CreateView<br>
+                        <br>
+                        <br>
+                        class SignUpView(CreateView):<br>
+                        &nbsp&nbsp;form_class = UserCreationForm<br>
+                        &nbsp&nbsp;success_url = reverse_lazy("login")<br>
+                        &nbsp&nbsp;template_name = "registration/signup.html"</p>
+                    <ul>
+                        <li>We're subclassing the generic class-based view CreateView in our SignUpView class.</li>
+                        <li>We specify the use of the built-in UserCreationForm and the not-yet-created template at
+                            signup.html.</li>
+                        <li>And we use reverse_lazy to redirect the user to the log in page upon successful
+                            registration.</li>
+                        <li>Why use reverse_lazy here instead of reverse? The reason is that for all generic class-based
+                            views the URLs are not loaded when the file is imported, so we have to use the lazy form of
+                            reverse to load them later when they're available.</li>
+                    </ul>
+                </li>
+                <li>create the file signup.html within the templates/registration/ directory:<br>
+                    <p class="hiCode">
+                        # ... templates/registration/signup.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h2>Sign Up&lt;/h2><br>
+                        &nbsp;&nbsp;&lt;form method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{{ form.as_p }}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&lt;button type="submit">Sign Up&lt;/button><br>
+                        &nbsp;&nbsp;&lt;/form><br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>We extend our base template at the top, place our logic between &lt;form>&lt;/form> tags,
+                            use the csrf_token for security, display the form's content in paragraph tags with
+                            form.as_p, and include a submit button.</li>
+                    </ul>
+                </li>
+                <li>run the local server:<br>
+                    <code>python manage.py runserver</code><br>
+                    <ul>
+                        <li>Notice there is a lot of extra text that Django includes by default. We can customize this
+                            using something like the built-in <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/contrib/messages/"
+                                target="_blank">messages framework</a></li>
+                        <li>I've created a new user called “william” and upon submission was redirected to the log in
+                            page. Then after logging in successfully with my new user and password, I was redirected to
+                            the homepage with our personalized “Hi username” greeting.
+                        </li>
+                        <li>Our ultimate flow is therefore: Signup -> Login -> Homepage. And of course we can tweak this
+                            however we want. The SignupView redirects to login because we set success_url =
+                            reverse_lazy('login'). The Login page redirects to the homepage because in our
+                            django_project/settings.py file we set LOGIN_REDIRECT_URL = 'home'.</li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- Sign Up Link -->
+        <details class="conBox">
+            <summary>Sign Up Link</summary>
+            <p class="expText">
+                One last improvement we can make is to add a sign up link to the logged out homepage.
+            </p>
+            <ol>
+                <li>In accounts/urls.py we provided it the name of signup so that's all we need to add to our base.html
+                    template with the <a href="https://docs.djangoproject.com/en/4.0/ref/templates/builtins/#url"
+                        target="_blank">url template tag</a> just as we've done for our other links.<br>
+                    Add the link for “Sign Up” just below the existing link for “Log In” as follows:<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        ...<br>
+                        &lt;p>You are not logged in.&lt;/p><br>
+                        &lt;a href="{% url 'login' %}">Log In&lt;/a><br>
+                        <mark>&lt;a href="{% url 'signup' %}">Sign Up&lt;/a></mark><br>
+                        ...
+                    </p>
+                </li>
+            </ol>
+        </details>
+        <!-- Static Files -->
+        <details class="conBox">
+            <summary>Static Files</summary>
+            <p class="expText">
+                Previously, we configured our static files by creating a dedicated static folder, pointing
+                STATICFILES_DIRS to it in our django_project/settings.py file, and adding {% load static %} to our
+                base.html template. But since Django won't serve static files in production, we need a few extra steps
+                now.
+            </p>
+            <!-- collectstatic -->
+            <h3>collectstatic</h3>
+            <ol>
+                <li> updated django_project/settings.py:<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        STATIC_URL = "/static/"<br>
+                        STATICFILES_DIRS = [BASE_DIR / "static"]<br>
+                        <mark>STATIC_ROOT = BASE_DIR / "staticfiles"</mark> # new<br>
+                        <mark title="should be one line">STATICFILES_STORAGE =
+                            "django.contrib.staticfiles.storage.StaticFilesStorage"</mark> # new
+                    </p>
+                    <ul>
+                        <li>set the <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#static-root"
+                                target="_blank">STATIC_ROOT</a> configuration, which is the absolute location of these
+                            collected files, to a folder called staticfiles.
+                        </li>
+                        <li>set the <a href="https://docs.djangoproject.com/en/4.0/ref/settings/#staticfiles-storage"
+                                target="_blank">STATICFILES_STORAGE</a>, which is the file storage engine used by
+                            collectstatic</li>
+                    </ul><br>
+                    run the command:<br>
+                    <code>python manage.py collectstatic</code><br>
+                    <ul>
+                        <li>The command compiles all static files throughout the project into a singe directory suitable
+                            for deployment.</li>
+                        <li>If you look at your project folder now you'll see there's a new staticfiles folder that
+                            contains admin and css folders. <ul>
+                                <li>The admin is the built-in admin's static files</li>
+                                <li>the css is the one we created</li>
+                            </ul>
+                        </li>
+                        <li>Before each new deployment, the collectstatic command must be run to compile them into this
+                            staticfiles folder used in production.</li>
+                    </ul>
+                </li>
+            </ol>
+            <!-- WhiteNoise package -->
+            <h3>WhiteNoise package</h3>
+            <p class="expText">
+                The "<a href="http://whitenoise.evans.io/en/stable/" target="_blank">WhiteNoise</a>" package serves
+                these compiled static files in production.
+            </p>
+            <ol>
+                <li>install the latest version of the "whiteNoise" package using pip:<br>
+                    <code>python -m pip install whitenoise</code></li>
+                <li>update django_project/settings.py:<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        INSTALLED_APPS = [<br>
+                        &nbsp;&nbsp;"django.contrib.admin",<br>
+                        &nbsp;&nbsp;"django.contrib.auth",<br>
+                        &nbsp;&nbsp;"django.contrib.contenttypes",<br>
+                        &nbsp;&nbsp;"django.contrib.sessions",<br>
+                        &nbsp;&nbsp;"django.contrib.messages",<br>
+                        &nbsp;&nbsp;<mark>"whitenoise.runserver_nostatic",</mark> # new<br>
+                        &nbsp;&nbsp;"django.contrib.staticfiles",<br>
+                        &nbsp;&nbsp;"blog.apps.BlogConfig",<br>
+                        &nbsp;&nbsp;"accounts.apps.AccountsConfig",<br>
+                        ]<br>
+                        <br>
+                        MIDDLEWARE = [<br>
+                        &nbsp;&nbsp;"django.middleware.security.SecurityMiddleware",<br>
+                        &nbsp;&nbsp;"django.contrib.sessions.middleware.SessionMiddleware",<br>
+                        &nbsp;&nbsp;<mark>"whitenoise.middleware.WhiteNoiseMiddleware",</mark> # new<br>
+                        &nbsp;&nbsp;"django.middleware.common.CommonMiddleware",<br>
+                        ...<br>
+                        ]<br>
+                        <br>
+                        STATIC_URL = "/static/"<br>
+                        STATICFILES_DIRS = [BASE_DIR / "static"]<br>
+                        STATIC_ROOT = BASE_DIR / "staticfiles"<br>
+                        <mark title="should be one line">
+                            STATICFILES_STORAGE =<br>
+                            "whitenoise.storage.CompressedManifestStaticFilesStorage"</mark> # new</p>
+                    <ul>
+                        <li>add whitenoise to the INSTALLED_APPS above the built-in staticfiles app</li>
+                        <li>under MIDDLEWARE add a new line for WhiteNoiseMiddleware</li>
+                        <li>change STATICFILES_STORAGE to use WhiteNoise</li>
+                    </ul>
+                </li>
+                <li>since the method has changed run collectstatic one more time to use whitenoise instead:<br>
+                    <code>python manage.py collectstatic</code>
+                    <ul>
+                        <li>There will be a short warning, This will overwrite existing files! Are you sure you want to
+                            do this? Type “yes” and hit Enter. The collected static files are now regenerated in the
+                            same staticfiles folder using WhiteNoise.</li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- Heroku Config -->
+        <details class="conBox">
+            <summary>Heroku Config</summary>
+            <ol>
+                <li>installs the web server "Gunicorn"<br>
+                    <code>python -m pip install gunicorn</code></li>
+                <li>create the 'requirements.txt' which contains all dependency with the command:<br>
+                    <code>python -m pip freeze > requirements.txt</code></li>
+                <li>set the allowed hosts under django_project/settings.py<br>
+                    <code>ALLOWED_HOSTS = [".herokuapp.com", "localhost", "127.0.0.1"]</code></li>
+                <li>create the "Procfile" with no extension in the root directory and add the following code:<br>
+                    <code>web: gunicorn PROJECT_NAME.wsgi --log-file -</code></li>
+                <li>create the "runtime.txt" in the root directory and add the python version (<i>lowercase</i>) for
+                    example:<br>
+                    <code>python-3.10.2</code>
+            </ol>
+        </details>
+        <!-- Heroku Deployment -->
+        <details class="conBox">
+            <summary>Heroku Deployment</summary>
+            <ol>
+                <li>logged in to your existing Heroku account:<br>
+                    <code>heroku login</code></li>
+                <li>Run the create command which tells Heroku to make a new container for our app to live in. If you
+                    just run heroku create then Heroku will assign you a random name, however you can specify a custom
+                    name but it must be unique on Heroku.<br>
+                    <code>heroku create <mark title="name of the app">zk-blog-app</mark></code></li>
+                <li>push the code to GitHub and Heroku<br>
+                    <code>git push heroku main</code></li>
+                <li>turn the Heroku app on ("live") on the free plan<br>
+                    <code>heroku ps:scale web=1</code></li>
+                <li>open the app:<br>
+                    <code>heroku open</code></li>
+            </ol>
+        </details>
+        <!-- SQLite vs PostgreSQL -->
+        <details class="conBox">
+            <summary>SQLite vs PostgreSQL</summary>
+            <p class="expText">
+                So far we have been using the file-based SQLite database preconfigured by Django both
+                locally and in deployment. It is much easier to configure and use than a server-based database. However,
+                this convenience comes at a cost. Notably Heroku has an ephemeral file system so any changes to the
+                db.sqlite3 file in the cloud will be forgotten whenever a new deployment or server restart occurs. On
+                the free tier we are using, server restarts can happen as often as every 24 hours.
+                That means that if you make changes to the database locally and push them to production, they will
+                remain. However, if you make updates to the live website such as new blog entries or edits, they will
+                not exist for very long.
+            </p>
+        </details>
+        <h3>Conclusion</h3>
+        <p class="expText">
+            With a minimal amount of code, we have added log in, log out, and sign up to our Blog website.
+            Under-the-hood Django has taken care of the many security gotchas that can crop up if you try to create your
+            own user authentication flow from scratch. We properly configured static files for production and deployed
+            our website to Heroku.
+        </p>
+        <!-- <<< end Blog App ////////////////////////////////////////////////////////////////////////////////////// -->
+        <!-- >>> start Newspaper app ////////////////////////////////////////////////////////////////////////////////////// -->
+        <h2>Newspaper app</h2>
+        <!-- Custom User Model -->
+        <details class="conBox">
+            <summary>Custom User Model</summary>
+            <p class="expText"> Django's built-in <a
+                    href="https://docs.djangoproject.com/en/4.0/ref/contrib/auth/#django.contrib.auth.models.User"
+                    target="_blank">User model</a> allows us to start working with users right away, as we just did with
+                our Blog app in the previous chapters. However, the official Django documentation highly recommends
+                using a <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project"
+                    target="_blank">custom user model</a> for new projects. The reason is that if you want to make any
+                changes to the User model down the road--for example adding an age field--using a custom user model from
+                the beginning makes this quite easy. But if you do not create a custom user model, updating the default
+                User model in an existing Django project is very, very challenging. </p>
+        </details>
+        <!-- Initial Set Up -->
+        <details class="conBox">
+            <summary>Initial Set Up</summary>
+            <ol>
+                <li>create a new root directory and change into it, run the following commands:<br>
+                    <p class="hiCode">
+                        python -m venv <mark
+                            title="create a virtual environment in the hidden folder venv">.venv</mark><br>
+                        .venv\Scripts\<mark title="activates the virtual environment">activate</mark><br>
+                        git <mark title="initializes a local git repository">init</mark><br>
+                        <mark title="creates a hidden gitignore file in 'power shell">New-Item .gitignore.</mark> ;
+                        <mark
+                            title="writes into the .gitignore file in 'power shell', prevents the virtual environment from being submitted">Set-Content
+                            .gitignore. '.venv/'</mark><br>
+                        python -m pip <mark title="installs Django">install django</mark><br>
+                        django-admin startproject <mark title="creates a django project 'django_project'">django_project
+                            .</mark><br>
+                        git <mark
+                            title="add's all files (except .gitignore) and commit's them with the 'initial commit' message">add
+                            . && git commit -m "initial commit"</mark><br>
+                        gh <mark title="creates a gitHub repository">repo create</mark> <mark
+                            title="repo is public use '--private' to make it private">--public</mark> <mark
+                            title="specify the source directory which is the current .">--source=.</mark> <mark
+                            title="sets the upstream, where to commit to, gitHub new created repo">--remote=upstream</mark>
+                        <mark title="pushes the commit to gitHub">--push</mark></p>
+                </li>
+                <li>create a Django app called 'accounts' :<br>
+                    <code>python manage.py startapp accounts</code>
+                    <ul>
+                        <li>register the app django_project/settings INSTALLED_APPS = [ ... :<br>
+                            <code>"accounts.apps.AccountsConfig",</code></li>
+                    </ul>
+                </li>
+                <li><b>Do NOT run the migrate command jet!!!</b></li>
+            </ol>
+        </details>
+        <!-- Custom User Model -->
+        <details class="conBox">
+            <summary>Custom User Model</summary>
+            <ol>
+                <li>tell Django to use our new custom user model, add under django_project/setting at the bottom :<br>
+                    <code>AUTH_USER_MODEL = "accounts.CustomUser"</code></li>
+                <li>update accounts/models.py :<br>
+                    <p class="hiCode">
+                        # ... accounts/models.py<br>
+                        from django.contrib.auth.models import AbstractUser<br>
+                        from django.db import models<br>
+                        <br>
+                        <br>
+                        class CustomUser(AbstractUser):<br>
+                        &nbsp;&nbspage = models.PositiveIntegerField(null=True, blank=True)</p>
+                    <ul>
+                        <li>Add a new User model called <b>CustomUser</b> that extends the existing <b><a
+                                    href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#using-a-custom-user-model-when-starting-a-project"
+                                    target="_blank">AbstractUser</a></b>.
+                        </li>
+                        <li>We also include our a custom field for <b>age</b> here.</li>
+                        <li>If you read the <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#specifying-a-custom-user-model"
+                                target="_blank">official documentation on custom user</a> models it recommends using
+                            AbstractBaseUser not AbstractUser. This needlessly complicates things in my opinion,
+                            especially for beginners. <details class="exaBox">
+                                <summary>AbstractBaseUser</summary>
+                                <p>AbstractBaseUser requires a very fine level of control and customization. We
+                                    essentially rewrite Django. This can be helpful, but if we just want a custom user
+                                    model that can be updated with additional fields, the better choice is AbstractUser
+                                    which subclasses AbstractBaseUser. In other words, we write much less code and have
+                                    less opportunity to mess things up. It's the better choice unless you really know
+                                    what yo're doing with Django!</p>
+                            </details>
+                        </li>
+                        <li>Note that we use both <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/models/fields/#null"
+                                target="_blank">null</a> and <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/models/fields/#blank"
+                                target="_blank">blank</a> with our <b>age</b> field.<br>
+                            These two terms are easy to confuse but quite distinct: <ul>
+                                <li>null is <b>database-related</b>. When a field has <code>null=True</code> it can
+                                    store a database entry as NULL, meaning no value.</li>
+                                <li>blank is <b>validation-related</b>. If <code>blank=True</code> then a form will
+                                    allow an empty value, whereas if <code>blank=False</code> then a value is required.
+                                </li>
+                                <li>A common gotcha to be aware of is that the <b>field type</b> dictates how to use
+                                    these values. Whenever you have a string-based field like CharField or TextField,
+                                    setting both null and blank as we've done will result in two possible values for “no
+                                    data” in the database. Which is a bad idea. The Django convention is instead to use
+                                    the empty string "", not NULL.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- Forms -->
+        <details class="conBox">
+            <summary>Forms</summary>
+            <p class="expText">
+                If we step back for a moment, what are the two ways in which we would interact with our new CustomUser
+                model? One case is when a user signs up for a new account on our website. The other is within the admin
+                app which allows us, as superusers, to modify existing users. So we'll need to update the two built-in
+                forms for this functionality: <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.forms.UserCreationForm"
+                    target="_blank">UserCreationForm</a> and <a
+                    href="https://docs.djangoproject.com/en/4.0/topics/auth/default/#django.contrib.auth.forms.UserChangeForm"
+                    target="_blank">UserChangeForm</a>.
+            </p>
+            <ol>
+                <li>Create a new file called accounts/forms.py and update it :<br>
+                    <p class="hiCode">
+                        # accounts/forms.py<br>
+                        from django.contrib.auth.forms import UserCreationForm, UserChangeForm<br>
+                        <br>
+                        from .models import CustomUser<br>
+                        <br>
+                        <br>
+                        class CustomUserCreationForm(UserCreationForm):<br>
+                        &nbsp;&nbsp;class Meta(UserCreationForm):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = CustomUser<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = UserCreationForm.Meta.fields + ("age",)<br>
+                        <br>
+                        <br>
+                        class CustomUserChangeForm(UserChangeForm):<br>
+                        &nbsp;&nbsp;class Meta:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = CustomUser<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = UserChangeForm.Meta.fields</p>
+                    <ul>
+                        <li>For both new forms we are using the <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/forms/modelforms/#overriding-the-default-fields"
+                                target="_blank">Meta class</a> to override the default fields by setting the
+                            model to our CustomUser and using the default fields via <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/forms/modelforms/#overriding-the-default-fields"
+                                target="_blank">Meta.fields</a> which includes all
+                            default fields.</li>
+                        <li>To add our custom age field we simply tack it on at the end and it will display
+                            automatically on our future sign up page.</li>
+                        <li>Our CustomUser model contains all the fields of the default User model and our additional
+                            age field which we set. <ul>
+                                <li>It turns out there <a
+                                        href="https://docs.djangoproject.com/en/4.0/ref/contrib/auth/#django.contrib.auth.models.User"
+                                        target="_blank">are many</a> including username, first_name, last_name, email,
+                                    password, groups, and more. Yet when a user signs up for a new account on Django the
+                                    default form only asks for a username, email, and password. This tells us that the
+                                    default setting for fields on UserCreationForm is just username, email, and password
+                                    even though there are many more fields available.</li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+                <li>update our admin.py :<br>
+                    <p class="hiCode">
+                        # ... accounts/admin.py<br>
+                        from django.contrib import admin<br>
+                        from django.contrib.auth.admin import UserAdmin<br>
+                        <br>
+                        from .forms import CustomUserCreationForm, CustomUserChangeForm<br>
+                        from .models import CustomUser<br>
+                        <br>
+                        <br>
+                        class CustomUserAdmin(UserAdmin):<br>
+                        &nbsp;&nbsp;add_form = CustomUserCreationForm<br>
+                        &nbsp;&nbsp;form = CustomUserChangeForm<br>
+                        &nbsp;&nbsp;model = CustomUser<br>
+                        &nbsp;&nbsp;list_display = [<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"email",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"username",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"age",<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;"is_staff",<br>
+                        &nbsp;&nbsp;]<br>
+                        &nbsp;&nbsp;fieldsets = UserAdmin.fieldsets + ((None, {"fields": ("age",)}),)<br>
+                        &nbsp;&nbsp;add_fieldsets = UserAdmin.add_fieldsets + ((None, {"fields": ("age",)}),)<br>
+                        <br>
+                        <br>
+                        admin.site.register(CustomUser, CustomUserAdmin)</p>
+                    <ul>
+                        <li>Admin is tightly coupled to the default User model.</li>
+                        <li>We will extend the existing <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#extending-the-existing-user-model"
+                                target="_blank">UserAdmin</a> class to use our new CustomUser model. To control
+                            which fields are listed we use <a
+                                href="https://docs.djangoproject.com/en/4.0/ref/contrib/admin/#django.contrib.admin.ModelAdmin.list_display"
+                                target="_blank">list_display</a>.</li>
+                        <li>To actually edit and add new custom fields, like age, we must also add <a
+                                href="https://docs.djangoproject.com/en/4.0/topics/auth/customizing/#custom-users-and-django-contrib-admin"
+                                target="_blank">fieldsets</a> (for fields
+                            used in editing users) and add_fieldsets (for fields used when creating a user).</li>
+                    </ul>
+                </li>
+                <li>run makemigrations and migrate for the first time to create a new database that uses the custom user
+                    model:<br>
+                    <code>python manage.py makemigrations accounts</code><br>
+                    <code>python manage.py migrate</code></li>
+            </ol>
+        </details>
+        <!-- Superuser -->
+        <details class="conBox">
+            <summary>Superuser</summary>
+            <ol>
+                <li>create a superuser :<br>
+                    <code>python manage.py createsuperuser</code></li>
+                <li>run the local server and log in :<br>
+                    <code>python manage.py runserver</code><br>
+                    <i>http://127.0.0.1:8000/admin "Users"</i><br>
+                    <img width="600" src="../../images/notes/python/django/news_app-admin_user.JPG" alt=""><br>
+                    <ul>
+                        <li>you should see your superuser account as well as the default fields of Email Address,
+                            Username, Age,
+                            and Staff Status. These were set in list_display in our admin.py file</li>
+                        <li>The age field is empty because we have yet to set it yet. The default prompt for creating a
+                            superuser does not ask for it however in the next chapter we will see it is automatically
+                            included
+                            in our sign up form.</li>
+                    </ul>
+                </li>
+
+            </ol>
+        </details>
+        <!-- User Authentication -->
+        <details class="conBox">
+            <summary>User Authentication</summary>
+            <p class="expText">
+                Now that we have a working custom user model we can add the functionality every website needs: the
+                ability to sign up, log in, and log out users. Django provides everything we need for log in and log out
+                but we will need to create our own form to sign up new users. We'll also build a basic homepage with
+                links to all three features so we don't have to type in the URLs by hand every time.
+            </p>
+            <h3>Templates</h3>
+            <p class="expText">
+                By default, the Django template loader looks for templates in a nested structure within each app. The
+                structure accounts/templates/accounts/home.html would be needed for a home.html template within the
+                accounts app. But a single templates directory within django_project approach is cleaner and scales
+                better so that's what we'll use.
+            </p>
+            <ul>
+                <li> create a new templates directory and within it a registration directory as that's where Django will
+                    look for templates related to log in and sign up :<br>
+                    <code>mkdir templates/registration</code><br>
+                    add following code :<br>
+                    <p class="hiCode">
+                        TEMPLATES = [<br>
+                        &nbsp;&nbsp;{<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;<mark>"DIRS": [BASE_DIR / "templates"],</mark> # new<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;}<br>
+                        ]</p>
+                </li>
+            </ul>
+            <h3>login & logout redirection</h3>
+            <p class="expText">
+                We need to tell Django where to send users in each case. The LOGIN_REDIRECT_URL and LOGOUT_REDIRECT_URL
+                settings do that. We'll configure both to redirect to our homepage which will have the named URL of
+                'home'.
+            </p>
+            <ol>
+                <li>Remember that when we create our URL routes we have the option to add a name to each one. So when we
+                    make the homepage URL we'll make sure to call it 'home'.<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        LOGIN_REDIRECT_URL = "home"<br>
+                        LOGOUT_REDIRECT_URL = "home"</p>
+                </li>
+                <li>create the base.html :<br>
+                    <p class="hiCode">
+                        # ... templates/base.html<br>
+                        &lt;!DOCTYPE html><br>
+                        &lt;html><br>
+                        &lt;head><br>
+                        &nbsp;&nbsp;&lt;meta charset="utf-8"><br>
+                        &nbsp;&nbsp;&lt;title>{% block title %}Newspaper App{% endblock title %}&lt;/title><br>
+                        &lt;/head><br>
+                        &lt;body><br>
+                        &nbsp;&nbsp;&lt;main><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{% block content %}<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;{% endblock content %}<br>
+                        &nbsp;&nbsp;&lt;/main><br>
+                        &lt;/body><br>
+                        &lt;/html></p>
+                    <ul>
+                        <li>By using a block like {% block content %} we can later override the content just in this
+                            place in other templates.</li>
+                    </ul>
+                </li>
+                <li>create the home.html :<br>
+                    <p class="hiCode">
+                        # ... templates/home.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block title %}Home{% endblock title %}<br>
+                        <br>
+                        {% block content %}<br>
+                        {% if user.is_authenticated %}<br>
+                        &nbsp;&nbsp;Hi {{ user.username }}!<br>
+                        &nbsp;&nbsp;&lt;p>&lt;a href="{% url 'logout' %}">Log Out&lt;/a>&lt;/p><br>
+                        {% else %}<br>
+                        &nbsp;&nbsp;&lt;p>You are not logged in&lt;/p><br>
+                        &nbsp;&nbsp;&lt;a href="{% url 'login' %}">Log In&lt;/a> |<br>
+                        &nbsp;&nbsp;&lt;a href="{% url 'signup' %}">Sign Up&lt;/a><br>
+                        {% endif %}<br>
+                        {% endblock content %}</p>
+                </li>
+                <li>create the login.html :<br>
+                    <p class="hiCode">
+                        # ... templates/registration/login.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block title %}Log In{% endblock title %}<br>
+                        <br>
+                        {% block content %}<br>
+                        &lt;h2>Log In&lt;/h2><br>
+                        &lt;form method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;{{ form.as_p }}<br>
+                        &nbsp;&nbsp;&lt;button type="submit">Log In&lt;/button><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                </li>
+                <li>create the signup.html :<br>
+                    <p class="hiCode">
+                        templates/registration/signup.html<br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block title %}Sign Up{% endblock title %}<br>
+                        {% block content %}<br>
+                        &lt;h2>Sign Up&lt;/h2><br>
+                        &lt;form method="post">{% csrf_token %}<br>
+                        &nbsp;&nbsp;{{ form.as_p }}<br>
+                        &nbsp;&nbsp;&lt;button type="submit">Sign Up&lt;/button><br>
+                        &lt;/form><br>
+                        {% endblock content %}</p>
+                </li>
+            </ol>
+        </details>
+        <!-- URLs -->
+        <details class="conBox">
+            <summary>URLs</summary>
+            <ol>
+                <li>update the django_project/urls.py :<br>
+                    <p class="hiCode">
+                        # ... django_project/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path, include # new<br>
+                        from django.views.generic.base import TemplateView # new<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                        &nbsp;&nbsp;path("accounts/", include("accounts.urls")), # new<br>
+                        &nbsp;&nbsp;path("accounts/", include("django.contrib.auth.urls")), # new<br>
+                        &nbsp;&nbsp;path("", TemplateView.as_view(template_name="home.html"), name="home"), # new<br>
+                        ]</p>
+                    <ul>
+                        <li> We want to have our home.html template appear as the homepage, but we don't want to build a
+                            dedicated pages app just yet. We can use the shortcut of importing TemplateView and setting
+                            the
+                            template_name right in our url pattern.</li>
+                        <li>Next, we want to “include” both the accounts app and the built-in auth app. The reason is
+                            that the
+                            built-in auth app already provides views and urls for log in and log out. But for sign up we
+                            will
+                            need to create our own view and url. To ensure that our URL routes are consistent we place
+                            them both
+                            at accounts/ so the eventual URLS will be /accounts/login, /accounts/logout, and
+                            /accounts/signup.
+                        </li>
+                    </ul>
+                </li>
+                <li>create a file with your text editor called accounts/urls.py : <br>
+                    <p class="hiCode">
+                        # accounts/urls.py<br>
+                        from django.urls import path<br>
+                        from .views import SignUpView<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("signup/", SignUpView.as_view(),<br>
+                        &nbsp;&nbsp;name="signup"),<br>
+                        ]</p>
+                </li>
+                <li>update accounts/views.py :<br>
+                    <p class="hiCode">
+                        # ... accounts/views.py<br>
+                        from django.urls import reverse_lazy<br>
+                        from django.views.generic import CreateView<br>
+                        <br>
+                        from .forms import CustomUserCreationForm<br>
+                        <br>
+                        <br>
+                        class SignUpView(CreateView):<br>
+                        form_class = CustomUserCreationForm<br>
+                        &nbsp;&nbsp;success_url = reverse_lazy('login')<br>
+                        &nbsp;&nbsp;template_name = "registration/signup.html"</p>
+                    <ul>
+                        <li>The views.py file contain's the logic for our sign up form.</li>
+                        <li>We're using Django's generic CreateView here and telling it to use our
+                            CustomUserCreationForm, to redirect to login once a user signs up successfully, and that our
+                            template is named signup.html.</li>
+                    </ul>
+                </li>
+                <li>run the local server :<br>
+                    <code>python manage.py runserver</code><br>
+                    <ul>
+                        <li><i>you should be coming always back to the homepage after logging out or in</i></li>
+                    </ul>
+                </li>
+            </ol>
+
+        </details>
+        <!-- add user value to page -->
+        <details class="conBox">
+            <summary>add user value to page</summary>
+            <p>When the user setts up his account he also provides his age. This value we can use in our template
+                (user.age).</p>
+            <ul>
+                <li>add the yellow marked code to home.html :<br>
+                    <p class="hiCode">
+                        <!-- templates/home.html --><br>
+                        {% extends "base.html" %}<br>
+                        <br>
+                        {% block title %}Home{% endblock title %}<br>
+                        <br>
+                        {% block content %}<br>
+                        {% if user.is_authenticated %}<br>
+                        &nbsp;&nbsp;Hi {{ user.username }}! You are <mark>{{ user.age }}</mark> years old.<br>
+                        &nbsp;&nbsp;&lt;p>&lt;a href="{% url 'logout' %}">Log Out&lt;/a>&lt;/p><br>
+                        {% else %}<br>
+                        &lt;p>You are not logged in&lt;/p><br>
+                        &nbsp;&nbsp;&lt;a href="{% url 'login' %}">Log In&lt;/a><br>
+                        &nbsp;&nbsp;&lt;a href="{% url 'signup' %}">Sign Up&lt;/a><br>
+                        {% endif %}<br>
+                        {% endblock content %}</p>
+                    <ul>
+                        <li>It is a field on the user model, so to display it we only need to use {{ user.age }}.</li>
+                    </ul>
+                </li>
+            </ul>
+        </details>
+        <!-- admin -->
+        <details class="conBox">
+            <summary>admin</summary>
+            <p class="expText">
+                Just because the user model has a field does not mean it will be included in our custom sign up form
+                unless it is explicitly added. That is why the use has no email address, because it is not ask in the
+                sign-up form.
+            </p>
+            <ol>
+                <li>Currently, in accounts/forms.py under fields we're using Meta.fields, which just displays the
+                    default settings of username/age/password. But we can also explicitly set which fields we want
+                    displayed so let's update it to ask for a username/email/age/password by setting it to ('username',
+                    'email', 'age',). We don't need to include the password fields because they are required! All the
+                    other fields can be configured however we choose.<br>
+                    update the the forms.py :<br>
+                    <p class="hiCode">
+                        # ... accounts/forms.py<br>
+                        from django.contrib.auth.forms import UserCreationForm, UserChangeForm<br>
+                        <br>
+                        from .models import CustomUser<br>
+                        <br>
+                        class CustomUserCreationForm(UserCreationForm):<br>
+                        &nbsp;&nbsp;class Meta(UserCreationForm):<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = CustomUser<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"username",</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"email",</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"age",</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;)<br>
+                        <br>
+                        <br>
+                        class CustomUserChangeForm(UserChangeForm):<br>
+                        &nbsp;&nbsp;class Meta:<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;model = CustomUser<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;fields = (<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"username",</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"email",</mark><br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<mark>"age"</mark>,<br>
+                        &nbsp;&nbsp;&nbsp;&nbsp;)</p>
+                </li>
+                <li>if you run the local server and you check the signup form :<br>
+                    <code>python manage.py runserver</code><br>
+                    <img width="500" src="../../images/notes/python/django/news_app-email.jpg" alt=""><br>
+                </li>
+            </ol>
+        </details>
+        <!-- bootstrap -->
+        <h3>bootstrap</h3>
+        <!-- Pages App -->
+        <details class="conBox" open>
+            <summary>Pages App</summary>
+            <p class="expText">
+                In the previous chapter we displayed our homepage by including view logic in our urls.py file. Instead,
+                we can and should create a dedicated pages app for all our static pages, such as the homepage, a future
+                about page, and so on. This will keep our code nice and organized going forward.
+            </p>
+            <ol>
+                <li>create a new app called pages :<br>
+                    <code>python manage.py startapp pages</code>
+                </li>
+                <li>update django_project/settings.py file :<br>
+                    <p class="hiCode">
+                        # ... django_project/settings.py<br>
+                        INSTALLED_APPS = [<br>
+                        &nbsp;&nbsp;...<br>
+                        &nbsp;&nbsp;<mark>"pages.apps.PagesConfig",</mark> # new<br>
+                        ]</p>
+                </li>
+                <li>update the django_project/urls.py file by adding the pages app :<br>
+                    <p class="hiCode">
+                        # ... django_project/urls.py<br>
+                        from django.contrib import admin<br>
+                        from django.urls import path, include<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("admin/", admin.site.urls),<br>
+                        &nbsp;&nbsp;path("accounts/", include("accounts.urls")),<br>
+                        &nbsp;&nbsp;path("accounts/", include("django.contrib.auth.urls")),<br>
+                        &nbsp;&nbsp;<mark>path("", include("pages.urls")),</mark> # new<br>
+                        ]</p>
+                    <ul>
+                        <li>remove the old line<br>
+                            <code class="crossOut">path("", TemplateView.as_view(template_name="home.html"),
+                                name="home"),</code></li>
+                    </ul>
+                </li>
+            </ol>
+            <h3>add the homepage</h3>
+            <ol>
+                <li>create the pages/urls.py and add the following code :<br>
+                    <p class="hiCode">
+                        # ... pages/urls.py<br>
+                        from django.urls import path<br>
+                        <br>
+                        from .views import HomePageView<br>
+                        <br>
+                        urlpatterns = [<br>
+                        &nbsp;&nbsp;path("", HomePageView.as_view(), name="home"),<br>
+                        ]</p>
+                </li>
+                <li>update pages/views.py :<br>
+                    <p class="hiCode">
+                        # ... pages/views.py<br>
+                        from django.views.generic import TemplateView<br>
+                        <br>
+                        <br>
+                        class HomePageView(TemplateView):<br>
+                        &nbsp;&nbsp;template_name = "home.html"</p>
+                    <ul>
+                        <li>We're using Django's TemplateView generic class-based view which means we only need to
+                            specify our template_name to use it.</li>
+                    </ul>
+                </li>
+            </ol>
+        </details>
+        <!-- <<< end Newspaper app ////////////////////////////////////////////////////////////////////////////////////// -->
     </main>
     <script src="../../js/add_navBarPython.js"></script>
 </body>
